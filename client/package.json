@@ -16,10 +16,14 @@
     "url": "https://github.com/scbowler/task-management.git"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "materialize-css": "^1.0.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
-    "redux": "^4.0.1"
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-form": "^7.4.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
