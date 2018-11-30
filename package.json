@@ -4,6 +4,11 @@
   "description": "Site for simplae fast task management with time tracking",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "npm-run-all --parallel dev:*",
+    "dev:server": "nodemon index.js",
+    "dev:client": "npm start --prefix client",
+    "bundle": "npm run bundle --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
