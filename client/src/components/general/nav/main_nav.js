@@ -48,7 +48,7 @@ class Nav extends Component {
     signOutElement() {
         return (
             <li key="/sign-out" className="center">
-                <button onClick={this.props.accountSignOut} className="btn blue lighten-2">Sign Out</button>
+                <button onClick={this.props.accountSignOut} className="btn yellow darken-3">Sign Out</button>
             </li>
         );
     }

@@ -4,6 +4,12 @@ import lazyLoad from '../hoc/lazy_load';
 
 export default props => (
     <Switch>
+        <Route exact path="/" component={
+            lazyLoad({
+                load: () => import('./home'),
+                name: 'home'
+            })
+        }/>
         <Route path="/account" component={
             lazyLoad({
                 load: () => import('./account'),
