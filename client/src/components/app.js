@@ -1,13 +1,14 @@
+import 'materialize-css/dist/css/materialize.min.css';
+import 'materialize-css/dist/js/materialize';
 import React from 'react';
+import AppRoutes from './app_routes';
+import Nav from './general/nav';
 import '../assets/css/app.scss';
-import logo from '../assets/images/logo.svg';
 
 const App = () => (
-    <div>
-        <div className="app">
-            <img src={logo} className="logo rotate"/>
-            <h1>Welcome to React</h1>
-        </div>
+    <div className="app">
+        <Nav/>
+        <AppRoutes/>
     </div>
 );
 
