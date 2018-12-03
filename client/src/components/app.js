@@ -3,9 +3,12 @@ import 'materialize-css/dist/js/materialize';
 import React from 'react';
 import { Route } from 'react-router-dom';
 import AppRoutes from './app_routes';
+import Nav from './general/nav';
+import '../assets/css/app.scss';
 
 const App = () => (
-    <div>
+    <div className="app">
+        <Nav/>
         <AppRoutes/>
     </div>
 );

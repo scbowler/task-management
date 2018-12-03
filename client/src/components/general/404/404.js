@@ -6,7 +6,7 @@ export default props => (
     <div className="not-found">
         <div className="center">
             <h1>404 Page Not Found</h1>
-            <Link to="/"><i className="material-icons">home</i></Link>
+            <Link to="/"><i className="material-icons main-text">home</i></Link>
         </div>
     </div>
 );

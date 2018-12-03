@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
+import Header from '../general/header';
 
 class SignUp extends Component {
     render() {
         return (
             <div>
-                <h1 className="center">Sign Up</h1>
+                <Header>Sign Up</Header>
             </div>
         );
     }
