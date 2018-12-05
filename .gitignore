@@ -4,5 +4,5 @@ node_modules
 .idea
 .vscode
 
-!config/index.js
 config/*.js
+!config/index.js
