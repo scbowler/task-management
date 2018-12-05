@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "Client for LearningFuze task management",
   "main": "index.js",
+  "proxy": {
+    "/api/*": {
+      "target": "http://localhost:9000"
+    },
+    "/auth/*": {
+      "target": "http://localhost:9000"
+    }
+  },
   "scripts": {
     "start": "node dev_server.js",
     "dev": "npm run dev --prefix ..",

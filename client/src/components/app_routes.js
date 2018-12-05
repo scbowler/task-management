@@ -13,7 +13,13 @@ export default props => (
         <Route path="/account" component={
             lazyLoad({
                 load: () => import('./account'),
-                name: 'account'
+                name: 'account_routes'
+            })
+        }/>
+        <Route path="/projects" component={
+            lazyLoad({
+                load: () => import('./projects'),
+                name: 'projects_routes'
             })
         }/>
         <Route component={

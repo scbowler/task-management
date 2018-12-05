@@ -1,10 +1,13 @@
 .not-found {
     display: flex;
-    height: calc(100vh);
+    height: calc(100vh - 86px);
 
     >div {
         margin: auto;
 
+        h1 {
+            margin-top: 0;
+        }
         i {
             font-size: 70px;
         }

@@ -3,3 +3,6 @@ node_modules
 .DS_STORE
 .idea
 .vscode
+
+config/*.js
+!config/index.js

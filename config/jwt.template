@@ -1,0 +1,5 @@
+module.exports = {
+    authHeader: 'JWT Header Property',
+    secret: 'JWT Secret',
+    tokenExpire: 30 * 24 * 60 * 60 * 1000
+}

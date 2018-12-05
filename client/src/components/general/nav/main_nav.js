@@ -23,7 +23,7 @@ class Nav extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.state.sideNavRef && !prevState.sideNavRef) {
-            M.Sidenav.init(this.state.sideNavRef);
+            this.instance = M.Sidenav.init(this.state.sideNavRef);
         }
     }
 
@@ -37,9 +37,15 @@ class Nav extends Component {
         }
     }
 
-    makeLink({ to, name }) {
+    linkClick = () => {
+        if (this.instance.isOpen){
+            this.instance.close();
+        }
+    }
+
+    makeLink = ({ to, name }) => {
         return (
-            <li key={to}>
+            <li key={to} onClick={this.linkClick}>
                 <Link className="main-text" to={to}>{name}</Link>
             </li>
         );

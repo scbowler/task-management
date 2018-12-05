@@ -1,13 +1,17 @@
+@import 'color';
+
+html {
+    background-color: #616161;
+}
+
 body {
     margin: 0;
 }
 
 .app {
-    background-color: #616161;
     color: #FFF;
-    height: 100vh;
 
     .main-text {
-        color: #f9a825;
+        color: $primary-text;
     }
 }
