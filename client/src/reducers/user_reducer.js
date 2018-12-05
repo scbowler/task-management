@@ -10,6 +10,9 @@ export default (state = DEFAULT_STATE, action) => {
             return { ...DEFAULT_STATE, auth: true };
         case types.SIGN_OUT:
             return { ...DEFAULT_STATE };
+        case types.SIGN_UP_ERROR:
+            console.log('Sign Up Error Reducer:', action);
+            return state;
         default:
             return state;
     }
