@@ -57,10 +57,4 @@ export const accountSignUp = newUser => async dispatch => {
     }
 }
 
-export const accountSignOut = () => {
-    localStorage.removeItem('token');
-
-    return {
-        type: types.SIGN_OUT
-    }
-}
+export const accountSignOut = () => ({ type: types.SIGN_OUT });

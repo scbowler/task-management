@@ -10,6 +10,8 @@ const localLogin = new LocalStrategy(localOptions, async (email, password, done)
     try {
         email = email.toLowerCase();
 
+        console.log('EMAIL:', email);
+
         let foundUser = await users.findOne({ where: { email } });
 
         if (!foundUser) return done(null, false);

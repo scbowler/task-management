@@ -18,7 +18,9 @@ if(localStorage.getItem('taskToken')){
         user: {}
     });
 
-    accountJwtSignIn()(store.dispatch);
+    const signOut = () => store.dispatch({ type: types.SIGN_OUT });
+
+    accountJwtSignIn()(store.dispatch).then(isValid => !isValid && signOut()).catch(signOut);
 }
 
 ReactDOM.render(

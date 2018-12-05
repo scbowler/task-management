@@ -33,9 +33,11 @@ module.exports = db => {
         }
     }, {
         hooks: {
-            beforeCreate: user => {
+            beforeCreate: async user => {
+                const hash = await bcrypt.hash(user.password, 10);
+                
+                user.password = hash;
                 user.email = user.email.toLowerCase();
-                bcrypt.hash(user.password, 10).then(hash => user.password = hash)
             }
         },
         paranoid: true
