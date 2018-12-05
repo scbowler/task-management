@@ -5,10 +5,21 @@ import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import reducers from './reducers';
 import think from './middleware/think';
+import types from './actions/types';
+import { accountJwtSignIn } from './actions';
 
 import App from './components/app';
 
 const store = createStore(reducers, {}, applyMiddleware(think));
+
+if(localStorage.getItem('taskToken')){
+    store.dispatch({
+        type: types.SIGN_IN,
+        user: {}
+    });
+
+    accountJwtSignIn()(store.dispatch);
+}
 
 ReactDOM.render(
     <Provider store={store}>

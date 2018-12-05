@@ -9,14 +9,15 @@ import { validation } from '../../helpers';
 
 class SignUp extends Component {
     handleSignUp = async values => {
-        const { accountSignUp } = this.props;
+        const { accountSignUp, history } = this.props;
 
-        await accountSignUp(values);
+        const isValid = await accountSignUp(values);
+
+        if(isValid) history.push('/projects');
     }
 
     render() {
-
-        const { handleSubmit } = this.props;
+        const { handleSubmit, signUpErrors } = this.props;
 
         return (
             <div className="container">
@@ -36,6 +37,9 @@ class SignUp extends Component {
                         <div className="col s6 center">
                             <Button>Sign Up</Button>
                         </div>
+                        {
+                            signUpErrors.map(err => <p key={err} className="orange-text text-darken-3 right-align">{err}</p>)
+                        }
                     </div>
                 </form>
             </div>
@@ -71,7 +75,7 @@ const testUser = {
     confirmPassword: 'asDF1234!'
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({user: {signUpErrors}}) => ({signUpErrors});
 
 export default connect(mapStateToProps, {
     accountSignUp

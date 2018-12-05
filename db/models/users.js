@@ -33,10 +33,24 @@ module.exports = db => {
         }
     }, {
         hooks: {
-            beforeCreate: user => bcrypt.hash(user.password, 10).then(hash => user.password = hash)
+            beforeCreate: user => {
+                user.email = user.email.toLowerCase();
+                bcrypt.hash(user.password, 10).then(hash => user.password = hash)
+            }
         },
         paranoid: true
     });
+
+    User.prototype.comparePasswords = function(candidatePassword){
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(isMatch);
+            });
+        });
+    }
 
     return User;
 }

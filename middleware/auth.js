@@ -1,5 +1,5 @@
 const jwt = require('jwt-simple');
-const { users } = require('../models');
+const { users } = require('../db/models');
 const { secret, tokenExpire } = require('../config').jwt;
 
 exports.basicAuth = authHeaderKey => {

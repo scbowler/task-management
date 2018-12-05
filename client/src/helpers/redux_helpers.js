@@ -32,7 +32,7 @@ export function dispatchError(dispatch, type, errObj, defaultError = defaultErro
 export function authHeaders() {
     return {
         headers: {
-            authorization: localStorage.getItem('token')
+            authorization: localStorage.getItem('taskToken')
         }
     };
 }
