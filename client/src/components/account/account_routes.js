@@ -7,7 +7,8 @@ export default ({match: { path }}) => (
     <Switch>
         <Route path={`${path}/profile`} component={
             auth(lazyLoad({
-                load: () => import('./profile')
+                load: () => import('./profile'),
+                name: 'account_profile'
             }))
         }/>
         <Route path={`${path}/sign-in`} component={
