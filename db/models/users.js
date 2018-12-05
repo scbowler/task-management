@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const bcrypt = require('bcryptjs');
 
 module.exports = db => {
-    const User = db.define('user', {
+    const User = db.define('users', {
         id: {
             allowNull: false,
             autoIncrement: true,
@@ -36,15 +36,6 @@ module.exports = db => {
             beforeCreate: user => bcrypt.hash(user.password, 10).then(hash => user.password = hash)
         },
         paranoid: true
-    });
-
-    User.sync({ force: true }).then(() => {
-        return User.create({
-            email: 'test@mail.com',
-            firstName: 'Test',
-            lastName: 'McTester',
-            password: 'asdf1234'
-        })
     });
 
     return User;
