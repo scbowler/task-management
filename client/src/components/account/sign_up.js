@@ -67,20 +67,11 @@ function validate({ confirmPassword, email, firstName, lastName, password }){
     return errors;
 }
 
-const testUser = {
-    firstName: 'Scott',
-    lastName: 'Bowler',
-    email: 'scott.bowler@learningfuze.com',
-    password: 'asDF1234!',
-    confirmPassword: 'asDF1234!'
-}
-
 const mapStateToProps = ({user: {signUpErrors}}) => ({signUpErrors});
 
 export default connect(mapStateToProps, {
     accountSignUp
 })(reduxForm({
     form: 'sign-up',
-    initialValues: testUser,
     validate
 })(SignUp));

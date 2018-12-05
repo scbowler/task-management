@@ -56,17 +56,11 @@ function validate({ email, password }) {
     return errors;
 }
 
-const testUser = {
-    email: 'scott.bowler@learningfuze.com',
-    password: 'asDF1234!'
-}
-
 const mapStateToProps = ({ user: { signInErrors } }) => ({ signInErrors });
 
 export default connect(mapStateToProps, {
     accountSignIn
 })(reduxForm({
     form: 'sign-in',
-    initialValues: testUser,
     validate
 })(SignIn));
