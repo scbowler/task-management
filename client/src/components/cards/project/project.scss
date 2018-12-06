@@ -30,6 +30,23 @@ div.project-card {
     .card-contents {
         padding: 16px;
     }
+    &.new-project {
+        opacity: 0.5;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+    .new-project-contents {
+        display: flex;
+        height: 150px;
+        text-align: center;
+
+        i {
+            font-size: 5em;
+            margin: auto;
+        }
+    }
     .card-footer {
         bottom: 0;
         padding: 8px;

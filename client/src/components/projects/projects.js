@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../general/header';
 import Card from '../cards/project';
+import NewProject from '../cards/project/new_project';
 import './projects.scss';
 
 const cards = [
@@ -47,6 +48,7 @@ class Projects extends Component {
                 <Header>Projects</Header>
                 <div className="projects-container">
                     {this.renderProjects()}
+                    <NewProject/>
                 </div>
             </div>
         );
