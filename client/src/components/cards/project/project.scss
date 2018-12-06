@@ -1,0 +1,48 @@
+@import '../../../assets/css/color';
+
+div.project-card {
+    background-color: #515151;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    display: inline-block;
+    filter: brightness(0.7);
+    margin: 15px;
+    min-height: 200px;
+    position: relative;
+    text-align: left;
+    transition-duration: 200ms;
+    vertical-align: top;
+    width: 320px;
+
+    &:hover {
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, .5);
+        filter: brightness(1);
+    }
+
+    .card-title {
+        background-color: $primary-accent;
+        color: $primary-text;
+        font-size: 1.5em;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 8px 12px;
+    }
+    .card-contents {
+        padding: 16px;
+    }
+    .card-footer {
+        bottom: 0;
+        padding: 8px;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+
+        &:hover {
+            background-color: $primary-accent;
+
+            i {
+                color: red;
+            }
+        }
+    }
+}
