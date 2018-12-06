@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = (db, projectStatuses, users) => {
-    const Projects = db.define('Projects', {
+    const Projects = db.define('projects', {
         description: {
             allowNull: true,
             type: Sequelize.STRING

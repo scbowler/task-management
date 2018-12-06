@@ -14,7 +14,6 @@ exports.basicAuth = authHeaderKey => {
             req.user = user;
             next();
         } catch (err) {
-            console.log('Basic Auth Error:', err.message);
             res.status(401).send('unauthorized');
         }
     }
@@ -29,7 +28,7 @@ async function getUserFromToken(token) {
         return false;
     }
 
-    const user = await users.findById(uid);
+    const user = await users.findByPk(uid);
 
     if (!user) throw new Error('Not Authorized');
 

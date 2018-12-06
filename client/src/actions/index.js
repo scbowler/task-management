@@ -58,3 +58,33 @@ export const accountSignUp = newUser => async dispatch => {
 }
 
 export const accountSignOut = () => ({ type: types.SIGN_OUT });
+
+export const clearProjectErrors = () => ({ type: types.CLEAR_PROJECT_ERRORS });
+
+export const createNewProject = newProject => async dispatch => {
+    try {
+        const { data: { pid } } = await axios.post('/api/projects', newProject, authHeaders());
+
+        dispatch({
+            type: types.CLEAR_PROJECT_ERRORS
+        });
+
+        return pid;
+    } catch(err){
+        dispatchError(dispatch, types.CREATE_NEW_PROJECT_ERROR, err, 'Error creating new project');
+        return false;
+    }
+}
+
+export const getAllProjects = () => async dispatch => {
+    try {
+        const { data: { projects }} = await axios.get('/api/projects', authHeaders());
+
+        dispatch({
+            type: types.GET_ALL_PROJECTS,
+            projects
+        });
+    } catch(err){
+        dispatchError(dispatch, types.GET_ALL_PROJECTS_ERROR, err, 'Error fetching projects list');
+    }
+}

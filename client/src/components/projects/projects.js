@@ -1,45 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from '../general/header';
 import Card from '../cards/project';
 import NewProject from '../cards/project/new_project';
+import { getAllProjects } from '../../actions';
 import './projects.scss';
 
-const cards = [
-    {
-        name: 'Day to Day',
-        description: 'Daily LearningFuze task including, lectures, student help, mentoring, etc',
-        id: '001'
-    },
-    {
-        name: 'New Portal',
-        description: 'New student portal for managing enrollments, classes, and material',
-        id: '002'
-    },
-    {
-        name: 'Task Management',
-        description: 'LearningFuze task management system for task and time tracking',
-        id: '003'
-    },
-    {
-        name: 'LFZ Website',
-        description: 'Main public facing LearningFuze website',
-        id: '004'
-    }
-]
-
 class Projects extends Component {
-    renderProjects(){
-        // const { cards } = this.props;
+    componentDidMount(){
+        const { getAllProjects } = this.props;
 
-        if(!cards){
+        getAllProjects();
+    }
+
+    renderProjects(){
+        const { list } = this.props;
+
+        if(!list){
             return <h5 className="center">Projects Loading...</h5>;
         }
 
-        if(!cards.length){
+        if(!list.length){
             return <h5 className="center">No Current Projects</h5>
         }
 
-        return cards.map(project => <Card key={project.id} {...project}/>);
+        return list.map(project => <Card key={project.pid} {...project}/>);
     }
 
     render(){
@@ -55,4 +40,8 @@ class Projects extends Component {
     }
 }
 
-export default Projects;
+const mapStateToProps = ({projects: { list }}) => ({list})
+
+export default connect(mapStateToProps, {
+    getAllProjects
+})(Projects);

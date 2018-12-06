@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './input.scss';
+import './form.scss';
 
 class Input extends Component {
     constructor(props) {

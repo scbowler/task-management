@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcryptjs');
+const { findByPid } = require('./interfaces');
 
 module.exports = db => {
     const User = db.define('users', {
@@ -53,6 +54,8 @@ module.exports = db => {
             });
         });
     }
+
+    User.findByPid = findByPid;
 
     return User;
 }

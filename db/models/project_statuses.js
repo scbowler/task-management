@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize');
+const { findByMid } = require('./interfaces');
 
 module.exports = (db) => {
-    const ProjectStatuses = db.define('ProjectStatuses', {
+    const ProjectStatuses = db.define('projectStatuses', {
         description: {
             allowNull: true,
             type: Sequelize.STRING
@@ -12,6 +13,10 @@ module.exports = (db) => {
             primaryKey: true,
             type: Sequelize.INTEGER
         },
+        mid: {
+            allowNull: false,
+            type: Sequelize.STRING
+        },
         name: {
             allowNull: false,
             type: Sequelize.STRING
@@ -20,6 +25,8 @@ module.exports = (db) => {
     {
         paranoid: true
     });
+
+    ProjectStatuses.findByMid = findByMid;
 
     return ProjectStatuses;
 }

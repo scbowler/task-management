@@ -8,7 +8,23 @@ class Modal extends Component {
     }
 
     open = () => this.setState({ isOpen: true });
-    close = () => this.setState({ isOpen: false });
+    close = () => {
+        const { cancel } = this.props;
+
+        if(typeof close === 'function'){
+            cancel();
+        }
+
+        this.setState({ isOpen: false })
+    };
+
+    componentDidUpdate({cancelRef: prevRef}){
+        const { cancelRef } = this.props;
+
+        if(!prevRef && cancelRef){
+            cancelRef.addEventListener('click', this.close);
+        }
+    }
 
     render(){
         const defaultOpen = <Button onClick={this.open}>{this.props.text || 'Open'}</Button>;

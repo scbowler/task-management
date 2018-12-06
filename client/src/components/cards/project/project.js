@@ -4,12 +4,14 @@ import './project.scss';
 
 class ProjectCard extends Component {
     goToProject = () => {
-        console.log('Go to project:', this.props.id);
+        const { history, match, pid } = this.props;
+
+        history.push(`${match.path}/${pid}`);
     }
 
     deleteProject = (e) => {
         e.stopPropagation();
-        console.log('Delete Project:', this.props.id);
+        console.log('Delete Project:', this.props.pid);
     }
 
     render(){
