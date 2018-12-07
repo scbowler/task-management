@@ -1,3 +1,5 @@
+@import '../../../assets//css/color';
+
 .modal-container {
     background-color: rgba(0, 0, 0, .7);
     display: flex;
@@ -11,7 +13,7 @@
     z-index: 1000;
 
     .modal-content {
-        background-color: #515151;
+        background-color: $card-bg;
         margin: auto;
         width: 80%;
     }

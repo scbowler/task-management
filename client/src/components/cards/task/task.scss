@@ -1,0 +1,28 @@
+@import '../../../assets/css/color';
+
+.task-card {
+    background-color: $card-bg;
+    cursor: pointer;
+    margin: 8px 0;
+    padding: 4px;
+
+    .card-title {
+        color: $primary-text;
+        font-size: 1.2em;
+        padding: 10px 8px;
+    }
+    .card-info {
+        font-size: 0.9em;
+        padding: 8px;
+        text-align: center;
+        
+        i {
+            font-size: 1.5em;
+            vertical-align: bottom;
+        }
+    }
+
+    &:hover {
+        background-color: #6a6a6a;
+    }
+}
