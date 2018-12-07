@@ -6,6 +6,7 @@
     margin: 0 8px;
     padding: 8px;
     position: relative;
+    vertical-align: top;
     width: 250px;
 
     .list-header {
@@ -33,4 +34,42 @@
             }
         }
     }
+    &.create-list {
+        background-color: rgba(171, 171, 171, 0.15);
+        cursor: pointer;
+        overflow: hidden;
+        transition-duration: 350ms;
+
+        &:hover {
+            background-color: $card-bg;
+        }
+        .create-list-btn {
+            i {
+                vertical-align: bottom;
+            }
+        }
+        .create-list-form {
+            height: 134px;
+            transition: height 250ms, transform 250ms 150ms;
+
+            &.no-show {
+                height: 0;
+                transform: rotateX(90deg);
+                transition: height 250ms 200ms, transform 250ms;
+            }
+            form {
+                padding-top: 1px;
+            }
+        }
+
+        
+    }
+}
+
+.create-list-close.open {
+    left: 0;
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
 }

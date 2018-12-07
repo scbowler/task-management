@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import List from '../list';
+import CreateList from '../list/create_list';
 import Blank from '../general/blank';
+import List from '../list';
 import lazyLoad from '../../hoc/lazy_load';
 import { getProject } from '../../actions';
 import './projects.scss';
 
-
 const lists = [
     '01',
     '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
-    '13',
+    '03'
 ]
 
 class FullProject extends Component {
@@ -67,9 +57,9 @@ class FullProject extends Component {
             <div className="project-view"> 
                 <div style={{width: containerWidth}} className="project-content">
                     {this.renderLists()}
-                    <List/>
+                    <CreateList/>
                 </div>
-                <Route path={`${path}/task/:task_id`} component={
+                <Route exact path={`${path}/task/:task_id`} component={
                     lazyLoad({
                         load: () => import('../task'),
                         loading: <Blank/>,

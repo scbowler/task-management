@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../general/header';
+import './full_task.scss';
 
 class FullTask extends Component {
     close = () => {
