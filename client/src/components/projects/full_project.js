@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import List from '../list';
 import Blank from '../general/blank';
 import lazyLoad from '../../hoc/lazy_load';
+import { getProject } from '../../actions';
 import './projects.scss';
 
 
@@ -36,15 +38,14 @@ class FullProject extends Component {
             width += lists.length * this.listWidth;
         }
 
-        console.log('Width:', width);
-
         this.setState({containerWidth: width});
     }
 
-    componentDidMount(){
-        const { match: { params } } = this.props;
+    async componentDidMount(){
+        const { getProject, match: { params } } = this.props;
 
-        console.log('Viewing Project:', params.project_id);
+        await getProject(params.project_id);
+
         this.updateWidth();
     }
 
@@ -80,4 +81,6 @@ class FullProject extends Component {
     }
 }
 
-export default FullProject;
+export default connect(null, {
+    getProject
+})(FullProject);

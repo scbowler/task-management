@@ -1,7 +1,10 @@
 const router = require('express').Router();
-const { createProject, getAllProjects } = require('../../controllers/projects');
+const { requireBasicAuth } = require('../setup');
+const { createProject, getAllProjects, getOneProject } = require('../../controllers/projects');
 
-router.get('/', getAllProjects);
-router.post('/', createProject);
+router.get('/', requireBasicAuth, getAllProjects);
+router.post('/', requireBasicAuth, createProject);
+
+router.get('/:project_id', requireBasicAuth, getOneProject);
 
 module.exports = router;

@@ -1,0 +1,14 @@
+.sub-nav {
+    background-color: rgba(51, 51, 51, 0.55);
+    padding: 5px 0;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    .user-greeting {
+        color: #aaa;
+        margin: 0;
+        padding-right: 12px;
+    }
+}
+

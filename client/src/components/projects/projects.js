@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../general/header';
-import Card from '../cards/project';
+import Project from '../cards/project';
 import NewProject from '../cards/project/new_project';
 import { getAllProjects } from '../../actions';
 import './projects.scss';
@@ -24,7 +24,7 @@ class Projects extends Component {
             return <h5 className="center">No Current Projects</h5>
         }
 
-        return list.map(project => <Card key={project.pid} {...project}/>);
+        return list.map(project => <Project key={project.pid} {...project}/>);
     }
 
     render(){

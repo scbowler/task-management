@@ -5,6 +5,7 @@ module.exports = async (req, res) => {
     const { name, description } = req.body;
 
     try {
+        const { user } = req;
         const errors = [];
 
         if (!name) errors.push('No name provided for new project');
@@ -19,8 +20,9 @@ module.exports = async (req, res) => {
         if(!status) throw new StatusError(500, null, 'Error finding project status info');
 
         const projectBuild = projects.build({
-            name,
+            createdById: user.id,
             description,
+            name,
             projectStatusId: status.id
         });
 

@@ -15,13 +15,14 @@ class ProjectCard extends Component {
     }
 
     render(){
-        const { description, name } = this.props;
+        const { description, name, user } = this.props;
 
         return (
             <div className="project-card" onClick={this.goToProject}>
                 <div className="card-title">{name}</div>
                 <div className="card-contents">{description}</div>
                 <div className="card-footer" onClick={this.deleteProject}><i className="material-icons">delete</i></div>
+                <div className="created-by"><small><span>Created By:</span> {user}</small></div>
             </div>
         );
     }

@@ -1,7 +1,10 @@
 export default {
+    CLEAR_PROJECT: 'clear_project',
     CLEAR_PROJECT_ERRORS: 'clear_project_errors',
     CREATE_NEW_PROJECT: 'create_new_project',
     CREATE_NEW_PROJECT_ERROR: 'create_new_project_error',
+    GET_PROJECT: 'get_project',
+    GET_PROJECT_ERROR: 'get_project_error',
     GET_ALL_PROJECTS: 'get_all_projects',
     GET_ALL_PROJECTS_ERROR: 'get_all_projects_error',
     SIGN_IN: 'sign_in',

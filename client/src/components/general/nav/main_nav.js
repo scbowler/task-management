@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { accountSignOut } from '../../../actions';
 import SideNav from './side_nav';
+import SubNav from './sub_nav';
 import './nav.scss';
 
 class Nav extends Component {
@@ -73,6 +74,8 @@ class Nav extends Component {
     }
 
     render() {
+        const { auth, projectName, userName } = this.props;
+
         return (
             <Fragment>
                 <div className="navbar-fixed">
@@ -86,6 +89,7 @@ class Nav extends Component {
                         </div>
                     </nav>
                 </div>
+                {auth && <SubNav name={userName} project={projectName} />}
 
                 <SideNav setRef={this.setSideNavRef} renderLinks={this.renderLinks} />
             </Fragment>
@@ -94,6 +98,13 @@ class Nav extends Component {
     }
 }
 
-const mapStateToProps = ({user}) => ({ auth: user.auth });
+const mapStateToProps = ({projects, user: { auth, info: { name } } }) => {
+    
+    return { 
+        auth,
+        projectName: projects.currentName,
+        userName: name
+    }
+};
 
 export default connect(mapStateToProps, { accountSignOut })(Nav);
