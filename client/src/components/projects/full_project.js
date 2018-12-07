@@ -5,7 +5,7 @@ import CreateList from '../list/create_list';
 import Blank from '../general/blank';
 import List from '../list';
 import lazyLoad from '../../hoc/lazy_load';
-import { getProject } from '../../actions';
+import { clearProject, getProject } from '../../actions';
 import './projects.scss';
 
 const lists = [
@@ -37,6 +37,10 @@ class FullProject extends Component {
         await getProject(params.project_id);
 
         this.updateWidth();
+    }
+
+    componentWillUnmount(){
+        this.props.clearProject()
     }
 
     renderLists(){
@@ -72,5 +76,6 @@ class FullProject extends Component {
 }
 
 export default connect(null, {
+    clearProject,
     getProject
 })(FullProject);

@@ -8,6 +8,8 @@ const DEFAULT_STATE = {
 
 export default (state = DEFAULT_STATE, action) => {
     switch (action.type) {
+        case types.CLEAR_PROJECT:
+            return { ...state, currentName: '' };
         case types.CLEAR_PROJECT_ERRORS:
             return { ...state, createErrors: [] };
         case types.CREATE_NEW_PROJECT_ERROR:
