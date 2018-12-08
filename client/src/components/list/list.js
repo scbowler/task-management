@@ -1,34 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Task from '../cards/task';
 import './list.scss';
 
-const tasks = [
-    {
-        name: 'Task 1',
-        pid: '001',
-        time: '1:24:05'
-    },
-    {
-        name: 'Task 2',
-        pid: '002',
-        time: '1:24:05'
-    },
-    {
-        name: 'Task 3',
-        pid: '003',
-        time: '1:24:05'
-    },
-    {
-        name: 'Task 4',
-        pid: '004',
-        time: '1:24:05'
-    },
-    {
-        name: 'Task 5',
-        pid: '005',
-        time: '1:24:05'
-    }
-]
+const tasks = [];
 
 class List extends Component {
     renderTasks(){
@@ -40,7 +15,9 @@ class List extends Component {
     }
 
     render(){
-        const { name } = this.props;
+        const { name, tasks } = this.props;
+
+        console.log('Tasks:', tasks);
 
         return (
             <div className="task-list">
@@ -58,4 +35,11 @@ class List extends Component {
     }
 }
 
-export default List;
+function mapStateToProps({tasks}, {pid}){
+
+    return {
+        tasks: tasks.tasks[pid] || ['Nothing']
+    };
+}
+
+export default connect(mapStateToProps)(List);
