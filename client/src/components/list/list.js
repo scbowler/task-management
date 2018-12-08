@@ -44,7 +44,7 @@ class List extends Component {
 
 function mapStateToProps({tasks}, {pid}){
     return {
-        tasks: tasks.tasks[pid] || ['Nothing']
+        tasks: tasks.tasks[pid]
     };
 }
 

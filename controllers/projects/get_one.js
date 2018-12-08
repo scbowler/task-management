@@ -21,18 +21,11 @@ module.exports = async (req, res) => {
             order: [['rank']]
         });
 
-        const tasks = {};
-
-        if(projLists){
-            projLists.map(proj => tasks[proj.pid] = []);
-        }
-
         res.send({
             success: true,
             project: {
                 name: project.name,
-                lists: projLists || [],
-                tasks
+                lists: projLists || []
             }
         });
     } catch(err) {
