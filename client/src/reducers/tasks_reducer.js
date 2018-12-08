@@ -11,6 +11,8 @@ export default (state = DEFAULT_STATE, action) => {
             return { ...DEFAULT_STATE };
         case types.GET_PROJECT:
             return { ...state, lists: action.project.lists, tasks: action.project.tasks };
+        case types.GET_PROJECT_LIST_TASKS:
+            return { ...state, tasks: {...state.tasks, [action.listId]: action.tasks } };
         default:
             return state;
     }

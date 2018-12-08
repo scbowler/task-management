@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const { findByPid } = require('./interfaces');
 
-module.exports = (db, projects) => {
+module.exports = (db, users, projects) => {
     const Lists = db.define('lists', {
         id: {
             allowNull: false,
@@ -20,7 +20,7 @@ module.exports = (db, projects) => {
         },
         rank: {
             allowNull: true,
-            type: Sequelize.INTEGER
+            type: Sequelize.BIGINT
         }
     },
     {
@@ -29,6 +29,7 @@ module.exports = (db, projects) => {
 
     
     Lists.belongsTo(projects, { as: 'project' });
+    Lists.belongsTo(users, {as: 'createdBy'});
 
     Lists.findByPid = findByPid;
 

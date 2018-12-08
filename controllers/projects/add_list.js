@@ -4,6 +4,7 @@ const { errorFlag, sendError, StatusError } = require('../../helpers/error_handl
 module.exports = async (req, res) => {
     const { project_id } = req.params;
     const { listName } = req.body;
+    const { user } = req;
 
     try {
         if(!project_id) throw new StatusError(422, null, 'No project id provided' + errorFlag);
@@ -16,8 +17,9 @@ module.exports = async (req, res) => {
         if (!project) throw new StatusError(422, null, 'Invalid project ID given' + errorFlag);
 
         const newList = lists.build({
+            createdById: user.id,
             name: listName,
-            rank: Math.floor(new Date().getTime()/1000),
+            rank: new Date().getTime(),
             projectId: project.id
         });
 

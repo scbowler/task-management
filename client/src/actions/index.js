@@ -80,11 +80,17 @@ export const createNewProject = newProject => async dispatch => {
 
 export const createNewProjectList = (projectId, listName) => async dispatch => {
     try {
-        const resp = await axios.post(`/api/projects/${projectId}/list`, {listName} ,authHeaders());
-
-        console.log('Create List Resp:', resp);
+        await axios.post(`/api/projects/${projectId}/lists`, {listName} ,authHeaders());
     } catch(err){
         dispatchError(dispatch, types.CREATE_NEW_PROJECT_LIST_ERROR, err, 'Error adding new list to project');
+    }
+}
+
+export const createNewProjectTask = (projectId, listId, taskName) => async dispatch => {
+    try {
+        await axios.post(`/api/projects/${projectId}/lists/${listId}/tasks`, {name: taskName}, authHeaders());
+    } catch(err){
+        dispatchError(dispatch, types.CREATE_NEW_PROJECT_TASK_ERROR, err, 'Error creating task');
     }
 }
 
@@ -111,5 +117,18 @@ export const getProject = id => async dispatch => {
         });
     } catch(err){
         dispatchError(dispatch, types.GET_PROJECT_ERROR, err, 'Error fetching project');
+    }
+}
+
+export const getProjectListTasks = (projectId, listId) => async dispatch => {
+    try {
+        const { data: { success, ...tasks }} = await axios.get(`/api/projects/${projectId}/lists/${listId}/tasks`, authHeaders());
+
+        dispatch({
+            ...tasks,
+            type: types.GET_PROJECT_LIST_TASKS
+        })
+    } catch(err){
+        dispatchError(dispatch, types.CREATE_NEW_PROJECT_LIST_ERROR, err, 'Error getting tasks for list');
     }
 }
