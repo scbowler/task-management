@@ -40,11 +40,12 @@ class List extends Component {
     }
 
     render(){
+        const { name } = this.props;
 
         return (
             <div className="task-list">
                 <div className="list-header">
-                    <div className="list-name">Ongoing</div>
+                    <div className="list-name">{name}</div>
                     <div className="list-options">
                         <i className="material-icons">more_vert</i>
                     </div>

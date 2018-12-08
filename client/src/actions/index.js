@@ -78,6 +78,16 @@ export const createNewProject = newProject => async dispatch => {
     }
 }
 
+export const createNewProjectList = (projectId, listName) => async dispatch => {
+    try {
+        const resp = await axios.post(`/api/projects/${projectId}/list`, {listName} ,authHeaders());
+
+        console.log('Create List Resp:', resp);
+    } catch(err){
+        dispatchError(dispatch, types.CREATE_NEW_PROJECT_LIST_ERROR, err, 'Error adding new list to project');
+    }
+}
+
 export const getAllProjects = () => async dispatch => {
     try {
         const { data: { projects }} = await axios.get('/api/projects', authHeaders());
@@ -93,11 +103,11 @@ export const getAllProjects = () => async dispatch => {
 
 export const getProject = id => async dispatch => {
     try {
-        const resp = await axios.get(`/api/projects/${id}`, authHeaders());
+        const { data: { project } } = await axios.get(`/api/projects/${id}`, authHeaders());
 
         dispatch({
             type: types.GET_PROJECT,
-            project: resp.data.project
+            project
         });
     } catch(err){
         dispatchError(dispatch, types.GET_PROJECT_ERROR, err, 'Error fetching project');

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
+import { createNewProjectList } from '../../actions';
 import Input from '../general/form/input';
 
 class CreateList extends Component {
@@ -9,13 +11,14 @@ class CreateList extends Component {
 
     toggleShow = () => this.setState({showForm: !this.state.showForm});
 
-    handleCreateList = ({listName}) => {
-        console.log('Create new list with name:', listName);
+    handleCreateList = async ({listName}) => {
+        const { createNewProjectList, getProject, projectId } = this.props;
 
-        const { reset } = this.props;
+        await createNewProjectList(projectId, listName);
 
-        this.toggleShow();
-        reset();
+        getProject(projectId);
+
+        this.cancel();
     }
 
     cancel = () => {
@@ -48,6 +51,8 @@ class CreateList extends Component {
     }
 }
 
-export default reduxForm({
+export default connect(null, {
+    createNewProjectList
+})(reduxForm({
     form: 'add-list'
-})(CreateList);
+})(CreateList));

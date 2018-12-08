@@ -8,12 +8,6 @@ import lazyLoad from '../../hoc/lazy_load';
 import { clearProject, getProject } from '../../actions';
 import './projects.scss';
 
-const lists = [
-    '01',
-    '02',
-    '03'
-]
-
 class FullProject extends Component {
     listWidth = 266
 
@@ -22,6 +16,7 @@ class FullProject extends Component {
     }
 
     updateWidth(){
+        const { lists } = this.props;
         let width = this.listWidth;
 
         if(lists && lists.length){
@@ -35,8 +30,14 @@ class FullProject extends Component {
         const { getProject, match: { params } } = this.props;
 
         await getProject(params.project_id);
+    }
 
-        this.updateWidth();
+    componentDidUpdate({lists: prevLists}){
+        const { lists } = this.props;
+
+        if((!prevLists && lists) || (prevLists.length !== lists.length)){
+            this.updateWidth();
+        }
     }
 
     componentWillUnmount(){
@@ -44,24 +45,22 @@ class FullProject extends Component {
     }
 
     renderLists(){
-        // const { lists } = this.props;
+        const { lists } = this.props;
 
         if(!lists || !lists.length) return null;
 
-        return lists.map(list => <List key={list}/>)
+        return lists.map(list => <List key={list.pid} {...list}/>);
     }
 
     render(){
         const { containerWidth } = this.state
-        const { match: { path } } = this.props;
-
-        console.log('Full Project Props:', this.props);
+        const { getProject, match: { path, params } } = this.props;
 
         return (
             <div className="project-view"> 
                 <div style={{width: containerWidth}} className="project-content">
                     {this.renderLists()}
-                    <CreateList/>
+                    <CreateList getProject={getProject} projectId={params.project_id}/>
                 </div>
                 <Route exact path={`${path}/task/:task_id`} component={
                     lazyLoad({
@@ -75,7 +74,9 @@ class FullProject extends Component {
     }
 }
 
-export default connect(null, {
+const mapStateToProps = ({tasks}) => ({ lists: tasks.lists });
+
+export default connect(mapStateToProps, {
     clearProject,
     getProject
 })(FullProject);
