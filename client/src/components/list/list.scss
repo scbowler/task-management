@@ -1,0 +1,75 @@
+@import '../../assets/css/color';
+
+.task-list {
+    background-color: #ababab;
+    display: inline-block;
+    margin: 0 8px;
+    padding: 8px;
+    position: relative;
+    vertical-align: top;
+    width: 250px;
+
+    .list-header {
+        .list-name {
+            color: #6c6c6c;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .list-options {
+            cursor: pointer;
+            position: absolute;
+            right: 6px;
+            top: 6px;
+
+            i {
+                color: #7c7c7c;
+                padding: 2px
+            }
+            &:hover {
+                background-color: #6c6c6c;
+
+                i {
+                    color: #fff;
+                }
+            }
+        }
+    }
+    &.create-list {
+        background-color: rgba(171, 171, 171, 0.15);
+        cursor: pointer;
+        overflow: hidden;
+        transition-duration: 350ms;
+
+        &:hover {
+            background-color: $card-bg;
+        }
+        .create-list-btn {
+            i {
+                vertical-align: bottom;
+            }
+        }
+        .create-list-form {
+            height: 134px;
+            transition: height 250ms, transform 250ms 150ms;
+
+            &.no-show {
+                height: 0;
+                transform: rotateX(90deg);
+                transition: height 250ms 200ms, transform 250ms;
+            }
+            form {
+                padding-top: 1px;
+            }
+        }
+
+        
+    }
+}
+
+.create-list-close.open {
+    left: 0;
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+}

@@ -1,0 +1,82 @@
+@import '../../../assets/css/color';
+
+div.project-card {
+    background-color: $card-bg;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, .5);
+    cursor: pointer;
+    display: inline-block;
+    filter: brightness(0.7);
+    margin: 15px;
+    min-height: 200px;
+    position: relative;
+    text-align: left;
+    transition-duration: 200ms;
+    vertical-align: top;
+    width: 320px;
+
+    &:hover {
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, .5);
+        filter: brightness(1);
+    }
+    .card-title {
+        background-color: $primary-accent;
+        color: $primary-text;
+        font-size: 1.5em;
+        font-weight: bold;
+        overflow: hidden;
+        padding: 8px 12px;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    .card-contents {
+        padding: 16px;
+    }
+    &.new-project {
+        opacity: 0.5;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+    .new-project-contents {
+        display: flex;
+        height: 150px;
+        text-align: center;
+
+        i {
+            font-size: 5em;
+            margin: auto;
+        }
+    }
+    .card-footer {
+        bottom: 0;
+        padding: 8px;
+        position: absolute;
+        text-align: center;
+        transition-duration: 250ms;
+        width: 100%;
+        z-index: 1;
+
+        i {
+            position: relative;
+            top: 3px;
+        }
+        &:hover {
+            background-color: $primary-accent;
+
+            i {
+                color: red;
+            }
+        }
+    }
+    .created-by {
+        bottom: 0;
+        position: absolute;
+        right: 5px;
+
+        span {
+            color: #9f9f9f;
+        }
+    }
+}

@@ -10,8 +10,6 @@ const localLogin = new LocalStrategy(localOptions, async (email, password, done)
     try {
         email = email.toLowerCase();
 
-        console.log('EMAIL:', email);
-
         let foundUser = await users.findOne({ where: { email } });
 
         if (!foundUser) return done(null, false);
@@ -39,7 +37,7 @@ const jwtLogin = new JwtStrategy(jwtOptions, async (payload, done) => {
             return done(null, { expired: true, msg: 'Token has expired. Please sign back in.' });
         }
 
-        const foundUser = await users.findById(payload.uid);
+        const foundUser = await users.findByPk(payload.uid);
 
         if (!foundUser) return done(null, false);
 

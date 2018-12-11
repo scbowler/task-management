@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './input.scss';
+import './form.scss';
 
 class Input extends Component {
     constructor(props) {
@@ -54,7 +54,7 @@ class Input extends Component {
     }
 
     render() {
-        const { center, col, height, input, label, type, className, disabled, autoComplete, preText, postText, inputClass, errorAlign, errorHeight, meta: { error, touched } } = this.props;
+        const { center, col, height, input, label, type, className, disabled, autoComplete, preText, postText, inputClass, errorAlign, errorHeight, meta: { error, touched }, noError } = this.props;
         const style = {
             height: height || null,
             textAlign: center ? 'center' : 'initial'
@@ -77,7 +77,11 @@ class Input extends Component {
                     <label onClick={this.labelClick} className={this.state.className}>{label}</label>
                 </div>
                 <span>{postText || ''}</span>
-                <p style={{ minHeight: errorHeight || 22 }} className={`${errorAlign || 'center'}-align orange-text text-darken-3`}>{touched && error}</p>
+                {
+                    noError
+                        ? null
+                        : <p style={{ minHeight: errorHeight || 22 }} className={`${errorAlign || 'center'}-align orange-text text-darken-3`}>{touched && error}</p>
+                }
             </div>
         )
     }

@@ -4,6 +4,6 @@ router.get('/test', (req, res) => {
     res.send('<h1>API Status [<span style="color: green">OK</span>]</h1>');
 });
 
-
+router.use('/projects', require('./projects'));
 
 module.exports = router;

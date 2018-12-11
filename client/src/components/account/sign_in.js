@@ -4,8 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { accountSignIn } from '../../actions';
 import Button from '../general/button';
 import Header from '../general/header';
-import Input from '../general/input';
-import { validation } from '../../helpers';
+import Input from '../general/form/input';
 
 class SignIn extends Component {
     handleSignIn = async values => {
