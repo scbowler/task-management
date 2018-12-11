@@ -10,9 +10,14 @@ const tasks = [];
 
 class List extends Component {
     componentDidMount(){
-        const { getProjectListTasks, match: { params }, pid} = this.props;
-        
-        getProjectListTasks(params.project_id, pid);
+        const { getProjectListTasks, match: { params }, pid, tasks} = this.props;
+
+        console.log('Tasks:', tasks);
+
+        if(!tasks || !tasks.length){
+            console.log('Get Tasks');
+            getProjectListTasks(params.project_id, pid);
+        }
     }
     renderTasks(){
         const { tasks } = this.props;

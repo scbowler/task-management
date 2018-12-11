@@ -3,13 +3,15 @@ import { connect } from 'react-redux';
 import Header from '../general/header';
 import Project from '../cards/project';
 import NewProject from '../cards/project/new_project';
-import { getAllProjects } from '../../actions';
+import { clearProject, getAllProjects } from '../../actions';
 import './projects.scss';
 
 class Projects extends Component {
     componentDidMount(){
-        const { getAllProjects } = this.props;
+        const { clearProject, getAllProjects } = this.props;
 
+        clearProject();
+        
         getAllProjects();
     }
 
@@ -43,5 +45,6 @@ class Projects extends Component {
 const mapStateToProps = ({projects: { list }}) => ({list})
 
 export default connect(mapStateToProps, {
+    clearProject,
     getAllProjects
 })(Projects);

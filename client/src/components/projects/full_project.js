@@ -5,7 +5,7 @@ import CreateList from '../list/create_list';
 import Blank from '../general/blank';
 import List from '../list';
 import lazyLoad from '../../hoc/lazy_load';
-import { clearProject, getProject } from '../../actions';
+import { getProject } from '../../actions';
 import './projects.scss';
 
 class FullProject extends Component {
@@ -38,10 +38,6 @@ class FullProject extends Component {
         if((!prevLists && lists) || (prevLists.length !== lists.length)){
             this.updateWidth();
         }
-    }
-
-    componentWillUnmount(){
-        this.props.clearProject()
     }
 
     renderLists(){
@@ -77,6 +73,5 @@ class FullProject extends Component {
 const mapStateToProps = ({tasks}) => ({ lists: tasks.lists });
 
 export default connect(mapStateToProps, {
-    clearProject,
     getProject
 })(FullProject);
