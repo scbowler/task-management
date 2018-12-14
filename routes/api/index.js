@@ -6,4 +6,6 @@ router.get('/test', (req, res) => {
 
 router.use('/projects', require('./projects'));
 
+router.use('/tasks', require('./tasks'));
+
 module.exports = router;

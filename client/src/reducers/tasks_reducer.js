@@ -12,7 +12,7 @@ export default (state = DEFAULT_STATE, action) => {
         case types.GET_PROJECT:
             return { ...state, lists: action.project.lists };
         case types.GET_PROJECT_LIST_TASKS:
-            return { ...state, tasks: {...state.tasks, [action.listId]: action.tasks } };
+            return { ...state, tasks: {...state.tasks, [action.listId]: [...action.tasks] } };
         default:
             return state;
     }
