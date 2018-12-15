@@ -133,6 +133,19 @@ export const getProjectListTasks = (projectId, listId) => async dispatch => {
     }
 }
 
+export const getTask = taskId => async dispatch => {
+    try {
+        const { data: { task } } = await axios.get(`/api/tasks/${taskId}`, authHeaders());
+
+        dispatch({
+            type: types.GET_SINGLE_TASK,
+            task
+        });
+    } catch(err){
+        dispatchError(dispatch, types.GET_SINGLE_TASK, err, 'Error getting task');
+    }
+}
+
 export const moveTask = (taskId, toListId, nextId) => async dispatch => {
     try {
         const { data: { startingListId } } = await axios.patch(`/api/tasks/${taskId}/move/${toListId}`, {nextId}, authHeaders());
