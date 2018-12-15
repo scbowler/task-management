@@ -1,0 +1,16 @@
+@import '../../../assets/css/color';
+
+.list-drop-target {
+    height: 20px;
+    padding: 8px 3px;
+
+    .drop-target-inner {
+        height: 4px;
+    }
+
+    &.drag-over {
+        .drop-target-inner {
+            background-color: $card-bg;
+        }
+    }
+}

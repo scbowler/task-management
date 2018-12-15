@@ -1,37 +1,72 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getProjectListTasks } from '../../actions';
+import { getProjectListTasks, moveTask } from '../../actions';
+import DropTarget from '../general/drop/target';
 import NewTask from '../cards/task/new_task';
 import Task from '../cards/task';
 import './list.scss';
 
-const tasks = [];
-
 class List extends Component {
+    state = {
+        addClass: ''
+    }
+
     componentDidMount(){
         const { getProjectListTasks, match: { params }, pid, tasks} = this.props;
 
-        console.log('Tasks:', tasks);
-
         if(!tasks || !tasks.length){
-            console.log('Get Tasks');
             getProjectListTasks(params.project_id, pid);
         }
     }
+
+    dragOver = e => {
+        this.setState({addClass: 'drag-over'});
+    }
+
+    endDrag = e => {
+        this.setState({ addClass: '' });
+    }
+
+    handleDrop = async e => {
+        // e.preventDefault();
+        // const { getProjectListTasks, match: { params }, moveTask, pid } = this.props;
+
+        // const taskId = e.dataTransfer.getData('taskId');
+
+        // const originalListId = await moveTask(taskId, pid);
+
+        // if(originalListId){
+        //     getProjectListTasks(params.project_id, pid);
+        //     getProjectListTasks(params.project_id, originalListId);
+        // }
+    }
+
     renderTasks(){
-        const { tasks } = this.props;
+        const { pid, tasks } = this.props;
 
-        if(!tasks || !tasks.length) return null;
+        if (!tasks || !tasks.length) return <DropTarget destinationListId={pid} nextTaskId="new" />;
 
-        return tasks.map(task => <Task key={task.pid} {...task}/>);
+        return (
+            <Fragment>
+                {
+                    tasks.map(task => (
+                        <Fragment key={task.pid}>
+                            <DropTarget destinationListId={pid} nextTaskId={task.pid} />
+                            <Task {...task} />
+                        </Fragment>
+                    ))
+                }
+                <DropTarget destinationListId={pid} nextTaskId="end" />
+            </Fragment>
+        );
     }
 
     render(){
         const { getProjectListTasks, match: { params }, name, pid } = this.props;
 
         return (
-            <div className="task-list">
+            <div className={`task-list ${this.state.addClass}`} onDragOver={this.dragOver} onDrop={this.endDrag} onDragEnd={this.endDrag} onDragLeave={this.endDrag}>
                 <div className="list-header">
                     <div className="list-name">{name}</div>
                     <div className="list-options">
@@ -54,5 +89,6 @@ function mapStateToProps({tasks}, {pid}){
 }
 
 export default connect(mapStateToProps, {
-    getProjectListTasks
+    getProjectListTasks,
+    moveTask
 })(withRouter(List));

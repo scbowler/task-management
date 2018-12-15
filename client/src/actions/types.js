@@ -13,6 +13,8 @@ export default {
     GET_PROJECT_LIST_TASKS_ERROR: 'get_project_list_tasks_error',
     GET_ALL_PROJECTS: 'get_all_projects',
     GET_ALL_PROJECTS_ERROR: 'get_all_projects_error',
+    MOVE_TASK: 'move_task',
+    MOVE_TASK_ERROR: 'move_task_error',
     SIGN_IN: 'sign_in',
     SIGN_IN_ERROR: 'sign_in_error',
     SIGN_OUT: 'sign_out',
