@@ -7,17 +7,24 @@ module.exports = async (req, res) => {
     try {
         let task = await tasks.findByPid(task_id, {
             attributes: {
-                exclude: ['id', 'deletedAt', 'listId', 'projectId', 'rank']
+                exclude: ['id', 'deletedAt', 'listId', 'rank']
             },
-            include: {
-                association: 'list',
-                attributes: ['name']
-            }
+            include: [
+                {
+                    association: 'list',
+                    attributes: ['name']
+                },
+                {
+                    association: 'project',
+                    attributes: ['name']
+                }
+            ]
         });
 
         if(task){
             task = task.dataValues;
             task.list = task.list.name;
+            task.project = task.project.name
         }
 
         res.send({
