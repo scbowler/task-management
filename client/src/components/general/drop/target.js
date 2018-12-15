@@ -40,7 +40,11 @@ class DropTarget extends Component {
     }
 
     render(){
-        return <div className={`list-drop-target ${this.state.addClass}`} onDrop={this.handleDrop} onDragOver={this.allowDrop} onDragLeave={this.dragLeave}/>
+        return (
+            <div className={`list-drop-target ${this.state.addClass}`} onDrop={this.handleDrop} onDragOver={this.allowDrop} onDragLeave={this.dragLeave}>
+                <div className="drop-target-inner"></div>
+            </div>
+        )
     }
 }
 

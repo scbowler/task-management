@@ -1,11 +1,9 @@
 const { Op } = require('sequelize');
-const { lists, projects, tasks } = require('../../db/models');
+const { lists, tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 
 module.exports = async (req, res) => {
     const { body: { nextId }, params: { list_id, task_id } } = req;
-
-    console.log('Next ID:', nextId);
 
     try {
         if(!list_id) throw new StatusError(400, [], 'No destination list ID provided' + errorFlag);
@@ -32,7 +30,6 @@ module.exports = async (req, res) => {
         let rank = new Date().getTime();
 
         if(nextId !== 'new' && nextId !== 'end'){
-            console.log('NOT NEW LIST OR END OF LIST');
             const nextTask = await tasks.findByPid(nextId, {
                 attributes: ['rank', 'listId']
             });
