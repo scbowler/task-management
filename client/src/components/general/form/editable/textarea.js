@@ -29,17 +29,34 @@ class EditText extends Component {
         });
     }
 
-    sendData = e => {
+    sendData = async e => {
         e.preventDefault();
 
+        const { send } = this.props;
         const { value } = this.state;
 
         if(value){
-            console.log('Send Data:', this.state.value);
+            console.log('Send Data:', value);
+
+            if(typeof send === 'function'){
+                await send(value);
+
+                this.setEditable(false);
+            }
         }
     }
 
-    toggleEditable = () => this.setState({editable: !this.state.editable});
+    keyboardSubmit = e => {
+        if(e.key === 'Enter' && e.shiftKey){
+            // e.preventDefault();
+            
+            this.sendData(e);
+        }
+    }
+
+    setEditable = editable => this.setState({editable});
+
+    toggleEditable = () => this.setEditable(!this.state.editable);
 
     render(){
         const { defaultContent, className, content } = this.props;
@@ -50,7 +67,10 @@ class EditText extends Component {
                 <div className="edit-text-container input-field">
                     <div className="handle-close" onClick={this.cancel}/>
                     <form className="edit-text-form" onSubmit={this.sendData}>
-                        <textarea ref={e => this.textarea = e} onChange={({ target }) => this.setState({ value: target.value })} className={`materialize-textarea ${className || ''}`} type="text" value={value || ''} />
+                        <textarea onKeyPress={this.keyboardSubmit} ref={e => this.textarea = e} onChange={({ target }) => this.setState({ value: target.value })} className={`materialize-textarea ${className || ''}`} type="text" value={value || ''} />
+                        <div className="right">
+                            <small>Shift &#43; Enter to Submit</small>
+                        </div>
                         <div className="input-buttons">
                             <button className="btn btn-floating red" type="button" onClick={this.cancel}>
                                 <i className="material-icons">clear</i>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getTask } from '../../actions';
+import { getTask, updateTaskDescription } from '../../actions';
 import Header from '../general/header';
 import EditText from '../general/form/editable/textarea';
 import './full_task.scss';
@@ -16,6 +16,13 @@ class FullTask extends Component {
         const { history, match: { params } } = this.props;
         
         history.push(`/projects/${params.project_id}`);
+    }
+
+    updateDescription = async description => {
+        console.log('New Description:', description);
+        const { match: { params }, updateTaskDescription } = this.props;
+
+        await updateTaskDescription(params.task_id, description);
     }
 
     render(){
@@ -34,7 +41,7 @@ class FullTask extends Component {
                                         <Header>{task.name}</Header>
                                     </div>
                                     <div className="col s12">
-                                        <EditText className="center" content={task.description} defaultContent="Click to add a description" />
+                                        <EditText send={this.updateDescription} className="center" content={task.description} defaultContent="Click to add a description" />
                                     </div>
                                 </div>
                                 <h5>Messages</h5>
@@ -92,4 +99,7 @@ class FullTask extends Component {
 
 const mapStateToProps = ({tasks}) => ({ task: tasks.single });
 
-export default connect(mapStateToProps, {getTask})(FullTask);
+export default connect(mapStateToProps, {
+    getTask,
+    updateTaskDescription
+})(FullTask);

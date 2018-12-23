@@ -21,5 +21,7 @@ export default {
     SIGN_IN_ERROR: 'sign_in_error',
     SIGN_OUT: 'sign_out',
     SIGN_UP: 'sign_up',
-    SIGN_UP_ERROR: 'sign_up_error'
+    SIGN_UP_ERROR: 'sign_up_error',
+    UPDATE_TASK_DESCRIPTION: 'update_task_description',
+    UPDATE_TASK_DESCRIPTION_ERROR: 'update_task_description_error'
 };
