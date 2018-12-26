@@ -160,10 +160,15 @@ export const moveTask = (taskId, toListId, nextId) => async dispatch => {
 
 export const updateTaskDescription = (taskId, description) => async dispatch => {
     try {
-        const resp = await axios.patch(`/api/tasks/${taskId}/description`, {description}, authHeaders());
+        const { data: { task } } = await axios.patch(`/api/tasks/${taskId}/description`, {description}, authHeaders());
 
-        console.log('Update Description Resp:', resp);
+        dispatch({
+            type: types.UPDATE_TASK_DESCRIPTION,
+            task
+        });
+        return true;
     } catch(err){
         dispatchError(dispatch, types.UPDATE_TASK_DESCRIPTION_ERROR, err, 'Error updating task description');
+        return false;
     }
 }

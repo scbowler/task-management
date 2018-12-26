@@ -15,6 +15,7 @@ export default (state = DEFAULT_STATE, action) => {
         case types.GET_PROJECT_LIST_TASKS:
             return { ...state, tasks: {...state.tasks, [action.listId]: [...action.tasks] } };
         case types.GET_SINGLE_TASK:
+        case types.UPDATE_TASK_DESCRIPTION:
             return { ...state, single: action.task };
         default:
             return state;

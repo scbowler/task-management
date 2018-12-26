@@ -19,7 +19,6 @@ class FullTask extends Component {
     }
 
     updateDescription = async description => {
-        console.log('New Description:', description);
         const { match: { params }, updateTaskDescription } = this.props;
 
         await updateTaskDescription(params.task_id, description);
@@ -27,8 +26,6 @@ class FullTask extends Component {
 
     render(){
         const { task } = this.props;
-
-        console.log('Task:', task);
 
         return (
             <div onClick={this.close} className="full-task">
@@ -69,6 +66,24 @@ class FullTask extends Component {
                                         </div>
                                         <div className="col s9">
                                             {task.name}
+                                        </div>
+                                        <div className="col s3">
+                                            <b>Created By: </b>
+                                        </div>
+                                        <div className="col s9">
+                                            {task.createdBy}
+                                        </div>
+                                        <div className="col s3">
+                                            <b>Created: </b>
+                                        </div>
+                                        <div className="col s9">
+                                            {new Date(task.createdAt).toLocaleString()}
+                                        </div>
+                                        <div className="col s3">
+                                            <b>Updated: </b>
+                                        </div>
+                                        <div className="col s9">
+                                            {new Date(task.updatedAt).toLocaleString()}
                                         </div>
                                     </div>
                                     <div className="row">
