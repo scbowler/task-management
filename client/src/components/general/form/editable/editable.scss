@@ -28,4 +28,20 @@
 .edit-text-content {
     cursor: pointer;
     margin-bottom: 51px;
+    position: relative;
+
+    .edit-icon {
+        display: none;
+        margin-left: 10px;
+        position: absolute;
+    }
+
+    &:hover {
+        
+
+        .edit-icon {
+            color: #5d5d5d;
+            display: inline;
+        }
+    }
 }

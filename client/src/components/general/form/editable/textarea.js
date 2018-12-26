@@ -84,7 +84,7 @@ class EditText extends Component {
             )
         }
 
-        return <p onClick={this.toggleEditable} className={`edit-text-content ${className || ''}`}>{content || defaultContent || 'Click to edit'}</p>;
+        return <p onClick={this.toggleEditable} className={`edit-text-content ${className || ''}`}>{content || defaultContent || 'Click to edit'} <i className="material-icons edit-icon">edit</i></p>;
     }
 }
 
