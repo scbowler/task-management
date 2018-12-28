@@ -1,15 +1,26 @@
 const io = require('socket.io')({ path: '/ws' });
 const { Server } = require('http');
+const idRegex = /\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
 
 module.exports = app => {
     
 
-    io.on('connection', socket => {
+    io.of(idRegex).on('connect', socket => {
         console.log('Connection Made');
+
+        const nsp = socket.nsp;
+
+        socket.emit('test', { some: 'data', name: nsp.name});
 
         socket.on('disconnect', () => {
             console.log('User Disconnected');
         });
+
+        socket.on('new-message', data => {
+            console.log('Server got new-message:', data);
+
+            nsp.emit('new-message', { type: 'new-message', name: nsp.name })
+        })
     });
 
     io.listen(9050);

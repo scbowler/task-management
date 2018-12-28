@@ -10,9 +10,25 @@ class FullTask extends Component {
     constructor(props){
         super(props);
 
-        this.socket = io('/', {
+        console.log('Task Id:', props.match.params.task_id);
+
+        this.socket = io(`/${props.match.params.task_id}`, {
             path: '/ws'
         });
+
+        this.socket.on('connect', (data) => {
+            console.log('WS Connection Made:', data);
+        });
+
+        this.socket.on('test', data => {
+            console.log('Test Event:', data);
+        });
+
+        this.socket.on('new-message', (data) => {
+            console.log('New Message Received:', data);
+        })
+
+        this.socket.open();
     }
 
     componentDidMount(){
@@ -21,10 +37,20 @@ class FullTask extends Component {
         getTask(params.task_id);
     }
 
+    componentWillUnmount(){
+        
+    }
+
     close = () => {
         const { history, match: { params } } = this.props;
+
+        this.socket.close();
         
         history.push(`/projects/${params.project_id}`);
+    }
+
+    sendMessage = () => {
+        this.socket.emit('new-message', {new: 'message'});
     }
 
     updateDescription = async description => {
@@ -51,6 +77,7 @@ class FullTask extends Component {
                                     </div>
                                 </div>
                                 <h5>Messages</h5>
+                                <button onClick={this.sendMessage}>Send Message</button>
                             </div>
                             <div className="col m4 s12 info">
                                 <div className="scroll-container">
