@@ -10,18 +10,20 @@ class FullTask extends Component {
     constructor(props){
         super(props);
 
-        console.log('Task Id:', props.match.params.task_id);
+        const { params } = props.match;
 
-        this.socket = io(`/${props.match.params.task_id}`, {
-            path: '/ws'
+        console.log('Token:', localStorage.getItem('taskToken'));
+
+        this.socket = io(`/${params.task_id}`, {
+            path: '/ws',
+            query: {
+                token: localStorage.getItem('taskToken'),
+                name: localStorage.getItem('name')
+            }
         });
 
-        this.socket.on('connect', (data) => {
-            console.log('WS Connection Made:', data);
-        });
-
-        this.socket.on('test', data => {
-            console.log('Test Event:', data);
+        this.socket.on('connect', () => {
+            console.log('WS Connection Made');
         });
 
         this.socket.on('new-message', (data) => {
