@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import { getTask, updateTaskDescription } from '../../actions';
 import Header from '../general/header';
 import EditText from '../general/form/editable/textarea';
 import './full_task.scss';
 
 class FullTask extends Component {
+    constructor(props){
+        super(props);
+
+        this.socket = io('/', {
+            path: '/ws'
+        });
+    }
+
     componentDidMount(){
         const { getTask, match: { params } } = this.props;
 
