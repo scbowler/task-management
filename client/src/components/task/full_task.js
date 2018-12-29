@@ -1,58 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
 import { getTask, updateTaskDescription } from '../../actions';
 import Header from '../general/header';
 import EditText from '../general/form/editable/textarea';
+import Messages from './messages';
 import './full_task.scss';
 
 class FullTask extends Component {
-    constructor(props){
-        super(props);
-
-        const { params } = props.match;
-
-        console.log('Token:', localStorage.getItem('taskToken'));
-
-        this.socket = io(`/${params.task_id}`, {
-            path: '/ws',
-            query: {
-                token: localStorage.getItem('taskToken'),
-                name: localStorage.getItem('name')
-            }
-        });
-
-        this.socket.on('connect', () => {
-            console.log('WS Connection Made');
-        });
-
-        this.socket.on('new-message', (data) => {
-            console.log('New Message Received:', data);
-        })
-
-        this.socket.open();
-    }
-
     componentDidMount(){
         const { getTask, match: { params } } = this.props;
 
         getTask(params.task_id);
     }
 
-    componentWillUnmount(){
-        
-    }
-
     close = () => {
         const { history, match: { params } } = this.props;
-
-        this.socket.close();
         
         history.push(`/projects/${params.project_id}`);
-    }
-
-    sendMessage = () => {
-        this.socket.emit('new-message', {new: 'message'});
     }
 
     updateDescription = async description => {
@@ -62,7 +26,7 @@ class FullTask extends Component {
     }
 
     render(){
-        const { task } = this.props;
+        const { task = {}, match: { params } } = this.props;
 
         return (
             <div onClick={this.close} className="full-task">
@@ -78,8 +42,8 @@ class FullTask extends Component {
                                         <EditText send={this.updateDescription} className="center" content={task.description} defaultContent="Click to add a description" />
                                     </div>
                                 </div>
-                                <h5>Messages</h5>
-                                <button onClick={this.sendMessage}>Send Message</button>
+                                
+                                <Messages task={task} taskId={params.task_id} />
                             </div>
                             <div className="col m4 s12 info">
                                 <div className="scroll-container">

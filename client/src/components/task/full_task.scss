@@ -16,7 +16,6 @@
         background-color: $card-bg-light;
         margin: auto;
         width: 80%;
-        max-height: 80vh;
         overflow: hidden;
 
         h1 {
@@ -29,7 +28,6 @@
             }
 
             .scroll-container {
-                height: 75vh;
                 overflow-x: hidden;
                 overflow-y: auto;
             }

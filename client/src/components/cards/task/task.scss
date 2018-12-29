@@ -64,3 +64,19 @@
     height: 100vh;
     width: 100%;
 }
+
+.task-message-container {
+    background-color: $card-bg;
+    margin: 15px 8px;
+    padding: 10px;
+
+    .task-message-content {
+        .message {
+            padding: 20px;
+        }
+        .info {
+            text-align: right;
+            color: #8e8e8e;
+        }
+    }
+}
