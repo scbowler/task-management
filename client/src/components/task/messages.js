@@ -67,7 +67,7 @@ class Messages extends Component {
         const { status } = this.state;
 
         return (
-            <div className="col m8 s12 messages">
+            <div className="col s12 messages">
                 <h5>Messages <small className="grey-text text-lighten-2">{status}</small></h5>
                 <form onSubmit={handleSubmit(this.sendMessage)}>
                     <div className="row">

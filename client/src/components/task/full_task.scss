@@ -27,6 +27,10 @@
                 color: $primary-text;
             }
 
+            .messages .input-field label {
+                color: #7d7d7d;
+            }
+
             .scroll-container {
                 overflow-x: hidden;
                 overflow-y: auto;

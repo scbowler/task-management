@@ -33,7 +33,7 @@ class FullTask extends Component {
                 <div onClick={e => e.stopPropagation()} className="task-contents">
                     <div className="task-body">
                         <div className="row">
-                            <div className="col m8 s12 messages">
+                            <div className="col m7 s12">
                                 <div className="row">
                                     <div className="col s12">
                                         <Header>{task.name}</Header>
@@ -45,46 +45,56 @@ class FullTask extends Component {
                                 
                                 <Messages task={task} taskId={params.task_id} />
                             </div>
-                            <div className="col m4 s12 info">
-                                <div className="scroll-container">
+                            <div className="col m5 s12 info">
+                                <div className="scroll-container no-mb-rows">
                                     <div className="row">
                                         <h5 className="col s12">Info</h5>
                                     </div>
                                     <div className="row">
-                                        <div className="col s3">
+                                        <div className="col s4">
                                             <b>Project: </b>
                                         </div>
-                                        <div className="col s9">
+                                        <div className="col s8">
                                             {task.project}
                                         </div>
-                                        <div className="col s3">
+                                    </div>
+                                    <div className="row">
+                                        <div className="col s4">
                                             <b>List: </b>
                                         </div>
-                                        <div className="col s9">
+                                        <div className="col s8">
                                             {task.list}
                                         </div>
-                                        <div className="col s3">
+                                    </div>
+                                    <div className="row">
+                                        <div className="col s4">
                                             <b>Task: </b>
                                         </div>
-                                        <div className="col s9">
+                                        <div className="col s8">
                                             {task.name}
                                         </div>
-                                        <div className="col s3">
+                                    </div>
+                                    <div className="row">
+                                        <div className="col s4">
                                             <b>Created By: </b>
                                         </div>
-                                        <div className="col s9">
+                                        <div className="col s8">
                                             {task.createdBy}
                                         </div>
-                                        <div className="col s3">
+                                    </div>
+                                    <div className="row">
+                                        <div className="col s4">
                                             <b>Created: </b>
                                         </div>
-                                        <div className="col s9">
+                                        <div className="col s8">
                                             {new Date(task.createdAt).toLocaleString()}
                                         </div>
-                                        <div className="col s3">
+                                    </div>
+                                    <div className="row">
+                                        <div className="col s4">
                                             <b>Updated: </b>
                                         </div>
-                                        <div className="col s9">
+                                        <div className="col s8">
                                             {new Date(task.updatedAt).toLocaleString()}
                                         </div>
                                     </div>
