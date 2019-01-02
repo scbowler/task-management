@@ -9,6 +9,8 @@ const DEFAULT_STATE = {
 
 export default (state = DEFAULT_STATE, action) => {
     switch (action.type) {
+        case types.CLEAR_LIST_UPDATE_FLAG:
+            return { ...state, listToUpdate: '' };
         case types.CLEAR_PROJECT:
             return { ...DEFAULT_STATE };
         case types.FLAG_LIST_TO_UPDATE:

@@ -1,4 +1,5 @@
 export default {
+    CLEAR_LIST_UPDATE_FLAG: 'clear_list_update_flag',
     CLEAR_PROJECT: 'clear_project',
     CLEAR_PROJECT_ERRORS: 'clear_project_errors',
     CREATE_NEW_PROJECT: 'create_new_project',

@@ -59,6 +59,8 @@ export const accountSignUp = newUser => async dispatch => {
 
 export const accountSignOut = () => ({ type: types.SIGN_OUT });
 
+export const clearListUpdateFlag = () => ({type: types.CLEAR_LIST_UPDATE_FLAG});
+
 export const clearProject = () => ({ type: types.CLEAR_PROJECT });
 
 export const clearProjectErrors = () => ({ type: types.CLEAR_PROJECT_ERRORS });

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getProjectListTasks, moveTask } from '../../actions';
+import { clearListUpdateFlag, getProjectListTasks, moveTask } from '../../actions';
 import DropTarget from '../general/drop/target';
 import NewTask from '../cards/task/new_task';
 import Task from '../cards/task';
@@ -13,10 +13,12 @@ class List extends Component {
     }
 
     componentDidMount(){
-        const { getProjectListTasks, match: { params }, pid, shouldUpdate, tasks} = this.props;
+        const { clearListUpdateFlag, getProjectListTasks, match: { params }, pid, shouldUpdate, tasks} = this.props;
 
         if(shouldUpdate || !tasks || !tasks.length){
             getProjectListTasks(params.project_id, pid);
+
+            if(shouldUpdate) clearListUpdateFlag();
         }
     }
 
@@ -75,6 +77,7 @@ function mapStateToProps({tasks}, {pid}){
 }
 
 export default connect(mapStateToProps, {
+    clearListUpdateFlag,
     getProjectListTasks,
     moveTask
 })(withRouter(List));
