@@ -34,10 +34,10 @@ class ProjectSettings extends Component {
         const { availableUsers } = this.props.settings;
 
         if (!availableUsers) {
-            return <h5 className="grey-text">Loading Available Users...</h5>;
+            return <h5 className="grey-text text-darken-3">Loading Available Users...</h5>;
         }
         if (!availableUsers.length) {
-            return <h5 className="grey-text">No Available Users</h5>;
+            return <h5 className="grey-text text-darken-3">No Available Users</h5>;
         }
 
         return (
@@ -62,13 +62,13 @@ class ProjectSettings extends Component {
         const { collaborators } = this.props.settings;
 
         if(!collaborators){
-            return <h5 className="grey-text">Loading Collaborators...</h5>;
+            return <h5 className="grey-text text-darken-3">Loading Collaborators...</h5>;
         }
         if(!collaborators.length){
             return (
                 <div>
-                    <h5 className="grey-text">No Collaborators</h5>
-                    <p className="grey-text text-lighten-1">Add collaborators from the available users list below</p>
+                    <h5 className="grey-text text-darken-3">No Collaborators</h5>
+                    <p className="grey-text text-darken-2">Add collaborators from the available users list below</p>
                 </div>
             );
         }
