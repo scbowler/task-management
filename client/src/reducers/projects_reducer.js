@@ -2,6 +2,7 @@ import types from '../actions/types';
 
 const DEFAULT_STATE = {
     createErrors: [],
+    isOwner: false,
     list: null,
     currentName: ''
 };
@@ -17,7 +18,7 @@ export default (state = DEFAULT_STATE, action) => {
         case types.GET_ALL_PROJECTS:
             return { ...state, createErrors: [], list: action.projects };
         case types.GET_PROJECT:
-            return { ...state, currentName: action.project.name };
+            return { ...state, currentName: action.project.name, isOwner: action.project.isOwner };
         default:
             return state;
     }

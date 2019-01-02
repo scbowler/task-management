@@ -1,13 +1,20 @@
-const { projects } = require('../../db/models');
-const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
+const { projectUsers } = require('../../db/models');
+const { sendError } = require('../../helpers/error_handling');
 
 module.exports = async (req, res) => {
+    const { user } = req;
     try {
-        const foundProjects = await projects.findAll({
-            attributes: ['description', 'name', 'pid'],
+        const foundProjects = await projectUsers.findAll({
+            where: {
+                userId: user.id
+            },
             include: {
-                association: 'createdBy',
-                attributes: ['firstName', 'lastName']
+                association: 'project',
+                attributes: ['description', 'name', 'pid'],
+                include: {
+                    association: 'createdBy',
+                    attributes: ['firstName', 'lastName']
+                }
             }
         });
 
@@ -15,7 +22,8 @@ module.exports = async (req, res) => {
 
         if(foundProjects){
             formattedData = foundProjects.map( proj => {
-                const { createdBy, ...project } = proj.dataValues;
+                const project = proj.project.dataValues;
+                const createdBy = project.createdBy.dataValues;
                 const user = `${createdBy.firstName} ${createdBy.lastName[0]}.`;
 
                 return {
