@@ -94,6 +94,13 @@ export const createNewProjectTask = (projectId, listId, taskName) => async dispa
     }
 }
 
+export const flagListForUpdate = listId => {
+    return {
+        type: types.FLAG_LIST_TO_UPDATE,
+        listId
+    }
+}
+
 export const getAllProjects = () => async dispatch => {
     try {
         const { data: { projects }} = await axios.get('/api/projects', authHeaders());

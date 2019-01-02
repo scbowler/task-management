@@ -11,7 +11,7 @@ class Task extends Component {
         const {history, location: {pathname}, name, pid, time} = this.props;
 
         return (
-            <div onDragStart={this.onDrag} id={pid} draggable="true" onClick={() => history.replace(`${pathname}/task/${pid}`)} className="task-card">
+            <div onDragStart={this.onDrag} id={pid} draggable="true" onClick={() => history.replace(`${pathname}/task/${pid}`)} className="task-card z-depth-2">
                 <div className="card-title">{name}</div>
                 <div className="card-info">
                     <i className="material-icons">timelapse</i> {time || '0:00:00'}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getTask, updateTask } from '../../actions';
+import { flagListForUpdate, getTask, updateTask } from '../../actions';
 import EditHeader from '../general/form/editable/header';
 import EditText from '../general/form/editable/textarea';
 import Messages from './messages';
@@ -20,7 +20,11 @@ class FullTask extends Component {
     }
 
     updateTask = async (field, content) => {
-        const { match: { params }, updateTask } = this.props;
+        const { flagListForUpdate, match: { params }, task: { listId }, updateTask } = this.props;
+
+        if(field === 'name'){
+            flagListForUpdate(listId);
+        }
 
         await updateTask(field, params.task_id, content);
     }
@@ -127,6 +131,7 @@ class FullTask extends Component {
 const mapStateToProps = ({tasks}) => ({ task: tasks.single });
 
 export default connect(mapStateToProps, {
+    flagListForUpdate,
     getTask,
     updateTask
 })(FullTask);

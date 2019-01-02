@@ -36,8 +36,6 @@ class EditHeader extends Component {
         const { value } = this.state;
 
         if (value) {
-            console.log('Send Data:', value);
-
             if (typeof send === 'function') {
                 await send(value);
 
@@ -67,7 +65,7 @@ class EditHeader extends Component {
                     <form className="edit-form edit-header-form" onSubmit={this.sendData}>
                         <input onKeyPress={this.keyboardSubmit} ref={e => this.textarea = e} onChange={({ target }) => this.setState({ value: target.value })} className={`materialize-textarea ${className || ''}`} type="text" value={value || ''} />
                         <div className="right">
-                            <small>Shift &#43; Enter to Submit</small>
+                            <small>Press <kbd>Enter</kbd> to Submit</small>
                         </div>
                         <div className="input-buttons">
                             <button className="btn btn-floating red" type="button" onClick={this.cancel}>

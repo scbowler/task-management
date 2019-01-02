@@ -32,7 +32,7 @@ class CreateList extends Component {
 
         return (
             
-            <div className="task-list create-list">
+            <div className="task-list create-list z-depth-1">
                 <div onClick={this.cancel} className={`create-list-close ${showForm ? 'open' : ''}`}/>
                 
                 <div onClick={this.toggleShow} className="create-list-btn">

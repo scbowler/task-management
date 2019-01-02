@@ -1,6 +1,7 @@
 import types from '../actions/types';
 
 const DEFAULT_STATE = {
+    listToUpdate: '',
     lists: null,
     single: {},
     tasks: {}
@@ -10,6 +11,8 @@ export default (state = DEFAULT_STATE, action) => {
     switch (action.type) {
         case types.CLEAR_PROJECT:
             return { ...DEFAULT_STATE };
+        case types.FLAG_LIST_TO_UPDATE:
+            return { ...state, listToUpdate: action.listId };
         case types.GET_PROJECT:
             return { ...state, lists: action.project.lists };
         case types.GET_PROJECT_LIST_TASKS:

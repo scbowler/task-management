@@ -34,20 +34,18 @@ class FullProject extends Component {
 
     componentDidUpdate({lists: prevLists}){
         const { lists } = this.props;
-
-        console.log('Project Updated');
-
+        
         if((!prevLists && lists) || (prevLists.length !== lists.length)){
             this.updateWidth();
         }
     }
 
     renderLists(){
-        const { lists } = this.props;
+        const { lists, listToUpdate } = this.props;
 
         if(!lists || !lists.length) return null;
 
-        return lists.map(list => <List key={list.pid} {...list}/>);
+        return lists.map(list => <List key={list.pid} {...list} shouldUpdate={listToUpdate === list.pid}/>);
     }
 
     render(){
@@ -72,7 +70,7 @@ class FullProject extends Component {
     }
 }
 
-const mapStateToProps = ({tasks}) => ({ lists: tasks.lists });
+const mapStateToProps = ({tasks}) => ({ lists: tasks.lists, listToUpdate: tasks.listToUpdate });
 
 export default connect(mapStateToProps, {
     getProject

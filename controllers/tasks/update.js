@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
                 },
                 {
                     association: 'list',
-                    attributes: ['name']
+                    attributes: ['name', 'pid']
                 },
                 {
                     association: 'project',
@@ -50,6 +50,7 @@ module.exports = async (req, res) => {
 
         task = task.dataValues;
         task.createdBy = `${task.createdBy.firstName} ${task.createdBy.lastName[0].toUpperCase()}.`;
+        task.listId = task.list.pid;
         task.list = task.list.name;
         task.project = task.project.name
 

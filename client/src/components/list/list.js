@@ -13,9 +13,9 @@ class List extends Component {
     }
 
     componentDidMount(){
-        const { getProjectListTasks, match: { params }, pid, tasks} = this.props;
+        const { getProjectListTasks, match: { params }, pid, shouldUpdate, tasks} = this.props;
 
-        if(!tasks || !tasks.length){
+        if(shouldUpdate || !tasks || !tasks.length){
             getProjectListTasks(params.project_id, pid);
         }
     }
@@ -26,20 +26,6 @@ class List extends Component {
 
     endDrag = e => {
         this.setState({ addClass: '' });
-    }
-
-    handleDrop = async e => {
-        // e.preventDefault();
-        // const { getProjectListTasks, match: { params }, moveTask, pid } = this.props;
-
-        // const taskId = e.dataTransfer.getData('taskId');
-
-        // const originalListId = await moveTask(taskId, pid);
-
-        // if(originalListId){
-        //     getProjectListTasks(params.project_id, pid);
-        //     getProjectListTasks(params.project_id, originalListId);
-        // }
     }
 
     renderTasks(){
@@ -66,7 +52,7 @@ class List extends Component {
         const { getProjectListTasks, match: { params }, name, pid } = this.props;
 
         return (
-            <div className={`task-list ${this.state.addClass}`} onDragOver={this.dragOver} onDrop={this.endDrag} onDragEnd={this.endDrag} onDragLeave={this.endDrag}>
+            <div className={`task-list z-depth-1 ${this.state.addClass}`} onDragOver={this.dragOver} onDrop={this.endDrag} onDragEnd={this.endDrag} onDragLeave={this.endDrag}>
                 <div className="list-header">
                     <div className="list-name">{name}</div>
                     <div className="list-options">
