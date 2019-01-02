@@ -13,6 +13,8 @@ export default {
     GET_PROJECT_ERROR: 'get_project_error',
     GET_PROJECT_LIST_TASKS: 'get_project_list_tasks',
     GET_PROJECT_LIST_TASKS_ERROR: 'get_project_list_tasks_error',
+    GET_PROJECT_SETTINGS: 'get_project_settings',
+    GET_PROJECT_SETTINGS_ERROR: 'get_project_settings_error',
     GET_ALL_PROJECTS: 'get_all_projects',
     GET_ALL_PROJECTS_ERROR: 'get_all_projects_error',
     GET_SINGLE_TASK: 'get_single_task',

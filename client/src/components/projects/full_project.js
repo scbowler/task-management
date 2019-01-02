@@ -58,6 +58,13 @@ class FullProject extends Component {
                     {this.renderLists()}
                     <CreateList getProject={getProject} projectId={params.project_id}/>
                 </div>
+                <Route path={`${path}/settings`} component={
+                    lazyLoad({
+                        load: () => import('./project_settings'),
+                        loading: <Blank/>,
+                        name: 'project_settings'
+                    })
+                }/>
                 <Route exact path={`${path}/task/:task_id`} component={
                     lazyLoad({
                         load: () => import('../task'),

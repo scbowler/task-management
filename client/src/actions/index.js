@@ -142,6 +142,16 @@ export const getProjectListTasks = (projectId, listId) => async dispatch => {
     }
 }
 
+export const getProjectSettings = projectId => async dispatch => {
+    try {
+        const resp = await axios.get(`/api/projects/${projectId}/settings`, authHeaders());
+
+        console.log('Project Settings Resp:', resp.data);
+    } catch(err){
+        dispatchError(dispatch, types.GET_PROJECT_SETTINGS_ERROR, err, 'Error fetching project\'s setting data');
+    }
+}
+
 export const getTask = taskId => async dispatch => {
     try {
         const { data: { task } } = await axios.get(`/api/tasks/${taskId}`, authHeaders());

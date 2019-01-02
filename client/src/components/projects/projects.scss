@@ -1,3 +1,5 @@
+@import '../../assets/css/color';
+
 .projects-container {
     text-align: center;
 }
@@ -11,7 +13,18 @@
 }
 
 .project-settings-container {
+    background-color: $modal-bg;
+    display: flex;
     height: 100vh;
+    left: 0;
     position: fixed;
+    top: 0;
     width: 100%;
+    z-index: 997;
+
+    .project-settings-content {
+        background-color: $card-bg-light;
+        margin: auto;
+        width: 80%;
+    }
 }
