@@ -17,6 +17,8 @@
     display: flex;
     height: 100vh;
     left: 0;
+    overflow: auto;
+    padding: 25px 0;
     position: fixed;
     top: 0;
     width: 100%;
@@ -25,6 +27,17 @@
     .project-settings-content {
         background-color: $card-bg-light;
         margin: auto;
+        padding: 0 20px;
         width: 80%;
+
+        .collection {
+            .collection-item {
+                background-color: $card-bg-light;
+            }
+        }
+
+        .user-info {
+            padding-top: 4px;
+        }
     }
 }

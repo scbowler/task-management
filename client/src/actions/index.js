@@ -144,9 +144,12 @@ export const getProjectListTasks = (projectId, listId) => async dispatch => {
 
 export const getProjectSettings = projectId => async dispatch => {
     try {
-        const resp = await axios.get(`/api/projects/${projectId}/settings`, authHeaders());
+        const { data: { success, ...settings } } = await axios.get(`/api/projects/${projectId}/settings`, authHeaders());
 
-        console.log('Project Settings Resp:', resp.data);
+        dispatch({
+            settings,
+            type: types.GET_PROJECT_SETTINGS
+        });
     } catch(err){
         dispatchError(dispatch, types.GET_PROJECT_SETTINGS_ERROR, err, 'Error fetching project\'s setting data');
     }
@@ -172,6 +175,30 @@ export const moveTask = (taskId, toListId, nextId) => async dispatch => {
         return startingListId;
     } catch(err){
         dispatchError(dispatch, types.MOVE_TASK_ERROR, err, 'Error moving task');
+
+        return false;
+    }
+}
+
+export const projectAddCollaborator = (projectId, userId) => async dispatch => {
+    try {
+        await axios.post(`/api/projects/${projectId}/collaborators/${userId}`, {}, authHeaders());
+
+        return true;
+    } catch(err){
+        dispatchError(dispatch, types.PROJECT_ADD_COLLABORATOR_ERROR, err, 'Error adding collaborator');
+
+        return false;
+    }
+}
+
+export const projectRemoveCollaborator = (projectId, userId) => async dispatch => {
+    try {
+        await axios.delete(`/api/projects/${projectId}/collaborators/${userId}`, authHeaders());
+
+        return true;
+    } catch (err) {
+        dispatchError(dispatch, types.PROJECT_REMOVE_COLLABORATOR_ERROR, err, 'Error removing collaborator');
 
         return false;
     }
