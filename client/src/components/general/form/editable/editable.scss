@@ -1,7 +1,9 @@
-.edit-text-container {
+@import '../../../../assets/css/color';
+
+.edit-container {
     position: relative;
 
-    .edit-text-form {
+    .edit-form {
         position: relative;
     }
 
@@ -25,9 +27,8 @@
     }
 }
 
-.edit-text-content {
+.edit-content {
     cursor: pointer;
-    margin-bottom: 51px;
     position: relative;
 
     .edit-icon {
@@ -37,11 +38,21 @@
     }
 
     &:hover {
-        
-
         .edit-icon {
             color: #5d5d5d;
             display: inline;
         }
     }
+}
+
+.edit-header-container {
+    margin-bottom: 39px;
+}
+
+.edit-header-content {
+    color: $primary-text;
+}
+
+.edit-text-content {
+    margin-bottom: 58px;
 }

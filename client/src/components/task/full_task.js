@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getTask, updateTaskDescription } from '../../actions';
-import Header from '../general/header';
+import { getTask, updateTask } from '../../actions';
+import EditHeader from '../general/form/editable/header';
 import EditText from '../general/form/editable/textarea';
 import Messages from './messages';
 import './full_task.scss';
@@ -19,10 +19,10 @@ class FullTask extends Component {
         history.push(`/projects/${params.project_id}`);
     }
 
-    updateDescription = async description => {
-        const { match: { params }, updateTaskDescription } = this.props;
+    updateTask = async (field, content) => {
+        const { match: { params }, updateTask } = this.props;
 
-        await updateTaskDescription(params.task_id, description);
+        await updateTask(field, params.task_id, content);
     }
 
     render(){
@@ -36,10 +36,10 @@ class FullTask extends Component {
                             <div className="col m7 s12">
                                 <div className="row">
                                     <div className="col s12">
-                                        <Header>{task.name}</Header>
+                                        <EditHeader send={value => this.updateTask('name', value)} className="center" content={task.name} defaultContent="Click to add a title" />
                                     </div>
                                     <div className="col s12">
-                                        <EditText send={this.updateDescription} className="center" content={task.description} defaultContent="Click to add a description" />
+                                        <EditText send={value => this.updateTask('description', value)} className="center" content={task.description} defaultContent="Click to add a description" />
                                     </div>
                                 </div>
                                 
@@ -128,5 +128,5 @@ const mapStateToProps = ({tasks}) => ({ task: tasks.single });
 
 export default connect(mapStateToProps, {
     getTask,
-    updateTaskDescription
+    updateTask
 })(FullTask);

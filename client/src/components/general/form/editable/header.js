@@ -1,23 +1,23 @@
 import React, { Component } from 'react';
 import './editable.scss';
 
-class EditText extends Component {
+class EditHeader extends Component {
     state = {
         editable: false,
         value: ''
     }
 
-    componentDidUpdate({content: prevContent}, {editable: prevEditable}){
+    componentDidUpdate({ content: prevContent }, { editable: prevEditable }) {
         const { content } = this.props;
         const { editable } = this.state;
 
-        if(prevContent !== content){
+        if (prevContent !== content) {
             this.setState({
                 value: content
             });
         }
 
-        if(!prevEditable && editable){
+        if (!prevEditable && editable) {
             this.textarea.focus();
         }
     }
@@ -35,10 +35,10 @@ class EditText extends Component {
         const { send } = this.props;
         const { value } = this.state;
 
-        if(value){
+        if (value) {
             console.log('Send Data:', value);
 
-            if(typeof send === 'function'){
+            if (typeof send === 'function') {
                 await send(value);
 
                 this.setEditable(false);
@@ -47,25 +47,25 @@ class EditText extends Component {
     }
 
     keyboardSubmit = e => {
-        if(e.key === 'Enter' && e.shiftKey){
+        if (e.key === 'Enter' && e.shiftKey) {
             this.sendData(e);
         }
     }
 
-    setEditable = editable => this.setState({editable});
+    setEditable = editable => this.setState({ editable });
 
     toggleEditable = () => this.setEditable(!this.state.editable);
 
-    render(){
+    render() {
         const { defaultContent, className, content } = this.props;
         const { editable, value } = this.state;
 
-        if(editable){
+        if (editable) {
             return (
-                <div className="edit-container edit-text-container input-field">
-                    <div className="handle-close" onClick={this.cancel}/>
-                    <form className="edit-form edit-text-form" onSubmit={this.sendData}>
-                        <textarea onKeyPress={this.keyboardSubmit} ref={e => this.textarea = e} onChange={({ target }) => this.setState({ value: target.value })} className={`materialize-textarea ${className || ''}`} type="text" value={value || ''} />
+                <div className="edit-container edit-header-container input-field">
+                    <div className="handle-close" onClick={this.cancel} />
+                    <form className="edit-form edit-header-form" onSubmit={this.sendData}>
+                        <input onKeyPress={this.keyboardSubmit} ref={e => this.textarea = e} onChange={({ target }) => this.setState({ value: target.value })} className={`materialize-textarea ${className || ''}`} type="text" value={value || ''} />
                         <div className="right">
                             <small>Shift &#43; Enter to Submit</small>
                         </div>
@@ -82,8 +82,8 @@ class EditText extends Component {
             )
         }
 
-        return <p onClick={this.toggleEditable} className={`edit-content edit-text-content ${className || ''}`}>{content || defaultContent || 'Click to edit'} <i className="material-icons edit-icon">edit</i></p>;
+        return <h1 onClick={this.toggleEditable} className={`edit-content edit-header-content ${className || ''}`}>{content || defaultContent || 'Click to edit'} <i className="material-icons edit-icon">edit</i></h1>;
     }
 }
 
-export default EditText;
+export default EditHeader;

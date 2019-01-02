@@ -2,11 +2,14 @@ const { tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 
 module.exports = async (req, res) => {
-    const { body: { description }, params: { task_id } } = req;
+    const { field, task_id } = req.params;
+    const { [field]: content } = req.body;
+    const editableFields = ['description', 'name'];
+
 
     try {
-        if(!description){
-            throw new StatusError(422, [], 'No description received' + errorFlag);
+        if(!content){
+            throw new StatusError(422, [], 'No content received' + errorFlag);
         }
 
         if(!task_id){
@@ -37,7 +40,11 @@ module.exports = async (req, res) => {
             throw new StatusError(422, [], 'Unknown task ID given' + errorFlag);
         }
 
-        task.description = description;
+        if(!editableFields.includes(field)){
+            throw new StatusError(422, [], 'Unknown task field' + errorFlag);
+        }
+
+        task[field] = content;
 
         await task.save();
 

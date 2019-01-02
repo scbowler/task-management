@@ -35,6 +35,8 @@ class FullProject extends Component {
     componentDidUpdate({lists: prevLists}){
         const { lists } = this.props;
 
+        console.log('Project Updated');
+
         if((!prevLists && lists) || (prevLists.length !== lists.length)){
             this.updateWidth();
         }

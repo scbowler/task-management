@@ -22,6 +22,6 @@ export default {
     SIGN_OUT: 'sign_out',
     SIGN_UP: 'sign_up',
     SIGN_UP_ERROR: 'sign_up_error',
-    UPDATE_TASK_DESCRIPTION: 'update_task_description',
-    UPDATE_TASK_DESCRIPTION_ERROR: 'update_task_description_error'
+    UPDATE_TASK: 'update_task',
+    UPDATE_TASK_ERROR: 'update_task_error'
 };
