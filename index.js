@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(express.static(resolve(__dirname, 'client', 'dist')));
 
 require('./routes')(app);
+require('./services/websocket')();
 
 app.listen(PORT, () => {
     console.log('Server Running on PORT:', PORT);

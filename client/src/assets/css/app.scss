@@ -14,4 +14,8 @@ body {
     .main-text {
         color: $primary-text;
     }
+
+    .no-mb-rows > .row {
+        margin-bottom: 0;
+    }
 }

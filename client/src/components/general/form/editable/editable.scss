@@ -1,0 +1,58 @@
+@import '../../../../assets/css/color';
+
+.edit-container {
+    position: relative;
+
+    .edit-form {
+        position: relative;
+    }
+
+    .input-buttons {
+        position: absolute;
+        text-align: center;
+        width: 100%;
+
+        button {
+            font-size: 2em;
+            margin: 0 15px;
+        }
+    }
+
+    .handle-close {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+    }
+}
+
+.edit-content {
+    cursor: pointer;
+    position: relative;
+
+    .edit-icon {
+        display: none;
+        margin-left: 10px;
+        position: absolute;
+    }
+
+    &:hover {
+        .edit-icon {
+            color: #5d5d5d;
+            display: inline;
+        }
+    }
+}
+
+.edit-header-container {
+    margin-bottom: 39px;
+}
+
+.edit-header-content {
+    color: $primary-text;
+}
+
+.edit-text-content {
+    margin-bottom: 58px;
+}

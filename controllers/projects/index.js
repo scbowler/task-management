@@ -4,6 +4,5 @@ module.exports = {
     createProject: require('./create'),
     getAllProjects: require('./get_all'),
     getOneProject: require('./get_one'),
-    getListsTasks: require('./get_lists_tasks'),
-    moveTask: require('./move_task')
+    getListsTasks: require('./get_lists_tasks')
 };

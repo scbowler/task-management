@@ -1,4 +1,5 @@
 export default {
+    CLEAR_LIST_UPDATE_FLAG: 'clear_list_update_flag',
     CLEAR_PROJECT: 'clear_project',
     CLEAR_PROJECT_ERRORS: 'clear_project_errors',
     CREATE_NEW_PROJECT: 'create_new_project',
@@ -7,17 +8,22 @@ export default {
     CREATE_NEW_PROJECT_LIST_ERROR: 'create_new_project_list_error',
     CREATE_NEW_PROJECT_TASK: 'create_new_project_task',
     CREATE_NEW_PROJECT_TASK_ERROR: 'create_new_project_task_error',
+    FLAG_LIST_TO_UPDATE: 'flag_list_to_update',
     GET_PROJECT: 'get_project',
     GET_PROJECT_ERROR: 'get_project_error',
     GET_PROJECT_LIST_TASKS: 'get_project_list_tasks',
     GET_PROJECT_LIST_TASKS_ERROR: 'get_project_list_tasks_error',
     GET_ALL_PROJECTS: 'get_all_projects',
     GET_ALL_PROJECTS_ERROR: 'get_all_projects_error',
+    GET_SINGLE_TASK: 'get_single_task',
+    GET_SINGLE_TASK_ERROR: 'get_single_task_error',
     MOVE_TASK: 'move_task',
     MOVE_TASK_ERROR: 'move_task_error',
     SIGN_IN: 'sign_in',
     SIGN_IN_ERROR: 'sign_in_error',
     SIGN_OUT: 'sign_out',
     SIGN_UP: 'sign_up',
-    SIGN_UP_ERROR: 'sign_up_error'
+    SIGN_UP_ERROR: 'sign_up_error',
+    UPDATE_TASK: 'update_task',
+    UPDATE_TASK_ERROR: 'update_task_error'
 };

@@ -59,6 +59,8 @@ export const accountSignUp = newUser => async dispatch => {
 
 export const accountSignOut = () => ({ type: types.SIGN_OUT });
 
+export const clearListUpdateFlag = () => ({type: types.CLEAR_LIST_UPDATE_FLAG});
+
 export const clearProject = () => ({ type: types.CLEAR_PROJECT });
 
 export const clearProjectErrors = () => ({ type: types.CLEAR_PROJECT_ERRORS });
@@ -91,6 +93,13 @@ export const createNewProjectTask = (projectId, listId, taskName) => async dispa
         await axios.post(`/api/projects/${projectId}/lists/${listId}/tasks`, {name: taskName}, authHeaders());
     } catch(err){
         dispatchError(dispatch, types.CREATE_NEW_PROJECT_TASK_ERROR, err, 'Error creating task');
+    }
+}
+
+export const flagListForUpdate = listId => {
+    return {
+        type: types.FLAG_LIST_TO_UPDATE,
+        listId
     }
 }
 
@@ -133,6 +142,19 @@ export const getProjectListTasks = (projectId, listId) => async dispatch => {
     }
 }
 
+export const getTask = taskId => async dispatch => {
+    try {
+        const { data: { task } } = await axios.get(`/api/tasks/${taskId}`, authHeaders());
+
+        dispatch({
+            type: types.GET_SINGLE_TASK,
+            task
+        });
+    } catch(err){
+        dispatchError(dispatch, types.GET_SINGLE_TASK, err, 'Error getting task');
+    }
+}
+
 export const moveTask = (taskId, toListId, nextId) => async dispatch => {
     try {
         const { data: { startingListId } } = await axios.patch(`/api/tasks/${taskId}/move/${toListId}`, {nextId}, authHeaders());
@@ -141,6 +163,21 @@ export const moveTask = (taskId, toListId, nextId) => async dispatch => {
     } catch(err){
         dispatchError(dispatch, types.MOVE_TASK_ERROR, err, 'Error moving task');
 
+        return false;
+    }
+}
+
+export const updateTask = (field, taskId, content) => async dispatch => {
+    try {
+        const { data: { task } } = await axios.patch(`/api/tasks/${taskId}/${field}`, {[field]: content}, authHeaders());
+
+        dispatch({
+            type: types.UPDATE_TASK,
+            task
+        });
+        return true;
+    } catch(err){
+        dispatchError(dispatch, types.UPDATE_TASK_ERROR, err, 'Error updating task description');
         return false;
     }
 }
