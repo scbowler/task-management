@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import CreateList from '../list/create_list';
 import Blank from '../general/blank';
@@ -30,6 +30,8 @@ class FullProject extends Component {
         const { getProject, match: { params } } = this.props;
 
         await getProject(params.project_id);
+
+        this.updateWidth();
     }
 
     componentDidUpdate({lists: prevLists}){
@@ -50,10 +52,15 @@ class FullProject extends Component {
 
     render(){
         const { containerWidth } = this.state
-        const { getProject, match: { path, params } } = this.props;
+        const { getProject, match: { path, params, url } } = this.props;
 
         return (
-            <div className="project-view"> 
+            <div className="project-view">
+                <div className="project-actions">
+                    <Link to={`${url}/settings`}>
+                        <i className="material-icons">settings</i>
+                    </Link>
+                </div>
                 <div style={{width: containerWidth}} className="project-content">
                     {this.renderLists()}
                     <CreateList getProject={getProject} projectId={params.project_id}/>

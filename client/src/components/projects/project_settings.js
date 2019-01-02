@@ -8,6 +8,12 @@ class ProjectSettings extends Component {
         this.updateProjectSettings();
     }
 
+    close = e => {
+        const { history, match: { params } } = this.props;
+
+        history.push(`/projects/${params.project_id}`);
+    }
+
     updateProjectSettings(){
         const { getProjectSettings, match: { params } } = this.props;
 
@@ -95,8 +101,8 @@ class ProjectSettings extends Component {
         const { project = {} } = this.props.settings;
 
         return (
-            <div className="project-settings-container">
-                <div className="project-settings-content">
+            <div onClick={this.close} className="project-settings-container">
+                <div onClick={e => e.stopPropagation()} className="project-settings-content">
                     <div className="row">
                         <Header>Project Settings</Header>
                     </div>
