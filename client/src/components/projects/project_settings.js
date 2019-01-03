@@ -1,9 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import { getProjectSettings, projectAddCollaborator, projectRemoveCollaborator } from '../../actions';
 import Header from '../general/header';
 
 class ProjectSettings extends Component {
+    constructor(props){
+        super(props);
+
+        this.socket = io(`/project-settings`, {
+            path: '/ws',
+            query: {
+                token: localStorage.getItem('taskToken')
+            }
+        });
+
+        this.socket.on('connect', () => {
+            console.log('Connected for project updates');
+        });
+    }
+
     componentDidMount(){
         this.updateProjectSettings();
     }
@@ -26,6 +42,8 @@ class ProjectSettings extends Component {
         await projectAddCollaborator(project_id, userId);
 
         this.updateProjectSettings();
+
+        this.socket.emit('collaborator-update', {userId});
     }
 
     async removeCollaborator(userId){
@@ -34,6 +52,8 @@ class ProjectSettings extends Component {
         await projectRemoveCollaborator(project_id, userId);
 
         this.updateProjectSettings();
+
+        this.socket.emit('collaborator-update', { userId });
     }
 
     renderAvailableUsers(){

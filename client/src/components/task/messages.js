@@ -15,7 +15,7 @@ class Messages extends Component {
 
         const { taskId } = props;
 
-        this.socket = io(`/${taskId}`, {
+        this.socket = io(`/msgs-${taskId}`, {
             path: '/ws',
             query: {
                 token: localStorage.getItem('taskToken')

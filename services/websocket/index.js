@@ -1,13 +1,31 @@
 const io = require('socket.io')({ path: '/ws' });
 const { addMessage, getTaskId, getTaskMessages, userFromToken } = require('./helpers');
-const idRegex = /\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+const msgsRegex = /\/msgs-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+const projectsRegex = /\/projects-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
 
 module.exports = app => {
+
+    io.of('/project-settings').on('connect', socket => {
+        socket.on('collaborator-update', message => {
+            console.log('Collaborator Update:', message);
+
+            io.of(`/projects-${message.userId}`).emit('update-projects');
+
+            
+        });
+    });
+
+    io.of(projectsRegex).on('connect', socket => {
+
+        socket.on('update', message => {
+            socket.emit('update-projects');
+        });
+    });
     
-    io.of(idRegex).on('connect', async socket => {
+    io.of(msgsRegex).on('connect', async socket => {
         const nsp = socket.nsp;
 
-        const taskPid = nsp.name.replace('/', '');
+        const taskPid = nsp.name.replace('/msgs-', '');
 
         const taskId = await getTaskId(taskPid);
 
