@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
                 attributes: ['description', 'name', 'pid'],
                 include: {
                     association: 'createdBy',
-                    attributes: ['firstName', 'lastName']
+                    attributes: ['firstName', 'id', 'lastName']
                 }
             }
         });
@@ -24,11 +24,12 @@ module.exports = async (req, res) => {
             formattedData = foundProjects.map( proj => {
                 const project = proj.project.dataValues;
                 const createdBy = project.createdBy.dataValues;
-                const user = `${createdBy.firstName} ${createdBy.lastName[0]}.`;
+                const userName = `${createdBy.firstName} ${createdBy.lastName[0]}.`;
 
                 return {
                     ...project,
-                    user
+                    isOwner: createdBy.id === user.id,
+                    user: userName
                 }
             })
         }

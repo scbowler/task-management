@@ -1,7 +1,7 @@
 const io = require('socket.io')({ path: '/ws' });
 const { addMessage, getTaskId, getTaskMessages, userFromToken } = require('./helpers');
 const msgsRegex = /\/msgs-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
-const projectsRegex = /\/projects-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+const userRegex = /\/user-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
 
 module.exports = app => {
 
@@ -9,13 +9,13 @@ module.exports = app => {
         socket.on('collaborator-update', message => {
             console.log('Collaborator Update:', message);
 
-            io.of(`/projects-${message.userId}`).emit('update-projects');
+            io.of(`/user-${message.userId}`).emit('update-projects');
 
             
         });
     });
 
-    io.of(projectsRegex).on('connect', socket => {
+    io.of(userRegex).on('connect', socket => {
 
         socket.on('update', message => {
             socket.emit('update-projects');

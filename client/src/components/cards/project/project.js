@@ -15,13 +15,19 @@ class ProjectCard extends Component {
     }
 
     render(){
-        const { description, name, user } = this.props;
+        const { description, isOwner, name, user } = this.props;
+
+        console.log('Is Owner:', isOwner);
 
         return (
             <div className="project-card" onClick={this.goToProject}>
                 <div className="card-title">{name}</div>
                 <div className="card-contents">{description}</div>
-                <div className="card-footer" onClick={this.deleteProject}><i className="material-icons">delete</i></div>
+                {
+                    isOwner
+                        ? <div className="card-footer" onClick={this.deleteProject}><i className="material-icons">delete</i></div>
+                        : null
+                }
                 <div className="created-by"><small><span>Created By:</span> {user}</small></div>
             </div>
         );

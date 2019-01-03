@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import CreateList from '../list/create_list';
 import Blank from '../general/blank';
 import List from '../list';
@@ -9,10 +10,28 @@ import { getProject } from '../../actions';
 import './projects.scss';
 
 class FullProject extends Component {
-    listWidth = 266
+    constructor(props){
+        super(props);
 
-    state = {
-        containerWidth: '100vw'
+        this.listWidth = 266
+
+        this.state = {
+            containerWidth: '100vw'
+        }
+
+        console.log('Props:', props)
+
+        this.socket = io(`/project-$`, {
+            path: '/ws',
+            query: {
+                token: localStorage.getItem('taskToken')
+            }
+        });
+
+        this.socket.on('connect', () => {
+            // set live flag here
+            console.log('Connected for project updates');
+        });
     }
 
     updateWidth(){
