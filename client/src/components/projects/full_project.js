@@ -29,15 +29,15 @@ class FullProject extends Component {
     async componentDidMount(){
         const { getProject, match: { params } } = this.props;
 
-        await getProject(params.project_id);
+        const success = await getProject(params.project_id);
 
-        this.updateWidth();
+        if (success) this.updateWidth();
     }
 
     componentDidUpdate({lists: prevLists}){
         const { lists } = this.props;
         
-        if((!prevLists && lists) || (prevLists.length !== lists.length)){
+        if((!prevLists && lists) || (prevLists && prevLists.length !== lists.length)){
             this.updateWidth();
         }
     }
@@ -52,15 +52,20 @@ class FullProject extends Component {
 
     render(){
         const { containerWidth } = this.state
-        const { getProject, match: { path, params, url } } = this.props;
+        const { getProject, isOwner, match: { path, params, url } } = this.props;
 
         return (
             <div className="project-view">
-                <div className="project-actions">
-                    <Link to={`${url}/settings`}>
-                        <i className="material-icons">settings</i>
-                    </Link>
-                </div>
+                {
+                    isOwner
+                        ? (
+                            <div className="project-actions">
+                                <Link to={`${url}/settings`}>
+                                    <i className="material-icons">settings</i>
+                                </Link>
+                            </div>
+                        ) : null
+                }
                 <div style={{width: containerWidth}} className="project-content">
                     {this.renderLists()}
                     <CreateList getProject={getProject} projectId={params.project_id}/>
@@ -84,7 +89,12 @@ class FullProject extends Component {
     }
 }
 
-const mapStateToProps = ({tasks}) => ({ lists: tasks.lists, listToUpdate: tasks.listToUpdate });
+const mapStateToProps = ({projects, tasks, user}) => ({
+    isOwner: projects.isOwner,
+    lists: tasks.lists,
+    listToUpdate: tasks.listToUpdate,
+    redirect: user.redirect
+});
 
 export default connect(mapStateToProps, {
     getProject

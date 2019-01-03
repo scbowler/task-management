@@ -1,4 +1,6 @@
 export default {
+    AUTH_REDIRECT: 'auth_redirect',
+    CLEAR_AUTH_REDIRECT: 'clear_auth_redirect',
     CLEAR_LIST_UPDATE_FLAG: 'clear_list_update_flag',
     CLEAR_PROJECT: 'clear_project',
     CLEAR_PROJECT_ERRORS: 'clear_project_errors',

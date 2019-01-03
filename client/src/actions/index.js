@@ -59,6 +59,8 @@ export const accountSignUp = newUser => async dispatch => {
 
 export const accountSignOut = () => ({ type: types.SIGN_OUT });
 
+export const clearAuthRedirect = () => ({ type: types.CLEAR_AUTH_REDIRECT });
+
 export const clearListUpdateFlag = () => ({type: types.CLEAR_LIST_UPDATE_FLAG});
 
 export const clearProject = () => ({ type: types.CLEAR_PROJECT });
@@ -124,7 +126,16 @@ export const getProject = id => async dispatch => {
             type: types.GET_PROJECT,
             project
         });
+        return true;
     } catch(err){
+        if (err.response.status === 401) {
+            dispatch({
+                type: types.AUTH_REDIRECT,
+                redirect: `/projects`
+            });
+
+            return false;
+        }
         dispatchError(dispatch, types.GET_PROJECT_ERROR, err, 'Error fetching project');
     }
 }
@@ -151,6 +162,12 @@ export const getProjectSettings = projectId => async dispatch => {
             type: types.GET_PROJECT_SETTINGS
         });
     } catch(err){
+        if (err.response.status === 401){
+            return dispatch({
+                type: types.AUTH_REDIRECT,
+                redirect: `/projects/${projectId}`
+            });
+        }
         dispatchError(dispatch, types.GET_PROJECT_SETTINGS_ERROR, err, 'Error fetching project\'s setting data');
     }
 }
