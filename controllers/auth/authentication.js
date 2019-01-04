@@ -14,6 +14,7 @@ function userDataToSend(user) {
     return {
         name: `${user.firstName} ${user.lastName}`,
         email: user.email,
+        pid: user.pid
     }
 }
 

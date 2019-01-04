@@ -1,4 +1,4 @@
-const { projects, projectStatuses } = require('../../db/models');
+const { projects, projectStatuses, projectUsers } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 
 module.exports = async (req, res) => {
@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
             attributes: ['id']
         });
 
-        if(!status) throw new StatusError(500, null, 'Error finding project status info');
+        if(!status) throw new StatusError(500, null, 'Error finding project status info' + errorFlag);
 
         const projectBuild = projects.build({
             createdById: user.id,
@@ -27,6 +27,13 @@ module.exports = async (req, res) => {
         });
 
         const project = await projectBuild.save();
+
+        const projectUser = projectUsers.build({
+            projectId: project.id,
+            userId: user.id
+        });
+
+        await projectUser.save();
 
         res.send({
             success: true,

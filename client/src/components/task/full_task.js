@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import { flagListForUpdate, getTask, updateTask } from '../../actions';
 import EditHeader from '../general/form/editable/header';
 import EditText from '../general/form/editable/textarea';
@@ -7,10 +8,36 @@ import Messages from './messages';
 import './full_task.scss';
 
 class FullTask extends Component {
+    constructor(props){
+        super(props);
+
+        const { getTask, match: { params } } = props;
+
+        this.socket = io(`/task-${params.task_id}`, {
+            path: '/ws',
+            query: {
+                token: localStorage.getItem('taskToken')
+            }
+        });
+
+        this.socket.on('connect', () => {
+            // set live flag here
+            console.log('Connected for task updates');
+        });
+
+        this.socket.on('update-task', () => {
+            getTask(params.task_id);
+        });
+    }
+
     componentDidMount(){
         const { getTask, match: { params } } = this.props;
 
         getTask(params.task_id);
+    }
+
+    componentWillUnmount(){
+        this.socket.off();
     }
 
     close = () => {
@@ -20,13 +47,19 @@ class FullTask extends Component {
     }
 
     updateTask = async (field, content) => {
-        const { flagListForUpdate, match: { params }, task: { listId }, updateTask } = this.props;
+        const { flagListForUpdate, match: { params }, projectSocket, task: { listId }, updateTask } = this.props;
 
         if(field === 'name'){
             flagListForUpdate(listId);
         }
 
         await updateTask(field, params.task_id, content);
+
+        this.socket.emit('update-task', params.task_id);
+        projectSocket.emit('update-lists', {
+            lists: [listId],
+            projectId: params.project_id
+        });
     }
 
     render(){

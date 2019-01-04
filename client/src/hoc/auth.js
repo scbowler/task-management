@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { clearAuthRedirect } from '../actions';
 
 export default (WrappedComponent, to = '/account/sign-in', authRequired = true) => {
     class Auth extends Component {
@@ -12,10 +13,13 @@ export default (WrappedComponent, to = '/account/sign-in', authRequired = true) 
         }
 
         checkAuth(){
-            const { auth, history } = this.props;
+            const { auth, clearAuthRedirect, history, redirect } = this.props;
             
             if(auth !== authRequired){
                 history.push(to);
+            } else if(redirect){
+                clearAuthRedirect();
+                history.push(redirect);
             }
         }
 
@@ -24,7 +28,7 @@ export default (WrappedComponent, to = '/account/sign-in', authRequired = true) 
         }
     }
 
-    const mapStateToProps = ({user = {}}) => ({auth: user.auth});
+    const mapStateToProps = ({user = {}}) => ({auth: user.auth, redirect: user.redirect});
 
-    return connect(mapStateToProps)(Auth);
+    return connect(mapStateToProps, { clearAuthRedirect })(Auth);
 }

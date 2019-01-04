@@ -1,7 +1,7 @@
 @import '../../assets/css/color';
 
 .full-task {
-    background-color: rgba(0, 0, 0, .8);
+    background-color: $modal-bg;
     display: flex;
     left: 0;
     height: 100vh;

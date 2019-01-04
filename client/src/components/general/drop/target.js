@@ -24,18 +24,25 @@ class DropTarget extends Component {
 
         this.setState({ addClass: '' });
 
-        const { getProjectListTasks, match: { params }, moveTask, nextTaskId, destinationListId } = this.props;
+        const { getProjectListTasks, match: { params: { project_id } }, moveTask, nextTaskId, socket, destinationListId } = this.props;
 
         const taskId = e.dataTransfer.getData('taskId');
 
         const originalListId = await moveTask(taskId, destinationListId, nextTaskId);
 
         if (originalListId) {
-            getProjectListTasks(params.project_id, destinationListId);
+            const listUpdates = [ destinationListId ];
+            getProjectListTasks(project_id, destinationListId);
 
             if(originalListId !== destinationListId){
-                getProjectListTasks(params.project_id, originalListId);
+                listUpdates.push(originalListId);
+                getProjectListTasks(project_id, originalListId);
             }
+
+            socket.emit('update-lists', {
+                lists: listUpdates,
+                projectId: project_id
+            });
         }
     }
 

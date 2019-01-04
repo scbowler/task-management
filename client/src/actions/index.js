@@ -59,6 +59,8 @@ export const accountSignUp = newUser => async dispatch => {
 
 export const accountSignOut = () => ({ type: types.SIGN_OUT });
 
+export const clearAuthRedirect = () => ({ type: types.CLEAR_AUTH_REDIRECT });
+
 export const clearListUpdateFlag = () => ({type: types.CLEAR_LIST_UPDATE_FLAG});
 
 export const clearProject = () => ({ type: types.CLEAR_PROJECT });
@@ -124,7 +126,16 @@ export const getProject = id => async dispatch => {
             type: types.GET_PROJECT,
             project
         });
+        return true;
     } catch(err){
+        if (err.response.status === 401) {
+            dispatch({
+                type: types.AUTH_REDIRECT,
+                redirect: `/projects`
+            });
+
+            return false;
+        }
         dispatchError(dispatch, types.GET_PROJECT_ERROR, err, 'Error fetching project');
     }
 }
@@ -139,6 +150,25 @@ export const getProjectListTasks = (projectId, listId) => async dispatch => {
         })
     } catch(err){
         dispatchError(dispatch, types.CREATE_NEW_PROJECT_LIST_ERROR, err, 'Error getting tasks for list');
+    }
+}
+
+export const getProjectSettings = projectId => async dispatch => {
+    try {
+        const { data: { success, ...settings } } = await axios.get(`/api/projects/${projectId}/settings`, authHeaders());
+
+        dispatch({
+            settings,
+            type: types.GET_PROJECT_SETTINGS
+        });
+    } catch(err){
+        if (err.response.status === 401){
+            return dispatch({
+                type: types.AUTH_REDIRECT,
+                redirect: `/projects/${projectId}`
+            });
+        }
+        dispatchError(dispatch, types.GET_PROJECT_SETTINGS_ERROR, err, 'Error fetching project\'s setting data');
     }
 }
 
@@ -162,6 +192,30 @@ export const moveTask = (taskId, toListId, nextId) => async dispatch => {
         return startingListId;
     } catch(err){
         dispatchError(dispatch, types.MOVE_TASK_ERROR, err, 'Error moving task');
+
+        return false;
+    }
+}
+
+export const projectAddCollaborator = (projectId, userId) => async dispatch => {
+    try {
+        await axios.post(`/api/projects/${projectId}/collaborators/${userId}`, {}, authHeaders());
+
+        return true;
+    } catch(err){
+        dispatchError(dispatch, types.PROJECT_ADD_COLLABORATOR_ERROR, err, 'Error adding collaborator');
+
+        return false;
+    }
+}
+
+export const projectRemoveCollaborator = (projectId, userId) => async dispatch => {
+    try {
+        await axios.delete(`/api/projects/${projectId}/collaborators/${userId}`, authHeaders());
+
+        return true;
+    } catch (err) {
+        dispatchError(dispatch, types.PROJECT_REMOVE_COLLABORATOR_ERROR, err, 'Error removing collaborator');
 
         return false;
     }

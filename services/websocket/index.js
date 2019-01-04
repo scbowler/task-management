@@ -1,13 +1,47 @@
 const io = require('socket.io')({ path: '/ws' });
+const { idRegexBase } = require('../../helpers/validation').rawRegex;
 const { addMessage, getTaskId, getTaskMessages, userFromToken } = require('./helpers');
-const idRegex = /\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+const msgsRegex = new RegExp(`^\/msgs-${idRegexBase}$`, 'i');
+const projectRegex = new RegExp(`^\/project-${idRegexBase}$`, 'i');
+const taskRegex = new RegExp(`^\/task-${idRegexBase}$`, 'i');
+const userRegex = new RegExp(`^\/user-${idRegexBase}$`, 'i');
 
 module.exports = app => {
+
+    io.of('/project-settings').on('connect', socket => {
+        socket.on('collaborator-update', message => {
+            io.of(`/user-${message.userId}`).emit('update-projects');
+        });
+    });
+
+    io.of(taskRegex).on('connect', socket => {
+        socket.on('update-task', taskId => {
+            io.of(`/task-${taskId}`).emit('update-task');
+        });
+    });
+
+    io.of(projectRegex).on('connect', socket => {
+        socket.on('update-lists', message => {
+            io.of(`/project-${message.projectId}`).emit('update-lists', message);
+        });
+        socket.on('update-project', projectId => {
+            io.of(`/project-${projectId}`).emit('update-project');
+        });
+        socket.on('update-task', projectId => {
+            io.of(`/project-${projectId}`).emit('update-task');
+        });
+    });
+
+    io.of(userRegex).on('connect', socket => {
+        socket.on('update', message => {
+            socket.emit('update-projects');
+        });
+    });
     
-    io.of(idRegex).on('connect', async socket => {
+    io.of(msgsRegex).on('connect', async socket => {
         const nsp = socket.nsp;
 
-        const taskPid = nsp.name.replace('/', '');
+        const taskPid = nsp.name.replace('/msgs-', '');
 
         const taskId = await getTaskId(taskPid);
 
@@ -16,10 +50,6 @@ module.exports = app => {
         const messages = await getTaskMessages(taskId);
 
         socket.emit('update-messages', { messages });
-
-        // socket.on('disconnect', () => {
-        //     console.log('User Disconnected');
-        // });
 
         socket.on('new-message', async message => {
             await addMessage(taskPid, taskId, message, user);

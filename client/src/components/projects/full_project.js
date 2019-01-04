@@ -1,18 +1,49 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import CreateList from '../list/create_list';
 import Blank from '../general/blank';
 import List from '../list';
 import lazyLoad from '../../hoc/lazy_load';
-import { getProject } from '../../actions';
+import { getProject, getProjectListTasks } from '../../actions';
 import './projects.scss';
 
 class FullProject extends Component {
-    listWidth = 266
+    constructor(props){
+        super(props);
 
-    state = {
-        containerWidth: '100vw'
+        this.listWidth = 266
+
+        this.state = {
+            containerWidth: '100vw'
+        }
+
+        const { getProjectListTasks, match: { params } } = props;
+
+        this.socket = io(`/project-${params.project_id}`, {
+            path: '/ws',
+            query: {
+                token: localStorage.getItem('taskToken')
+            }
+        });
+
+        this.socket.on('connect', () => {
+            // set live flag here
+            console.log('Connected for project updates');
+        });
+
+        this.socket.on('update-lists', ({lists, projectId}) => {
+            lists.map(listId => getProjectListTasks(projectId, listId));
+        });
+
+        this.socket.on('update-project', () => {
+            this.updateProject();
+        });
+    }
+
+    componentWillUnmount(){
+        this.socket.off();
     }
 
     updateWidth(){
@@ -26,18 +57,16 @@ class FullProject extends Component {
         this.setState({containerWidth: width});
     }
 
-    async componentDidMount(){
-        const { getProject, match: { params } } = this.props;
-
-        await getProject(params.project_id);
+    componentDidMount(){
+        this.updateProject();
     }
 
-    componentDidUpdate({lists: prevLists}){
-        const { lists } = this.props;
-        
-        if((!prevLists && lists) || (prevLists.length !== lists.length)){
-            this.updateWidth();
-        }
+    updateProject = async () => {
+        const { getProject, match: { params } } = this.props;
+
+        const success = await getProject(params.project_id);
+
+        if (success) this.updateWidth();
     }
 
     renderLists(){
@@ -45,24 +74,42 @@ class FullProject extends Component {
 
         if(!lists || !lists.length) return null;
 
-        return lists.map(list => <List key={list.pid} {...list} shouldUpdate={listToUpdate === list.pid}/>);
+        return lists.map(list => <List key={list.pid} {...list} shouldUpdate={listToUpdate === list.pid} socket={this.socket} />);
     }
 
     render(){
         const { containerWidth } = this.state
-        const { getProject, match: { path, params } } = this.props;
+        const { isOwner, match: { path, params, url } } = this.props;
 
         return (
-            <div className="project-view"> 
+            <div className="project-view">
+                {
+                    isOwner
+                        ? (
+                            <div className="project-actions">
+                                <Link to={`${url}/settings`}>
+                                    <i className="material-icons">settings</i>
+                                </Link>
+                            </div>
+                        ) : null
+                }
                 <div style={{width: containerWidth}} className="project-content">
                     {this.renderLists()}
-                    <CreateList getProject={getProject} projectId={params.project_id}/>
+                    <CreateList getProject={this.updateProject} projectId={params.project_id} socket={this.socket}/>
                 </div>
+                <Route path={`${path}/settings`} component={
+                    lazyLoad({
+                        load: () => import('./project_settings'),
+                        loading: <Blank/>,
+                        name: 'project_settings'
+                    })
+                }/>
                 <Route exact path={`${path}/task/:task_id`} component={
                     lazyLoad({
                         load: () => import('../task'),
                         loading: <Blank/>,
-                        name: 'project_full_task'
+                        name: 'project_full_task',
+                        props: {projectSocket: this.socket}
                     })
                 }/>
             </div>
@@ -70,8 +117,14 @@ class FullProject extends Component {
     }
 }
 
-const mapStateToProps = ({tasks}) => ({ lists: tasks.lists, listToUpdate: tasks.listToUpdate });
+const mapStateToProps = ({projects, tasks, user}) => ({
+    isOwner: projects.isOwner,
+    lists: tasks.lists,
+    listToUpdate: tasks.listToUpdate,
+    redirect: user.redirect
+});
 
 export default connect(mapStateToProps, {
-    getProject
+    getProject,
+    getProjectListTasks
 })(FullProject);
