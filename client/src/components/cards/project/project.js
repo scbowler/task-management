@@ -17,8 +17,6 @@ class ProjectCard extends Component {
     render(){
         const { description, isOwner, name, user } = this.props;
 
-        console.log('Is Owner:', isOwner);
-
         return (
             <div className="project-card" onClick={this.goToProject}>
                 <div className="card-title">{name}</div>

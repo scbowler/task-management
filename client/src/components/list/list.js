@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { clearListUpdateFlag, getProjectListTasks, moveTask } from '../../actions';
+import { clearListUpdateFlag, getProjectListTasks } from '../../actions';
 import DropTarget from '../general/drop/target';
 import NewTask from '../cards/task/new_task';
 import Task from '../cards/task';
@@ -31,27 +31,32 @@ class List extends Component {
     }
 
     renderTasks(){
-        const { pid, tasks } = this.props;
+        const { pid, socket, tasks } = this.props;
 
-        if (!tasks || !tasks.length) return <DropTarget destinationListId={pid} nextTaskId="new" />;
+        const dropProps = {
+            destinationListId: pid,
+            socket
+        }
+
+        if (!tasks || !tasks.length) return <DropTarget {...dropProps} nextTaskId="new" />;
 
         return (
             <Fragment>
                 {
                     tasks.map(task => (
                         <Fragment key={task.pid}>
-                            <DropTarget destinationListId={pid} nextTaskId={task.pid} />
+                            <DropTarget {...dropProps} nextTaskId={task.pid} />
                             <Task {...task} />
                         </Fragment>
                     ))
                 }
-                <DropTarget destinationListId={pid} nextTaskId="end" />
+                <DropTarget {...dropProps} nextTaskId="end" />
             </Fragment>
         );
     }
 
     render(){
-        const { getProjectListTasks, match: { params }, name, pid } = this.props;
+        const { getProjectListTasks, match: { params }, name, pid, socket } = this.props;
 
         return (
             <div className={`task-list z-depth-1 ${this.state.addClass}`} onDragOver={this.dragOver} onDrop={this.endDrag} onDragEnd={this.endDrag} onDragLeave={this.endDrag}>
@@ -63,7 +68,7 @@ class List extends Component {
                 </div>
                 <div className="list-contents">
                     {this.renderTasks()}
-                    <NewTask updateTasks={getProjectListTasks} listId={pid} projectId={params.project_id}/>
+                    <NewTask updateTasks={getProjectListTasks} listId={pid} projectId={params.project_id} socket={socket}/>
                 </div>
             </div>
         );
@@ -78,6 +83,5 @@ function mapStateToProps({tasks}, {pid}){
 
 export default connect(mapStateToProps, {
     clearListUpdateFlag,
-    getProjectListTasks,
-    moveTask
+    getProjectListTasks
 })(withRouter(List));

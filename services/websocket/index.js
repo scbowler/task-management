@@ -1,22 +1,39 @@
 const io = require('socket.io')({ path: '/ws' });
 const { addMessage, getTaskId, getTaskMessages, userFromToken } = require('./helpers');
 const msgsRegex = /\/msgs-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+const projectRegex = /\/project-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+const taskRegex = /\/task-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
 const userRegex = /\/user-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
+
 
 module.exports = app => {
 
     io.of('/project-settings').on('connect', socket => {
         socket.on('collaborator-update', message => {
-            console.log('Collaborator Update:', message);
-
             io.of(`/user-${message.userId}`).emit('update-projects');
+        });
+    });
 
-            
+    io.of(taskRegex).on('connect', socket => {
+        socket.on('update-task', taskId => {
+            console.log('Update task received:', taskId);
+            io.of(`/task-${taskId}`).emit('update-task');
+        });
+    });
+
+    io.of(projectRegex).on('connect', socket => {
+        socket.on('update-lists', message => {
+            io.of(`/project-${message.projectId}`).emit('update-lists', message);
+        });
+        socket.on('update-project', projectId => {
+            io.of(`/project-${projectId}`).emit('update-project');
+        });
+        socket.on('update-task', projectId => {
+            io.of(`/project-${projectId}`).emit('update-task');
         });
     });
 
     io.of(userRegex).on('connect', socket => {
-
         socket.on('update', message => {
             socket.emit('update-projects');
         });

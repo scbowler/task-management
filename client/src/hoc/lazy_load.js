@@ -40,11 +40,12 @@ export default (options) => {
 
             render() {
                 const { LazyComponent, loading } = this.state;
+                const { props = {} } = options;
 
                 return (
                     <Fragment>
                         {LazyComponent
-                            ? <LazyComponent {...this.props} />
+                            ? <LazyComponent {...this.props} {...props} />
                             : loading
                         }
                     </Fragment>

@@ -12,9 +12,11 @@ class CreateList extends Component {
     toggleShow = () => this.setState({showForm: !this.state.showForm});
 
     handleCreateList = async ({listName}) => {
-        const { createNewProjectList, getProject, projectId } = this.props;
+        const { createNewProjectList, getProject, projectId, socket } = this.props;
 
         await createNewProjectList(projectId, listName);
+
+        socket.emit('update-project', projectId);
 
         getProject(projectId);
 
