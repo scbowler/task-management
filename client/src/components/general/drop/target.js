@@ -31,21 +31,6 @@ class DropTarget extends Component {
         const originalListId = await moveTask(taskId, destinationListId, nextTaskId);
 
         if (originalListId) {
-            const listUpdates = [destinationListId];
-            // getProjectListTasks(project_id, destinationListId);
-
-            if (originalListId !== destinationListId) {
-                listUpdates.push(originalListId);
-                // getProjectListTasks(project_id, originalListId);
-            }
-
-            socket.emit('update-lists', {
-                lists: listUpdates,
-                projectId: project_id
-            });
-        }
-
-        if (originalListId) {
             const listUpdates = [ destinationListId ];
             getProjectListTasks(project_id, destinationListId);
 
@@ -54,10 +39,10 @@ class DropTarget extends Component {
                 getProjectListTasks(project_id, originalListId);
             }
 
-            // socket.emit('update', {
-            //     lists: listUpdates,
-            //     projectId: project_id
-            // });
+            socket.emit('update-lists', {
+                lists: listUpdates,
+                projectId: project_id
+            });
         }
     }
 

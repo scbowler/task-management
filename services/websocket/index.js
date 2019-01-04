@@ -1,10 +1,10 @@
 const io = require('socket.io')({ path: '/ws' });
+const { idRegexBase } = require('../../helpers/validation').rawRegex;
 const { addMessage, getTaskId, getTaskMessages, userFromToken } = require('./helpers');
-const msgsRegex = /\/msgs-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
-const projectRegex = /\/project-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
-const taskRegex = /\/task-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
-const userRegex = /\/user-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/;
-
+const msgsRegex = new RegExp(`^\/msgs-${idRegexBase}$`, 'i');
+const projectRegex = new RegExp(`^\/project-${idRegexBase}$`, 'i');
+const taskRegex = new RegExp(`^\/task-${idRegexBase}$`, 'i');
+const userRegex = new RegExp(`^\/user-${idRegexBase}$`, 'i');
 
 module.exports = app => {
 
@@ -16,7 +16,6 @@ module.exports = app => {
 
     io.of(taskRegex).on('connect', socket => {
         socket.on('update-task', taskId => {
-            console.log('Update task received:', taskId);
             io.of(`/task-${taskId}`).emit('update-task');
         });
     });
@@ -51,10 +50,6 @@ module.exports = app => {
         const messages = await getTaskMessages(taskId);
 
         socket.emit('update-messages', { messages });
-
-        // socket.on('disconnect', () => {
-        //     console.log('User Disconnected');
-        // });
 
         socket.on('new-message', async message => {
             await addMessage(taskPid, taskId, message, user);
