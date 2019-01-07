@@ -61,11 +61,13 @@ export const accountSignOut = () => ({ type: types.SIGN_OUT });
 
 export const clearAuthRedirect = () => ({ type: types.CLEAR_AUTH_REDIRECT });
 
-export const clearListUpdateFlag = () => ({type: types.CLEAR_LIST_UPDATE_FLAG});
+export const clearListUpdateFlag = () => ({ type: types.CLEAR_LIST_UPDATE_FLAG });
 
 export const clearProject = () => ({ type: types.CLEAR_PROJECT });
 
 export const clearProjectErrors = () => ({ type: types.CLEAR_PROJECT_ERRORS });
+
+export const clearTask = () => ({ type: types.CLEAR_TASK });
 
 export const createNewProject = newProject => async dispatch => {
     try {
@@ -95,6 +97,16 @@ export const createNewProjectTask = (projectId, listId, taskName) => async dispa
         await axios.post(`/api/projects/${projectId}/lists/${listId}/tasks`, {name: taskName}, authHeaders());
     } catch(err){
         dispatchError(dispatch, types.CREATE_NEW_PROJECT_TASK_ERROR, err, 'Error creating task');
+    }
+}
+
+export const deleteSingleTask = taskId => async dispatch => {
+    try {
+        const { data } = await axios.delete(`/api/tasks/${taskId}`, authHeaders());
+
+        console.log('Delete Task Resp:', data);
+    }catch(err){
+        dispatchError(dispatch, types.DELETE_SINGLE_TASK_ERROR, err, 'Error deleting task');
     }
 }
 

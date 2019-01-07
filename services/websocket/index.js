@@ -18,6 +18,10 @@ module.exports = app => {
         socket.on('update-task', taskId => {
             io.of(`/task-${taskId}`).emit('update-task');
         });
+
+        socket.on('task-deleted', taskId => {
+            io.of(`/task-${taskId}`).emit('task-deleted');
+        });
     });
 
     io.of(projectRegex).on('connect', socket => {

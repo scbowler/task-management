@@ -44,6 +44,16 @@
                 color: #7d7d7d;
             }
 
+            .project-link {
+                color: #7d7d7d;
+                cursor: pointer;
+                margin-bottom: 40px;
+
+                &:hover {
+                    color: #fff;
+                }
+            }
+
             .scroll-container {
                 overflow-x: hidden;
                 overflow-y: auto;

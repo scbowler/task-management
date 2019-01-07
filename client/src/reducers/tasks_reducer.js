@@ -13,6 +13,8 @@ export default (state = DEFAULT_STATE, action) => {
             return { ...state, listToUpdate: '' };
         case types.CLEAR_PROJECT:
             return { ...DEFAULT_STATE };
+        case types.CLEAR_TASK:
+            return { ...state, single: null };
         case types.FLAG_LIST_TO_UPDATE:
             return { ...state, listToUpdate: action.listId };
         case types.GET_PROJECT:
