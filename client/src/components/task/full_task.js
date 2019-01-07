@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
-import { flagListForUpdate, getTask, updateTask } from '../../actions';
+import { clearTask, deleteSingleTask, flagListForUpdate, getTask, updateTask } from '../../actions';
 import EditHeader from '../general/form/editable/header';
 import EditText from '../general/form/editable/textarea';
+import Header from '../general/header';
 import Messages from './messages';
 import './full_task.scss';
 
@@ -11,7 +12,7 @@ class FullTask extends Component {
     constructor(props){
         super(props);
 
-        const { getTask, match: { params } } = props;
+        const { clearTask, getTask, match: { params } } = props;
 
         this.socket = io(`/task-${params.task_id}`, {
             path: '/ws',
@@ -23,6 +24,10 @@ class FullTask extends Component {
         this.socket.on('connect', () => {
             // set live flag here
             console.log('Connected for task updates');
+        });
+
+        this.socket.on('task-deleted', () => {
+            clearTask();
         });
 
         this.socket.on('update-task', () => {
@@ -46,6 +51,23 @@ class FullTask extends Component {
         history.push(`/projects/${params.project_id}`);
     }
 
+    deleteTask = async () => {
+        const { deleteSingleTask, flagListForUpdate, history, match: { params }, task: { listId }, projectSocket } = this.props;
+
+        await deleteSingleTask(params.task_id);
+
+        flagListForUpdate(listId);
+
+        this.socket.emit('task-deleted', params.task_id);
+
+        projectSocket.emit('update-lists', {
+            lists: [listId],
+            projectId: params.project_id
+        });
+
+        history.push(`/projects/${params.project_id}`);
+    }
+
     updateTask = async (field, content) => {
         const { flagListForUpdate, match: { params }, projectSocket, task: { listId }, updateTask } = this.props;
 
@@ -62,98 +84,120 @@ class FullTask extends Component {
         });
     }
 
-    render(){
-        const { task = {}, match: { params } } = this.props;
+    renderTask(){
+        const { isProjectOwner, task = {}, match: { params } } = this.props;
 
+        if(task === null){
+            return (
+                <Fragment>
+                    <Header>Task Deleted</Header>
+                    <h5 onClick={this.close} className="project-link center">Return to Project</h5>
+                </Fragment>
+            );
+        }
+
+        return (
+            <Fragment>
+                {
+                    task.isOwner || isProjectOwner
+                        ? <i onClick={this.deleteTask} className="delete-icon material-icons">delete</i>
+                        : null
+                }
+                <div className="row">
+                    <div className="col m7 s12">
+                        <div className="row">
+                            <div className="col s12">
+                                <EditHeader send={value => this.updateTask('name', value)} className="center" content={task.name} defaultContent="Click to add a title" />
+                            </div>
+                            <div className="col s12">
+                                <EditText send={value => this.updateTask('description', value)} className="center" content={task.description} defaultContent="Click to add a description" />
+                            </div>
+                        </div>
+
+                        <Messages task={task} taskId={params.task_id} />
+                    </div>
+                    <div className="col m5 s12 info">
+                        <div className="scroll-container no-mb-rows">
+                            <div className="row">
+                                <h5 className="col s12">Info</h5>
+                            </div>
+                            <div className="row">
+                                <div className="col s4">
+                                    <b>Project: </b>
+                                </div>
+                                <div className="col s8">
+                                    {task.project}
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col s4">
+                                    <b>List: </b>
+                                </div>
+                                <div className="col s8">
+                                    {task.list}
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col s4">
+                                    <b>Task: </b>
+                                </div>
+                                <div className="col s8">
+                                    {task.name}
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col s4">
+                                    <b>Created By: </b>
+                                </div>
+                                <div className="col s8">
+                                    {task.createdBy}
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col s4">
+                                    <b>Created: </b>
+                                </div>
+                                <div className="col s8">
+                                    {new Date(task.createdAt).toLocaleString()}
+                                </div>
+                            </div>
+                            <div className="row">
+                                <div className="col s4">
+                                    <b>Updated: </b>
+                                </div>
+                                <div className="col s8">
+                                    {new Date(task.updatedAt).toLocaleString()}
+                                </div>
+                            </div>
+                            <div className="row">
+                                <h5 className="col s12">Time Tracking</h5>
+                            </div>
+                            <div className="row">
+                                <div className="col s12">
+                                    Time tracking stuff here
+                                        </div>
+                            </div>
+                            <div className="row">
+                                <h5 className="col s12">Related Tasks</h5>
+                            </div>
+                            <div className="row">
+                                <div className="col s12">
+                                    Related task stuff here
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
+        );
+    }
+
+    render(){
         return (
             <div onClick={this.close} className="full-task">
                 <div onClick={e => e.stopPropagation()} className="task-contents">
                     <div className="task-body">
-                        <div className="row">
-                            <div className="col m7 s12">
-                                <div className="row">
-                                    <div className="col s12">
-                                        <EditHeader send={value => this.updateTask('name', value)} className="center" content={task.name} defaultContent="Click to add a title" />
-                                    </div>
-                                    <div className="col s12">
-                                        <EditText send={value => this.updateTask('description', value)} className="center" content={task.description} defaultContent="Click to add a description" />
-                                    </div>
-                                </div>
-                                
-                                <Messages task={task} taskId={params.task_id} />
-                            </div>
-                            <div className="col m5 s12 info">
-                                <div className="scroll-container no-mb-rows">
-                                    <div className="row">
-                                        <h5 className="col s12">Info</h5>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col s4">
-                                            <b>Project: </b>
-                                        </div>
-                                        <div className="col s8">
-                                            {task.project}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col s4">
-                                            <b>List: </b>
-                                        </div>
-                                        <div className="col s8">
-                                            {task.list}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col s4">
-                                            <b>Task: </b>
-                                        </div>
-                                        <div className="col s8">
-                                            {task.name}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col s4">
-                                            <b>Created By: </b>
-                                        </div>
-                                        <div className="col s8">
-                                            {task.createdBy}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col s4">
-                                            <b>Created: </b>
-                                        </div>
-                                        <div className="col s8">
-                                            {new Date(task.createdAt).toLocaleString()}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col s4">
-                                            <b>Updated: </b>
-                                        </div>
-                                        <div className="col s8">
-                                            {new Date(task.updatedAt).toLocaleString()}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <h5 className="col s12">Time Tracking</h5>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col s12">
-                                            Time tracking stuff here
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <h5 className="col s12">Related Tasks</h5>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col s12">
-                                            Related task stuff here
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {this.renderTask()}
                     </div>
                 </div>
             </div>
@@ -161,9 +205,11 @@ class FullTask extends Component {
     }
 }
 
-const mapStateToProps = ({tasks}) => ({ task: tasks.single });
+const mapStateToProps = ({tasks, projects}) => ({ task: tasks.single, isProjectOwner: projects.isOwner });
 
 export default connect(mapStateToProps, {
+    clearTask,
+    deleteSingleTask,
     flagListForUpdate,
     getTask,
     updateTask

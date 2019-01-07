@@ -23,12 +23,35 @@
         }
 
         .task-body {
+            position: relative;
+
             h5 {
                 color: $primary-text;
             }
 
+            .delete-icon {
+                cursor: pointer;
+                position: absolute;
+                right: 10px;
+                top: 10px;
+
+                &:hover {
+                    color: red;
+                }
+            }
+
             .messages .input-field label {
                 color: #7d7d7d;
+            }
+
+            .project-link {
+                color: #7d7d7d;
+                cursor: pointer;
+                margin-bottom: 40px;
+
+                &:hover {
+                    color: #fff;
+                }
             }
 
             .scroll-container {
