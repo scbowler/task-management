@@ -102,9 +102,7 @@ export const createNewProjectTask = (projectId, listId, taskName) => async dispa
 
 export const deleteSingleTask = taskId => async dispatch => {
     try {
-        const { data } = await axios.delete(`/api/tasks/${taskId}`, authHeaders());
-
-        console.log('Delete Task Resp:', data);
+        await axios.delete(`/api/tasks/${taskId}`, authHeaders());
     }catch(err){
         dispatchError(dispatch, types.DELETE_SINGLE_TASK_ERROR, err, 'Error deleting task');
     }

@@ -2,7 +2,7 @@ const { tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 
 module.exports = async (req, res) => {
-    const { params: { task_id } } = req;
+    const { params: { task_id }, user } = req;
 
     try {
         let task = await tasks.findByPid(task_id, {
@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
             include: [
                 {
                     association: 'createdBy',
-                    attributes: ['firstName', 'lastName']
+                    attributes: ['firstName', 'id', 'lastName']
                 },
                 {
                     association: 'list',
@@ -27,10 +27,11 @@ module.exports = async (req, res) => {
 
         if(task){
             task = task.dataValues;
+            task.isOwner = task.createdBy.id === user.id;
             task.createdBy = `${task.createdBy.firstName} ${task.createdBy.lastName[0].toUpperCase()}.`;
             task.listId = task.list.pid;
             task.list = task.list.name;
-            task.project = task.project.name
+            task.project = task.project.name;
         }
 
         res.send({

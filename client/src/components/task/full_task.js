@@ -27,7 +27,6 @@ class FullTask extends Component {
         });
 
         this.socket.on('task-deleted', () => {
-            console.log('The task was deleted');
             clearTask();
         });
 
@@ -86,7 +85,7 @@ class FullTask extends Component {
     }
 
     renderTask(){
-        const { task = {}, match: { params } } = this.props;
+        const { isProjectOwner, task = {}, match: { params } } = this.props;
 
         if(task === null){
             return (
@@ -99,7 +98,11 @@ class FullTask extends Component {
 
         return (
             <Fragment>
-                <i onClick={this.deleteTask} className="delete-icon material-icons">delete</i>
+                {
+                    task.isOwner || isProjectOwner
+                        ? <i onClick={this.deleteTask} className="delete-icon material-icons">delete</i>
+                        : null
+                }
                 <div className="row">
                     <div className="col m7 s12">
                         <div className="row">
@@ -190,10 +193,6 @@ class FullTask extends Component {
     }
 
     render(){
-        const { task = {}, match: { params } } = this.props;
-
-        console.log('Task:', task);
-
         return (
             <div onClick={this.close} className="full-task">
                 <div onClick={e => e.stopPropagation()} className="task-contents">
@@ -206,7 +205,7 @@ class FullTask extends Component {
     }
 }
 
-const mapStateToProps = ({tasks}) => ({ task: tasks.single });
+const mapStateToProps = ({tasks, projects}) => ({ task: tasks.single, isProjectOwner: projects.isOwner });
 
 export default connect(mapStateToProps, {
     clearTask,
