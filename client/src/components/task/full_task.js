@@ -46,6 +46,11 @@ class FullTask extends Component {
         history.push(`/projects/${params.project_id}`);
     }
 
+    deleteTask = () => {
+        const { match: { params } } = this.props;
+        console.log('Delete Item:', params.task_id);
+    }
+
     updateTask = async (field, content) => {
         const { flagListForUpdate, match: { params }, projectSocket, task: { listId }, updateTask } = this.props;
 
@@ -69,6 +74,7 @@ class FullTask extends Component {
             <div onClick={this.close} className="full-task">
                 <div onClick={e => e.stopPropagation()} className="task-contents">
                     <div className="task-body">
+                        <i onClick={this.deleteTask} className="delete-icon material-icons">delete</i>
                         <div className="row">
                             <div className="col m7 s12">
                                 <div className="row">

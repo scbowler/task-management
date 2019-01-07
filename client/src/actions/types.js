@@ -10,6 +10,7 @@ export default {
     CREATE_NEW_PROJECT_LIST_ERROR: 'create_new_project_list_error',
     CREATE_NEW_PROJECT_TASK: 'create_new_project_task',
     CREATE_NEW_PROJECT_TASK_ERROR: 'create_new_project_task_error',
+    DELETE_SINGLE_TASK: 'delete_single_task',
     FLAG_LIST_TO_UPDATE: 'flag_list_to_update',
     GET_PROJECT: 'get_project',
     GET_PROJECT_ERROR: 'get_project_error',
