@@ -10,29 +10,42 @@ class DropTarget extends Component {
     }
 
     allowDrop = e => {
+        if(e.dataTransfer.types.length < 2) return;
         e.preventDefault();
+        
+        if(this.delayLeave){
+            clearTimeout(this.delayLeave);
+        }
+
+        if(this.state.addClass) return;
 
         this.setState({addClass: 'drag-over'});
     }
 
+    clearClass = () => this.setState({ addClass: '' });
+
     dragLeave = e => {
-        this.setState({ addClass: '' });
+        this.delayLeave = setTimeout(this.clearClass, 50);
     }
 
     handleDrop = async e => {
         e.preventDefault();
 
-        this.setState({ addClass: '' });
-
         const { getProjectListTasks, match: { params: { project_id } }, moveTask, nextTaskId, socket, destinationListId } = this.props;
 
         const taskId = e.dataTransfer.getData('taskId');
+        const isNew = nextTaskId === 'new';
+
+        if(!taskId) return;
 
         const originalListId = await moveTask(taskId, destinationListId, nextTaskId);
 
         if (originalListId) {
             const listUpdates = [ destinationListId ];
-            getProjectListTasks(project_id, destinationListId);
+
+            await getProjectListTasks(project_id, destinationListId);
+
+            if(!isNew) this.clearClass();
 
             if(originalListId !== destinationListId){
                 listUpdates.push(originalListId);
@@ -48,7 +61,7 @@ class DropTarget extends Component {
 
     render(){
         return (
-            <div className={`list-drop-target ${this.state.addClass}`} onDrop={this.handleDrop} onDragOver={this.allowDrop} onDragLeave={this.dragLeave}>
+            <div className={`task-drop-target ${this.state.addClass}`} onDrop={this.handleDrop} onDragOver={this.allowDrop} onDragLeave={this.dragLeave}>
                 <div className="drop-target-inner"></div>
             </div>
         )

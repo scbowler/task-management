@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import CreateList from '../list/create_list';
 import Blank from '../general/blank';
 import List from '../list';
+import ListDropTarget from '../general/drop/list_target';
 import lazyLoad from '../../hoc/lazy_load';
 import { getProject, getProjectListTasks } from '../../actions';
 import './projects.scss';
@@ -48,7 +49,7 @@ class FullProject extends Component {
 
     updateWidth(){
         const { lists } = this.props;
-        let width = this.listWidth;
+        let width = this.listWidth * 2;
 
         if(lists && lists.length){
             width += lists.length * this.listWidth;
@@ -74,7 +75,19 @@ class FullProject extends Component {
 
         if(!lists || !lists.length) return null;
 
-        return lists.map(list => <List key={list.pid} {...list} shouldUpdate={listToUpdate === list.pid} socket={this.socket} />);
+        return (
+            <Fragment>
+                {
+                    lists.map(list => (
+                        <Fragment key={list.pid}>
+                            <ListDropTarget nextListId={list.pid} />
+                            <List {...list} shouldUpdate={listToUpdate === list.pid} socket={this.socket} />
+                        </Fragment>
+                    ))
+                }
+                <ListDropTarget nextListId="end"/>
+            </Fragment>
+        )
     }
 
     render(){
