@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getProjectListTasks, moveTask } from '../../../actions';
+import { getProject, moveList } from '../../../actions';
 import './drop.scss';
 
 class ListDropTarget extends Component {
@@ -33,14 +33,16 @@ class ListDropTarget extends Component {
 
         this.clearClass();
 
-        const { getProjectListTasks, match: { params: { project_id } }, moveTask, nextListId, socket, destinationListId } = this.props;
+        const { getProject, match: { params: { project_id } }, moveList, nextListId, socket } = this.props;
 
         const listId = e.dataTransfer.getData('listId');
 
         console.log('List Id:', listId);
         console.log('Next List Id:', nextListId);
 
-        // if(!taskId) return;
+        if(!listId) return;
+
+        await moveList(project_id, listId, nextListId);
 
         // const originalListId = await moveTask(taskId, destinationListId, nextTaskId);
 
@@ -70,6 +72,6 @@ class ListDropTarget extends Component {
 }
 
 export default connect(null, {
-    getProjectListTasks,
-    moveTask
+    getProject,
+    moveList
 })(withRouter(ListDropTarget));

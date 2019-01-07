@@ -6,5 +6,6 @@ module.exports = {
     getAllProjects: require('./get_all'),
     getOneProject: require('./get_one'),
     getListsTasks: require('./get_lists_tasks'),
-    getSettings: require('./get_settings')
+    getSettings: require('./get_settings'),
+    moveList: require('./move_list')
 };
