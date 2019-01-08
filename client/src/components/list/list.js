@@ -22,14 +22,6 @@ class List extends Component {
         }
     }
 
-    dragOver = e => {
-        // this.setState({addClass: 'drag-over'});
-    }
-
-    endDrag = e => {
-        // this.setState({ addClass: '' });
-    }
-
     onDrag = e => {
         e.dataTransfer.setData('listId', e.target.id);
     }
