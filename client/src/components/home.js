@@ -3,6 +3,6 @@ import Header from './general/header';
 
 export default props => (
     <div>
-        <Header>LFZ Task Management</Header>
+        <Header>Task Management</Header>
     </div>
 );

@@ -31,35 +31,19 @@ class ListDropTarget extends Component {
     handleDrop = async e => {
         e.preventDefault();
 
-        this.clearClass();
-
         const { getProject, match: { params: { project_id } }, moveList, nextListId, socket } = this.props;
 
         const listId = e.dataTransfer.getData('listId');
-
-        console.log('List Id:', listId);
-        console.log('Next List Id:', nextListId);
 
         if(!listId) return;
 
         await moveList(project_id, listId, nextListId);
 
-        // const originalListId = await moveTask(taskId, destinationListId, nextTaskId);
+        socket.emit('update-project', project_id);
 
-        // if (originalListId) {
-        //     const listUpdates = [ destinationListId ];
-        //     getProjectListTasks(project_id, destinationListId);
+        await getProject(project_id);
 
-        //     if(originalListId !== destinationListId){
-        //         listUpdates.push(originalListId);
-        //         getProjectListTasks(project_id, originalListId);
-        //     }
-
-        //     socket.emit('update-lists', {
-        //         lists: listUpdates,
-        //         projectId: project_id
-        //     });
-        // }
+        this.clearClass();
     }
 
     render(){

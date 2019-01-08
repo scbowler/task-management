@@ -197,11 +197,13 @@ export const getTask = taskId => async dispatch => {
 
 export const moveList = (projectId, listId, nextId) => async dispatch => {
     try {
-        const resp = await axios.patch(`/api/projects/${projectId}/lists/${listId}/move`, { nextId }, authHeaders());
+        await axios.patch(`/api/projects/${projectId}/lists/${listId}/move`, { nextId }, authHeaders());
 
-        console.log('Move List Response:', resp);
+        return true;
     } catch(err){
         dispatchError(dispatch, types.MOVE_LIST_ERROR, err, 'Error moving list');
+
+        return false;
     }
 }
 

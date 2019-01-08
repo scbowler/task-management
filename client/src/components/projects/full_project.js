@@ -71,21 +71,26 @@ class FullProject extends Component {
     }
 
     renderLists(){
-        const { lists, listToUpdate } = this.props;
+        const { getProject, lists, listToUpdate } = this.props;
 
         if(!lists || !lists.length) return null;
+
+        const dropProps = {
+            getProject,
+            socket: this.socket
+        };
 
         return (
             <Fragment>
                 {
                     lists.map(list => (
                         <Fragment key={list.pid}>
-                            <ListDropTarget nextListId={list.pid} />
+                            <ListDropTarget {...dropProps} nextListId={list.pid} />
                             <List {...list} shouldUpdate={listToUpdate === list.pid} socket={this.socket} />
                         </Fragment>
                     ))
                 }
-                <ListDropTarget nextListId="end"/>
+                <ListDropTarget {...dropProps} nextListId="end"/>
             </Fragment>
         )
     }

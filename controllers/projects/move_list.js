@@ -8,41 +8,52 @@ module.exports = async (req, res) => {
     try {
         if(!nextId) throw new StatusError(400, [], 'Missing next list ID' + errorFlag);
 
-        const project = await projects.findByPid(project_id, {
-            attributes: ['id']
-        });
-
-        if(!project) throw new StatusError(422, [], 'Unknown project ID' + errorFlag);
-
-        const nextList = await lists.findByPid(nextId, {
-            attributes: ['id', 'rank']
-        });
-
-        console.log('NEXT LIST:', nextList);
-
-        let rank = new Date().getTime();
-
-        if(nextId !== 'end'){
-            const surroundingLists = await lists.findAll({
-                where: {
-                    projectId: project.id,
-                    rank: {
-                        [Op.lte]: nextList.rank
-                    }
-                },
-                order: ['rank'],
-                limit: 2
+        if(nextId !== list_id){
+            const project = await projects.findByPid(project_id, {
+                attributes: ['id']
             });
 
-            console.log(surroundingLists);
+            if (!project) throw new StatusError(422, [], 'Unknown project ID' + errorFlag);
+
+            const listToMove = await lists.findByPid(list_id, {
+                attributes: ['id', 'rank']
+            });
+
+            if (!listToMove) throw new StatusError(422, [], 'Unknown list to move');
+
+            let rank = new Date().getTime();
+
+            if (nextId !== 'end') {
+                const nextList = await lists.findByPid(nextId, {
+                    attributes: ['id', 'name', 'rank']
+                });
+
+                if (!nextList) throw new StatusError(422, [], 'Unable to find adjacent list' + errorFlag);
+
+                const surroundingLists = await lists.findAll({
+                    attributes: ['name', 'rank'],
+                    where: {
+                        projectId: project.id,
+                        rank: {
+                            [Op.lte]: nextList.rank
+                        }
+                    },
+                    order: [['rank', 'DESC']],
+                    limit: 2
+                });
+
+                if (surroundingLists.length === 2) {
+                    rank = centerRank(surroundingLists[0].rank, surroundingLists[1].rank);
+                } else {
+                    rank = centerRank(0, surroundingLists[0].rank);
+                }
+            }
+            listToMove.rank = rank;
+            await listToMove.save();
         }
 
         res.send({
-            success: true,
-            message: 'Move list API',
-            nextId,
-            list_id,
-            project_id
+            success: true
         });
     } catch(err){
         console.log('Error moving list:', err);
