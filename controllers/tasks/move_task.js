@@ -1,6 +1,7 @@
 const { Op } = require('sequelize');
 const { lists, tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
+const { centerRank } = require('../../helpers/general');
 
 module.exports = async (req, res) => {
     const { body: { nextId }, params: { list_id, task_id } } = req;
@@ -63,17 +64,6 @@ module.exports = async (req, res) => {
             startingListId: ogList.pid
         });
     } catch(err){
-        console.log('Moving error:', err);
         sendError(res, err, 'Error moving task');
     }
-}
-
-function centerRank(r1, r2){
-    const rank = ((r1 + r2) / 2).toFixed();
-
-    if(rank == r1 || rank == r2){
-        return false;
-    }
-
-    return rank;
 }

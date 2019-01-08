@@ -1,16 +1,40 @@
 @import '../../../assets/css/color';
 
-.list-drop-target {
+.task-drop-target {
     height: 20px;
     padding: 8px 3px;
 
     .drop-target-inner {
         height: 4px;
+        transition-duration: 200ms;
     }
 
     &.drag-over {
+        height: 91px;
+
         .drop-target-inner {
-            background-color: $card-bg;
+            border: 8px dashed $card-bg;
+            height: 100%;
+        }
+    }
+}
+
+.list-drop-target {
+    height: 170px;
+    display: inline-block;
+    width: 8px;
+
+    .drop-target-inner {
+        height: 100%;
+        transition-duration: 200ms;
+    }
+
+    &.drag-over {
+        width: 250px;
+
+        .drop-target-inner {
+            border: 8px dashed $card-bg-light;
+            border-bottom: none;
         }
     }
 }

@@ -24,6 +24,8 @@ export default {
     GET_ALL_PROJECTS_ERROR: 'get_all_projects_error',
     GET_SINGLE_TASK: 'get_single_task',
     GET_SINGLE_TASK_ERROR: 'get_single_task_error',
+    MOVE_LIST: 'move_list',
+    MOVE_LIST_ERROR: 'move_list_error',
     MOVE_TASK: 'move_task',
     MOVE_TASK_ERROR: 'move_task_error',
     PROJECT_ADD_COLLABORATOR: 'project_add_collaborator',

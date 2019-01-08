@@ -22,12 +22,8 @@ class List extends Component {
         }
     }
 
-    dragOver = e => {
-        this.setState({addClass: 'drag-over'});
-    }
-
-    endDrag = e => {
-        this.setState({ addClass: '' });
+    onDrag = e => {
+        e.dataTransfer.setData('listId', e.target.id);
     }
 
     renderTasks(){
@@ -59,7 +55,7 @@ class List extends Component {
         const { getProjectListTasks, match: { params }, name, pid, socket } = this.props;
 
         return (
-            <div className={`task-list z-depth-1 ${this.state.addClass}`} onDragOver={this.dragOver} onDrop={this.endDrag} onDragEnd={this.endDrag} onDragLeave={this.endDrag}>
+            <div className={`task-list z-depth-1 ${this.state.addClass}`} draggable id={pid} onDragStart={this.onDrag}>
                 <div className="list-header">
                     <div className="list-name">{name}</div>
                     <div className="list-options">

@@ -81,7 +81,7 @@ class Nav extends Component {
                 <div className="navbar-fixed">
                     <nav className="main-nav grey darken-4">
                         <div className="nav-wrapper">
-                            <Link to="/" className="brand-logo main-text">TM</Link>
+                            <Link to="/" className="brand-logo main-text">iTask</Link>
                             <a href="#" data-target="side-nav" className="sidenav-trigger"><i className="material-icons main-text">menu</i></a>
                             <ul className="right hide-on-med-and-down">
                                 {this.renderLinks()}

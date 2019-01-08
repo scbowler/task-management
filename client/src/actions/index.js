@@ -195,6 +195,18 @@ export const getTask = taskId => async dispatch => {
     }
 }
 
+export const moveList = (projectId, listId, nextId) => async dispatch => {
+    try {
+        await axios.patch(`/api/projects/${projectId}/lists/${listId}/move`, { nextId }, authHeaders());
+
+        return true;
+    } catch(err){
+        dispatchError(dispatch, types.MOVE_LIST_ERROR, err, 'Error moving list');
+
+        return false;
+    }
+}
+
 export const moveTask = (taskId, toListId, nextId) => async dispatch => {
     try {
         const { data: { startingListId } } = await axios.patch(`/api/tasks/${taskId}/move/${toListId}`, {nextId}, authHeaders());
