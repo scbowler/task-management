@@ -63,7 +63,7 @@ class List extends Component {
         const { getProjectListTasks, match: { params }, name, pid, socket } = this.props;
 
         return (
-            <div className={`task-list z-depth-1 ${this.state.addClass}`} draggable id={pid} onDragOver={this.dragOver} onDrop={this.endDrag} onDragEnd={this.endDrag} onDragLeave={this.endDrag} onDragStart={this.onDrag}>
+            <div className={`task-list z-depth-1 ${this.state.addClass}`} draggable id={pid} onDragStart={this.onDrag}>
                 <div className="list-header">
                     <div className="list-name">{name}</div>
                     <div className="list-options">
