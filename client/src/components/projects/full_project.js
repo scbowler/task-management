@@ -17,7 +17,7 @@ class FullProject extends Component {
         this.listWidth = 266
 
         this.state = {
-            containerWidth: '100vw'
+            containerWidth: '4000px'
         }
 
         const { getProjectListTasks, match: { params } } = props;

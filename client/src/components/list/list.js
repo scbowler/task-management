@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { clearListUpdateFlag, getProjectListTasks } from '../../actions';
 import DropTarget from '../general/drop/target';
+import ListOptions from './list_options';
 import NewTask from '../cards/task/new_task';
 import Task from '../cards/task';
 import './list.scss';
@@ -58,9 +59,7 @@ class List extends Component {
             <div className={`task-list z-depth-1 ${this.state.addClass}`} draggable id={pid} onDragStart={this.onDrag}>
                 <div className="list-header">
                     <div className="list-name">{name}</div>
-                    <div className="list-options">
-                        <i className="material-icons">more_vert</i>
-                    </div>
+                    <ListOptions/>
                 </div>
                 <div className="list-contents">
                     {this.renderTasks()}
