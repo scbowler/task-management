@@ -23,19 +23,31 @@ module.exports = async (req, res) => {
         if(!projectUser) throw new StatusError(401, [], 'Not Authorized');
 
         const projLists = await lists.findAll({
-            attributes: ['name', 'pid'],
+            attributes: ['createdById', 'name', 'pid'],
             where: {
                 projectId: project.id
             },
             order: [['rank']]
         });
 
+        let cleanedLists = [];
+
+        if(projLists){
+            cleanedLists = projLists.map(list => {
+                return {
+                    isOwner: project.createdById === user.id || list.createdById === user.id,
+                    name: list.name,
+                    pid: list.pid
+                }
+            });
+        }
+
         res.send({
             success: true,
             project: {
                 isOwner: project.createdById === user.id,
                 name: project.name,
-                lists: projLists || []
+                lists: cleanedLists
             }
         });
     } catch(err) {

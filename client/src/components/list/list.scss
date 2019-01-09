@@ -21,10 +21,50 @@
             right: 6px;
             top: 6px;
 
+            .list-options-menu {
+                background-color: #212121;
+                margin: 0;
+                overflow: hidden;
+                position: absolute;
+                right: 0;
+                top: 24px;
+                transition-duration: 500ms;
+                transform: rotateY(90deg);
+                transform-origin: right;
+                width: 132px;
+                white-space: nowrap;
+
+                li {
+                    padding: 8px;
+
+                    &:hover:not(.not-implemented) {
+                        background-color: #707070;
+                    }
+
+                    &.not-implemented {
+                        color: #7c7c7c;
+                    }
+                }
+            }
+
             i {
                 color: #7c7c7c;
-                padding: 2px
+                padding: 2px;
+                transition-duration: 500ms;
             }
+
+            &.visible {
+                i {
+                    transform: rotate(-90deg);
+                }
+
+                .list-options-menu {
+                    // animation: open ease-in-out forwards 500ms;
+                    // width: 132px;
+                    transform: rotateY(0);
+                }
+            }
+
             &:hover {
                 background-color: #6c6c6c;
 

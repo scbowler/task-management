@@ -1,10 +1,13 @@
 const router = require('express').Router({ mergeParams: true });
 const { requireBasicAuth } = require('../setup');
-const { addListToProject, addTaskToProject, collaborators, getListsTasks, getOneProject, getSettings, moveList } = require('../../controllers/projects');
+const { addListToProject, addTaskToProject, collaborators, deleteListFromProject, getListsTasks, getOneProject, getSettings, moveList } = require('../../controllers/projects');
 
 router.get('/', requireBasicAuth, getOneProject);
 
 router.post('/lists', requireBasicAuth, addListToProject);
+
+router.delete('/lists/:list_id', requireBasicAuth, deleteListFromProject);
+
 router.get('/lists/:list_id/tasks', requireBasicAuth, getListsTasks);
 router.post('/lists/:list_id/tasks', requireBasicAuth, addTaskToProject);
 

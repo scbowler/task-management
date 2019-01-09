@@ -43,6 +43,8 @@ class FullTask extends Component {
 
     componentWillUnmount(){
         this.socket.off();
+
+        this.socket.close();
     }
 
     close = () => {
