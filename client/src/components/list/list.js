@@ -53,13 +53,13 @@ class List extends Component {
     }
 
     render(){
-        const { getProjectListTasks, match: { params }, name, pid, socket } = this.props;
+        const { getProjectListTasks, isOwner, match: { params }, name, pid, socket } = this.props;
 
         return (
             <div className={`task-list z-depth-1 ${this.state.addClass}`} draggable id={pid} onDragStart={this.onDrag}>
                 <div className="list-header">
                     <div className="list-name">{name}</div>
-                    <ListOptions/>
+                    <ListOptions isOwner={isOwner} projectId={params.project_id} listId={pid} socket={socket}/>
                 </div>
                 <div className="list-contents">
                     {this.renderTasks()}

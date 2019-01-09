@@ -100,6 +100,14 @@ export const createNewProjectTask = (projectId, listId, taskName) => async dispa
     }
 }
 
+export const deleteList = (projectId, listId) => async dispatch => {
+    try {
+        await axios.delete(`/api/projects/${projectId}/lists/${listId}`, authHeaders());
+    } catch(err){
+        dispatchError(dispatch, types.DELETE_LIST_ERROR, err, 'Error deleting list');
+    }
+}
+
 export const deleteSingleTask = taskId => async dispatch => {
     try {
         await axios.delete(`/api/tasks/${taskId}`, authHeaders());

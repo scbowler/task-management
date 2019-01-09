@@ -11,6 +11,8 @@ export default {
     CREATE_NEW_PROJECT_LIST_ERROR: 'create_new_project_list_error',
     CREATE_NEW_PROJECT_TASK: 'create_new_project_task',
     CREATE_NEW_PROJECT_TASK_ERROR: 'create_new_project_task_error',
+    DELETE_LIST: 'delete_list',
+    DELETE_LIST_ERROR: 'delete_list_error',
     DELETE_SINGLE_TASK: 'delete_single_task',
     DELETE_SINGLE_TASK_ERROR: 'delete_single_task_error',
     FLAG_LIST_TO_UPDATE: 'flag_list_to_update',

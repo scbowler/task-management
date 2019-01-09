@@ -37,8 +37,12 @@
                 li {
                     padding: 8px;
 
-                    &:hover {
+                    &:hover:not(.not-implemented) {
                         background-color: #707070;
+                    }
+
+                    &.not-implemented {
+                        color: #7c7c7c;
                     }
                 }
             }
