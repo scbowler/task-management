@@ -20,12 +20,13 @@
 }
 
 .list-drop-target {
-    height: 170px;
+    height: 210px;
     display: inline-block;
-    width: 8px;
+    width: 14px;
 
     .drop-target-inner {
         height: 100%;
+        margin: 0 4px;
         transition-duration: 200ms;
     }
 
