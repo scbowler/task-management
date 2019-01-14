@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
+import io from '../../socket';
 import CreateList from '../list/create_list';
 import Blank from '../general/blank';
 import List from '../list';
@@ -22,12 +22,7 @@ class FullProject extends Component {
 
         const { getProjectListTasks, match: { params } } = props;
 
-        this.socket = io(`/project-${params.project_id}`, {
-            path: '/ws',
-            query: {
-                token: localStorage.getItem('taskToken')
-            }
-        });
+        this.socket = io(`/project-${params.project_id}`);
 
         this.socket.on('connect', () => {
             // set live flag here
@@ -102,14 +97,14 @@ class FullProject extends Component {
         return (
             <div className="project-view">
                 {
-                    isOwner
-                        ? (
-                            <div className="project-actions">
-                                <Link to={`${url}/settings`}>
-                                    <i className="material-icons">settings</i>
-                                </Link>
-                            </div>
-                        ) : null
+                    // isOwner
+                    //     ? (
+                    //         <div className="project-actions">
+                    //             <Link to={`${url}/settings`}>
+                    //                 <i className="material-icons">settings</i>
+                    //             </Link>
+                    //         </div>
+                    //     ) : null
                 }
                 <div style={{width: containerWidth}} className="project-content">
                     {this.renderLists()}

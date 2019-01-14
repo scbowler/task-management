@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
+import io from '../../socket';
 import Header from '../general/header';
 import Project from '../cards/project';
 import NewProject from '../cards/project/new_project';
@@ -11,12 +11,7 @@ class Projects extends Component {
     constructor(props){
         super(props);
 
-        this.socket = io(`/user-${props.userPid}`, {
-            path: '/ws',
-            query: {
-                token: localStorage.getItem('taskToken')
-            }
-        });
+        this.socket = io(`/user-${props.userPid}`);
 
         this.socket.on('connect', () => {
             // set live flag here
