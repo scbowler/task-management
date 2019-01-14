@@ -6,6 +6,7 @@ import EditHeader from '../general/form/editable/header';
 import EditText from '../general/form/editable/textarea';
 import Header from '../general/header';
 import Messages from './messages';
+import TimeTracking from './time_tracking';
 import './full_task.scss';
 
 class FullTask extends Component {
@@ -166,14 +167,7 @@ class FullTask extends Component {
                                     {new Date(task.updatedAt).toLocaleString()}
                                 </div>
                             </div>
-                            <div className="row">
-                                <h5 className="col s12">Time Tracking</h5>
-                            </div>
-                            <div className="row">
-                                <div className="col s12">
-                                    Time tracking stuff here
-                                        </div>
-                            </div>
+                            <TimeTracking />                            
                             <div className="row">
                                 <h5 className="col s12">Related Tasks</h5>
                             </div>
