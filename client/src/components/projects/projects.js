@@ -13,10 +13,10 @@ class Projects extends Component {
 
         this.socket = io(`/user-${props.userPid}`);
 
-        this.socket.on('connect', () => {
-            // set live flag here
-            console.log('Connected for project updates');
-        });
+        // this.socket.on('connect', () => {
+        //     // set live flag here
+        //     console.log('Connected for project updates');
+        // });
 
         this.socket.on('update-projects', () => {
             props.getAllProjects();

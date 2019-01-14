@@ -24,8 +24,6 @@ class Messages extends Component {
         this.socket.on('update-messages', ({messages}) => {
             this.setState({messages})
         });
-
-        // this.socket.open();
     }
 
     updateStatus(status = ''){

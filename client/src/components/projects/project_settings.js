@@ -10,9 +10,9 @@ class ProjectSettings extends Component {
 
         this.socket = io(`/project-settings`);
 
-        this.socket.on('connect', () => {
-            console.log('Connected for project updates');
-        });
+        // this.socket.on('connect', () => {
+        //     console.log('Connected for project updates');
+        // });
     }
 
     componentDidMount(){
