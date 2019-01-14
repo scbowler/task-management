@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import io from 'socket.io-client';
+import io from '../../socket';
 import Input from '../general/form/input';
 import Message from '../cards/task/message';
 
@@ -15,12 +15,7 @@ class Messages extends Component {
 
         const { taskId } = props;
 
-        this.socket = io(`/msgs-${taskId}`, {
-            path: '/ws',
-            query: {
-                token: localStorage.getItem('taskToken')
-            }
-        });
+        this.socket = io(`/msgs-${taskId}`);
 
         this.socket.on('connect', () => {
             this.updateStatus('connected');
@@ -29,8 +24,6 @@ class Messages extends Component {
         this.socket.on('update-messages', ({messages}) => {
             this.setState({messages})
         });
-
-        this.socket.open();
     }
 
     updateStatus(status = ''){

@@ -9,9 +9,6 @@
     },
     "/auth/*": {
       "target": "http://localhost:9000"
-    },
-    "/ws/*": {
-      "target": "http://localhost:9050"
     }
   },
   "scripts": {

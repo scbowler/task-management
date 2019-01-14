@@ -5,10 +5,25 @@
     width: 100%;
     z-index: 10;
 
+    .project-actions {
+        padding: 0 20px;
+
+        i {
+            border-radius: 50%;
+            color: #aaa;
+            padding: 6px;
+            
+            &:hover {
+                background-color: rgba(255, 255, 255, .2);
+                color: #fff;
+            }
+        }
+    }
+
     .user-greeting {
         color: #aaa;
         margin: 0;
-        padding-right: 12px;
+        padding: 6px 20px;
     }
 }
 

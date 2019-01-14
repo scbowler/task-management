@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
+import io from '../../socket';
 import { clearTask, deleteSingleTask, flagListForUpdate, getTask, updateTask } from '../../actions';
 import EditHeader from '../general/form/editable/header';
 import EditText from '../general/form/editable/textarea';
@@ -14,17 +14,12 @@ class FullTask extends Component {
 
         const { clearTask, getTask, match: { params } } = props;
 
-        this.socket = io(`/task-${params.task_id}`, {
-            path: '/ws',
-            query: {
-                token: localStorage.getItem('taskToken')
-            }
-        });
+        this.socket = io(`/task-${params.task_id}`);
 
-        this.socket.on('connect', () => {
-            // set live flag here
-            console.log('Connected for task updates');
-        });
+        // this.socket.on('connect', () => {
+        //     // set live flag here
+        //     console.log('Connected for task updates');
+        // });
 
         this.socket.on('task-deleted', () => {
             clearTask();

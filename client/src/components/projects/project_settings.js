@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
+import io from '../../socket';
 import { getProjectSettings, projectAddCollaborator, projectRemoveCollaborator } from '../../actions';
 import Header from '../general/header';
 
@@ -8,16 +8,11 @@ class ProjectSettings extends Component {
     constructor(props){
         super(props);
 
-        this.socket = io(`/project-settings`, {
-            path: '/ws',
-            query: {
-                token: localStorage.getItem('taskToken')
-            }
-        });
+        this.socket = io(`/project-settings`);
 
-        this.socket.on('connect', () => {
-            console.log('Connected for project updates');
-        });
+        // this.socket.on('connect', () => {
+        //     console.log('Connected for project updates');
+        // });
     }
 
     componentDidMount(){
