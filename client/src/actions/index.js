@@ -203,6 +203,16 @@ export const getTask = taskId => async dispatch => {
     }
 }
 
+export const getTaskTimeTracking = taskId => async dispatch => {
+    try {
+        const resp = await axios.get(`/api/tasks/${taskId}/time-tracking`, authHeaders());
+
+        console.log('Time Tracking Resp:', resp);
+    } catch(err){
+        dispatchError(dispatch, types.GET_TASK_TIME_TRACKING_ERROR, err, 'Error getting task time tracking');
+    }
+}
+
 export const moveList = (projectId, listId, nextId) => async dispatch => {
     try {
         await axios.patch(`/api/projects/${projectId}/lists/${listId}/move`, { nextId }, authHeaders());
@@ -224,6 +234,16 @@ export const moveTask = (taskId, toListId, nextId) => async dispatch => {
         dispatchError(dispatch, types.MOVE_TASK_ERROR, err, 'Error moving task');
 
         return false;
+    }
+}
+
+export const newTimeTracking = taskId => async dispatch => {
+    try {
+        const resp = await axios.put(`/api/tasks/${taskId}/time-tracking`, {}, authHeaders());
+
+        console.log('New Time Tracking Resp:', resp);
+    } catch (err) {
+        dispatchError(dispatch, types.NEW_TIME_TRACKING_ERROR, err, 'Error getting task time tracking');
     }
 }
 

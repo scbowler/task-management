@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { findByMid } = require('./interfaces');
+const { findByMid, getIdsByMids } = require('./interfaces');
 
 module.exports = db => {
     const TimeTrackingStatuses = db.define('timeTrackingStatuses', {
@@ -23,6 +23,7 @@ module.exports = db => {
         });
 
     TimeTrackingStatuses.findByMid = findByMid;
+    TimeTrackingStatuses.getIdsByMids = getIdsByMids;
 
     return TimeTrackingStatuses;
 }

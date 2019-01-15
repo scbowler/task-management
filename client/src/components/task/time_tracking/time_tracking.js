@@ -1,7 +1,21 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { getTaskTimeTracking, newTimeTracking } from '../../../actions';
 
 class TimeTracking extends Component {
+    componentDidMount(){
+        this.props.getTaskTimeTracking();
+    }
+
+    createNewTimeTracking = () => {
+        const { newTimeTracking, taskId } = this.props;
+
+        newTimeTracking(taskId);
+    }
+
     render(){
+        
+
         return (
             <Fragment>
                 <div className="row">
@@ -13,7 +27,7 @@ class TimeTracking extends Component {
                         <p>No Timer</p>
                     </div>
                     <div className="col s12">
-                        <button className="btn waves-effect waves-light green darken-2">Start New Timer</button>
+                        <button onClick={this.createNewTimeTracking} className="btn waves-effect waves-light green darken-2">Start New Timer</button>
                     </div>
                 </div>
 
@@ -22,4 +36,7 @@ class TimeTracking extends Component {
     }
 }
 
-export default TimeTracking;
+export default connect(null, {
+    getTaskTimeTracking,
+    newTimeTracking
+})(TimeTracking);

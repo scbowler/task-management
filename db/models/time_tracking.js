@@ -5,11 +5,11 @@ module.exports = (db, projects, statuses, tasks, users) => {
     const TimeTracking = db.define('timeTracking', {
         elapsed: {
             allowNull: true,
-            type: Sequelize.INTEGER
+            type: Sequelize.BIGINT(54)
         },
         end: {
             allowNull: true,
-            type: Sequelize.INTEGER
+            type: Sequelize.BIGINT(54)
         },
         id: {
             allowNull: false,
@@ -24,7 +24,7 @@ module.exports = (db, projects, statuses, tasks, users) => {
         },
         start: {
             allowNull: false,
-            type: Sequelize.INTEGER
+            type: Sequelize.BIGINT(54)
         }
     },
         {
@@ -37,6 +37,8 @@ module.exports = (db, projects, statuses, tasks, users) => {
     TimeTracking.belongsTo(users, { as: 'user' });
 
     TimeTracking.findByPid = findByPid;
+
+    // TimeTracking.sync({force: true})
 
     return TimeTracking;
 }
