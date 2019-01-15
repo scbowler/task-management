@@ -1,4 +1,4 @@
-const { tasks, timeTracking, timeTrackingStatuses } = require('../../../db/models');
+const { projectUsers, tasks, timeTracking, timeTrackingStatuses } = require('../../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
 
 module.exports = async (req, res) => {
@@ -14,6 +14,16 @@ module.exports = async (req, res) => {
         });
 
         if(!task) throw new StatusError(422, [], 'Unknown task id' + errorFlag);
+
+        const projectUser = await projectUsers.findOne({
+            attributes: ['id'],
+            where: {
+                projectId: task.project.id,
+                userId: user.id
+            }
+        });
+
+        if(!projectUser) throw new StatusError(401, [], 'Not Authorized');
 
         const { running } = await timeTrackingStatuses.getIdsByMids('running');
 
