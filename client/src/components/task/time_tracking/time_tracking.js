@@ -4,7 +4,7 @@ import { getTaskTimeTracking, newTimeTracking } from '../../../actions';
 
 class TimeTracking extends Component {
     componentDidMount(){
-        this.props.getTaskTimeTracking();
+        this.props.getTaskTimeTracking(this.props.taskId);
     }
 
     createNewTimeTracking = () => {
