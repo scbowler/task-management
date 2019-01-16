@@ -1,5 +1,6 @@
 const { projectUsers, tasks, timeTracking, timeTrackingStatuses } = require('../../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
+const { abvName } = require('../../../helpers/general');
 
 module.exports = async (req, res) => {
     const { params: { task_id }, user } = req;
@@ -29,16 +30,22 @@ module.exports = async (req, res) => {
         if(!projectUser) throw new StatusError(401, [], 'Not Authorized');
 
         let trackings = await timeTracking.findAll({
-            attributes: ['createdAt', 'elapsed', 'pid', 'start', 'userId'],
-            include: {
-                association: 'status',
-                attributes: ['mid']
-            }
+            attributes: ['elapsed', 'pid', 'start', 'userId'],
+            include: [
+                {
+                    association: 'status',
+                    attributes: ['mid']
+                },
+                {
+                    association: 'user',
+                    attributes: ['firstName', 'lastName']
+                }
+            ]
         });
 
         const formattedTrackings = {
-            completed: [],
-            running: []
+            running: [],
+            total: 0
         }
 
         if(trackings){
@@ -47,19 +54,14 @@ module.exports = async (req, res) => {
 
                 if(time.status.mid === 'running'){
                     return formattedTrackings.running.push({
-                        createdAt: time.createdAt,
+                        isOwner,
                         pid: time.pid,
                         start: time.start,
-                        isOwner
+                        user: abvName(time.user)
                     });
                 }
 
-                formattedTrackings.completed.push({
-                    createdAt: time.createdAt,
-                    pid: time.pid,
-                    elapsed: time.elapsed,
-                    isOwner
-                });
+                formattedTrackings.total += time.elapsed
             });
         }
 

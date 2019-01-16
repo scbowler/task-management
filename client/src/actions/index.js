@@ -69,6 +69,16 @@ export const clearProjectErrors = () => ({ type: types.CLEAR_PROJECT_ERRORS });
 
 export const clearTask = () => ({ type: types.CLEAR_TASK });
 
+export const completeTimeTracking = (taskId, trackingId) => async dispatch => {
+    try {
+        const resp = await axios.patch(`/api/tasks/${taskId}/time-tracking/${trackingId}`, {}, authHeaders());
+
+        console.log('Complete Time Tracking:', resp);
+    } catch(err){
+        dispatchError(dispatch, types.COMPLETE_TIME_TRACKING_ERROR, err, 'Error completing task');
+    }
+}
+
 export const createNewProject = newProject => async dispatch => {
     try {
         const { data: { pid } } = await axios.post('/api/projects', newProject, authHeaders());
@@ -205,9 +215,12 @@ export const getTask = taskId => async dispatch => {
 
 export const getTaskTimeTracking = taskId => async dispatch => {
     try {
-        const resp = await axios.get(`/api/tasks/${taskId}/time-tracking`, authHeaders());
+        const { data: { timeTracking } } = await axios.get(`/api/tasks/${taskId}/time-tracking`, authHeaders());
 
-        console.log('Time Tracking Resp:', resp);
+        dispatch({
+            type: types.GET_TASK_TIME_TRACKING,
+            ...timeTracking
+        });
     } catch(err){
         dispatchError(dispatch, types.GET_TASK_TIME_TRACKING_ERROR, err, 'Error getting task time tracking');
     }

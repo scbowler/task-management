@@ -5,6 +5,8 @@ export default {
     CLEAR_PROJECT: 'clear_project',
     CLEAR_PROJECT_ERRORS: 'clear_project_errors',
     CLEAR_TASK: 'clear_task',
+    COMPLETE_TIME_TRACKING: 'complete_time_tracking',
+    COMPLETE_TIME_TRACKING_ERROR: 'complete_time_tracking_error',
     CREATE_NEW_PROJECT: 'create_new_project',
     CREATE_NEW_PROJECT_ERROR: 'create_new_project_error',
     CREATE_NEW_PROJECT_LIST: 'create_new_project_list',

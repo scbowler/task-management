@@ -7,5 +7,5 @@ export function formatTime(ms){
     const minutes = Math.floor((secs - (oneHour * hours)) / oneMinute);
     const seconds = Math.floor(secs % oneMinute);
 
-    return `${hours ? `${hours}:` : ''}${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+    return `${hours ? `${hours}` : '0'}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 }
