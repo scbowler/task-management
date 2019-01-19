@@ -40,7 +40,10 @@ module.exports = async (req, res) => {
                     association: 'user',
                     attributes: ['firstName', 'lastName']
                 }
-            ]
+            ],
+            where: {
+                taskId: task.id
+            }
         });
 
         const formattedTrackings = {

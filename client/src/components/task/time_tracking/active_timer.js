@@ -21,11 +21,12 @@ class ActiveTimer extends Component {
         return new Date().getTime() - this.props.start;
     }
 
-    handleStop = () => {
-        console.log('Stop Timer');
-        const { completeTimeTracking, taskId, trackingId } = this.props;
+    handleStop = async () => {
+        const { stop, trackingId } = this.props;
 
-        completeTimeTracking(taskId, trackingId);
+        clearInterval(this.interval);
+
+        stop(trackingId);
     }
 
     update = () => {
@@ -38,12 +39,12 @@ class ActiveTimer extends Component {
         const { isOwner, user } = this.props;
 
         return (
-            <div>
-                <p className="right-align">{user}</p>
-                <p className="center">{formatTime(this.state.elapsed)}</p>
-                <p className="center">
+            <div className="active-timer z-depth-2">
+                <div className="right-align">{user}</div>
+                <div className="time">{formatTime(this.state.elapsed)}</div>
+                <div className="center">
                     {isOwner && <Button color="btn-small red darken-2" onClick={this.handleStop}>STOP</Button>}
-                </p>
+                </div>
             </div>
         );
     }

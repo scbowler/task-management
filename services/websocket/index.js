@@ -22,6 +22,10 @@ module.exports = app => {
         socket.on('task-deleted', taskId => {
             io.of(`/task-${taskId}`).emit('task-deleted');
         });
+
+        socket.on('time-tracking-update', taskId => {
+            io.of(`/task-${taskId}`).emit('time-tracking-update');
+        });
     });
 
     io.of(projectRegex).on('connect', socket => {

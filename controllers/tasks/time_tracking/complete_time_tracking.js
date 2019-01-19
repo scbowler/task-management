@@ -25,8 +25,6 @@ module.exports = async (req, res) => {
             }
         });
 
-        console.log('TIMER:', timer);
-
         const now = new Date().getTime();
 
         timer.end = now;
@@ -36,11 +34,8 @@ module.exports = async (req, res) => {
         await timer.save();
 
         res.send({
-            success: true,
-            task_id,
-            tracking_id
+            success: true
         });
-
     } catch(err){
         console.log('COMPLETE ERROR', err); 
         sendError(res, err, 'Error stopping timer');

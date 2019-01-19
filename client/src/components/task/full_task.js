@@ -167,7 +167,7 @@ class FullTask extends Component {
                                     {new Date(task.updatedAt).toLocaleString()}
                                 </div>
                             </div>
-                            <TimeTracking taskId={params.task_id}/>                            
+                            <TimeTracking taskId={params.task_id} socket={this.socket}/>
                             <div className="row">
                                 <h5 className="col s12">Related Tasks</h5>
                             </div>

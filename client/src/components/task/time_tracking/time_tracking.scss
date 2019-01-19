@@ -1,0 +1,34 @@
+@import '../../../assets/css/color';
+
+.time-tracking {
+    .active-timer {
+        background-color: $card-bg;
+        margin: 15px;
+        padding: 15px;
+
+        .time {
+            font-size: 2em;
+            margin: .5em 0;
+            text-align: center;
+        }
+    }
+
+    .time-tracking-display {
+        .time-action {
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .total-tracked {
+            .total-time {
+                background-color: $card-bg;
+                font-size: 3em;
+                margin: 0 15px;
+                padding: 10px;
+                text-align: center;
+            }
+        }
+    }
+
+    
+}
