@@ -27,7 +27,7 @@ class TimeTracking extends Component {
                 currentAccruing += new Date().getTime() - timer.start;
             });
 
-            setTimeout(this.updateAccruing, 1000 / running.length);
+            this.timeout = setTimeout(this.updateAccruing, 1000 / running.length);
         }
 
         this.setState({ currentAccruing, hasActive });
@@ -39,6 +39,10 @@ class TimeTracking extends Component {
         this.props.socket.on('time-tracking-update', () => {
             this.getTracking();
         });
+    }
+
+    componentWillUnmount(){
+        clearTimeout(this.timeout);
     }
 
     async getTracking(){
@@ -95,7 +99,7 @@ class TimeTracking extends Component {
                 <div className="row time-tracking-display">
                     <div className="col s12 total-tracked">
                         <h6>Total Tracked Time</h6>
-                        <div className="total-time">{formatTime(total + currentAccruing)}</div>
+                        <div className="total-time z-depth-2">{formatTime(total + currentAccruing)}</div>
                     </div>
                     <div className="col s12 time-action">
                         { !hasActive && <Button onClick={this.createNewTimeTracking} color="btn-small green darken-2">Start New Timer</Button> }

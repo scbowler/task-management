@@ -252,11 +252,13 @@ export const moveTask = (taskId, toListId, nextId) => async dispatch => {
 
 export const newTimeTracking = taskId => async dispatch => {
     try {
-        const resp = await axios.put(`/api/tasks/${taskId}/time-tracking`, {}, authHeaders());
+        await axios.put(`/api/tasks/${taskId}/time-tracking`, {}, authHeaders());
 
-        console.log('New Time Tracking Resp:', resp);
+        return true;
     } catch (err) {
-        dispatchError(dispatch, types.NEW_TIME_TRACKING_ERROR, err, 'Error getting task time tracking');
+        dispatchError(dispatch, types.NEW_TIME_TRACKING_ERROR, err, 'Error creating new timer');
+
+        return false;
     }
 }
 
