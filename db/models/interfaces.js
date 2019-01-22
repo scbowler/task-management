@@ -35,5 +35,31 @@ module.exports = {
 
             return output;
         } catch(err){ return false }
+    },
+    sumEach: async function(field, identifier, options = {}){
+        try {
+            if (!field || typeof field !== 'string') throw new Error('Invalid field value given');
+            if (!identifier || typeof identifier !== 'string') throw new Error('Invalid identifier value given');
+
+            const results = await this.findAll({
+                ...options,
+                attributes: [field, identifier]
+            });
+
+            const output = {};
+
+            results.map(item => {
+                const id = item[identifier];
+                if(output[id]){
+                    return output[id] += item[field];
+                }
+
+                return output[id] = item[field];
+            });
+
+            return output;
+        } catch(err){
+            return false;
+        }
     }
 }

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { findByPid } = require('./interfaces');
+const { findByPid, sumEach } = require('./interfaces');
 
 module.exports = (db, projects, statuses, tasks, users) => {
     const TimeTracking = db.define('timeTracking', {
@@ -37,6 +37,7 @@ module.exports = (db, projects, statuses, tasks, users) => {
     TimeTracking.belongsTo(users, { as: 'user' });
 
     TimeTracking.findByPid = findByPid;
+    TimeTracking.sumEach = sumEach;
 
     // TimeTracking.sync({force: true})
 
