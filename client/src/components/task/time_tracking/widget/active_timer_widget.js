@@ -37,14 +37,13 @@ class ActiveTimerWidget extends Component {
 
     render(){
         const { widget } = this.props;
-        console.log('Widget Data:', widget);
         
         if(!widget) return null;
 
         return (
             <div className="active-timer-widget">
                 {widget.task}
-                <span> {widget.start}</span>
+                <span> {formatTime()}</span>
             </div>
         );
     }
