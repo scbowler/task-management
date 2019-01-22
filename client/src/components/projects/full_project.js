@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import io from '../../socket';
+import ActiveTimerWidget from '../task/time_tracking/widget';
 import CreateList from '../list/create_list';
 import Blank from '../general/blank';
 import List from '../list';
@@ -115,6 +116,7 @@ class FullProject extends Component {
                         props: {projectSocket: this.socket}
                     })
                 }/>
+                <ActiveTimerWidget/>
             </div>
         );
     }

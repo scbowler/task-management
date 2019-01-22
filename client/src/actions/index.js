@@ -226,6 +226,22 @@ export const getTaskTimeTracking = taskId => async dispatch => {
     }
 }
 
+export const getUserRunningTimeTracking = () => async dispatch => {
+    try {
+        const { data: { timer } } = await axios.get('/api/tasks/time-tracking', authHeaders());
+
+        dispatch({
+            type: types.GET_USER_RUNNING_TRACKING,
+            timer
+        });
+
+        return !!timer;
+    } catch(err){
+        dispatchError(dispatch, types.GET_USER_RUNNING_TRACKING_ERROR, err, 'Error getting user running time tracking');
+        return false
+    }
+}
+
 export const moveList = (projectId, listId, nextId) => async dispatch => {
     try {
         await axios.patch(`/api/projects/${projectId}/lists/${listId}/move`, { nextId }, authHeaders());

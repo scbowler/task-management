@@ -1,6 +1,6 @@
 const router = require('express').Router({mergeParams: true});
 const { requireBasicAuth } = require('../setup');
-const { completeTimeTracking, getAll, newTimeTracking } = require('../../controllers/tasks').timeTracking;
+const { completeTimeTracking, getAll, getRunning, newTimeTracking } = require('../../controllers/tasks').timeTracking;
 
 router.get('/', requireBasicAuth, getAll);
 

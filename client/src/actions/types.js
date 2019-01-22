@@ -30,6 +30,8 @@ export default {
     GET_SINGLE_TASK_ERROR: 'get_single_task_error',
     GET_TASK_TIME_TRACKING: 'get_task_time_tracking',
     GET_TASK_TIME_TRACKING_ERROR: 'get_task_time_tracking_error',
+    GET_USER_RUNNING_TRACKING: 'get_user_running_tracking',
+    GET_USER_RUNNING_TRACKING_ERROR: 'get_user_running_tracking_error',
     MOVE_LIST: 'move_list',
     MOVE_LIST_ERROR: 'move_list_error',
     MOVE_TASK: 'move_task',

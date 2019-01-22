@@ -1,14 +1,10 @@
-const { projectUsers, tasks, timeTracking, timeTrackingStatuses } = require('../../../db/models');
+const { projectUsers, tasks, timeTracking } = require('../../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
 const { abvName } = require('../../../helpers/general');
 
 module.exports = async (req, res) => {
     const { params: { task_id }, user } = req;
     try {
-        // const { running } = await timeTrackingStatuses.getIdsByMids('running');
-
-        // if(!running) throw new StatusError(500, [], 'Unknown time tracking status');
-
         const task = await tasks.findByPid(task_id, {
             attributes: ['id'],
             include: {
@@ -73,7 +69,6 @@ module.exports = async (req, res) => {
             timeTracking: formattedTrackings
         });
     } catch(err){
-        console.log('Get Tracking Error:', err);
         sendError(res, err, 'Error getting tasks time tracking');
     }
 }
