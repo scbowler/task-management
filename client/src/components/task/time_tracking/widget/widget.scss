@@ -1,6 +1,40 @@
 .active-timer-widget {
+    background-color: #ff9900;
+    bottom: 12px;
+    min-width: 80px;
+    padding: 4px;
     position: fixed;
-    background-color: hotpink;
-    bottom: 10px;
-    right: 10px;
+    right: 20px;
+    z-index: 998;
+
+    &.notice {
+        animation: fade infinite 2000ms ease-in-out;
+    }
+
+    &:hover {
+        background-color: #ffb340;
+        cursor: pointer;
+    }
+
+    .task-name {
+        padding: 0 4px;
+    }
+
+    .task-time {
+        font-weight: 800;
+    }
+}
+
+@keyframes fade {
+    0% {
+        background-color: #ff9900;
+    }
+
+    50% {
+        background-color: #ffcc66;
+    }
+
+    100% {
+        background-color: #ff9900;
+    }
 }

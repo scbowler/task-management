@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { formatTime } from '../../../helpers';
-import { completeTimeTracking, getTaskTimeTracking, newTimeTracking } from '../../../actions';
+import { clearWidget, completeTimeTracking, getTaskTimeTracking, newTimeTracking } from '../../../actions';
 import ActiveTimer from './active_timer';
 import Button from '../../general/button';
 import './time_tracking.scss';
@@ -52,7 +52,9 @@ class TimeTracking extends Component {
     }
 
     createNewTimeTracking = async () => {
-        const { newTimeTracking, socket, taskId } = this.props;
+        const { clearWidget, newTimeTracking, socket, taskId } = this.props;
+
+        clearWidget();
 
         await newTimeTracking(taskId);
 
@@ -62,7 +64,9 @@ class TimeTracking extends Component {
     }
 
     stopActiveTimer = async trackingId => {
-        const { completeTimeTracking, socket, taskId } = this.props;
+        const { clearWidget, completeTimeTracking, socket, taskId } = this.props;
+
+        clearWidget();
 
         await completeTimeTracking(taskId, trackingId);
 
@@ -125,6 +129,7 @@ const mapStateToProps = ({timeTracking: { completed, running, total }}) => {
 }
 
 export default connect(mapStateToProps, {
+    clearWidget,
     completeTimeTracking,
     getTaskTimeTracking,
     newTimeTracking

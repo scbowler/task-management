@@ -69,6 +69,8 @@ export const clearProjectErrors = () => ({ type: types.CLEAR_PROJECT_ERRORS });
 
 export const clearTask = () => ({ type: types.CLEAR_TASK });
 
+export const clearWidget = () => ({ type: types.CLEAR_WIDGET });
+
 export const completeTimeTracking = (taskId, trackingId) => async dispatch => {
     try {
         const resp = await axios.patch(`/api/tasks/${taskId}/time-tracking/${trackingId}`, {}, authHeaders());

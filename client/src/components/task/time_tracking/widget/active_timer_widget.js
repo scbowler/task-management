@@ -12,7 +12,7 @@ class ActiveTimerWidget extends Component {
     async componentDidMount(){
         const hasTimer = await this.props.getUserRunningTimeTracking();
 
-        if(hasTimer) this.updateElapsed()
+        if(hasTimer) this.updateElapsed();
     }
 
     componentWillUnmount(){
@@ -20,14 +20,14 @@ class ActiveTimerWidget extends Component {
     }
 
     updateElapsed = () => {
-        const { start } = this.props.widget;
-
-        console.log('Update Called');
+        const { widget } = this.props;
 
         clearTimeout(this.timeout);
 
-        if(start){
-            const elapsed = new Date().getTime() - start;
+        if(!widget) return;
+
+        if(widget.start){
+            const elapsed = new Date().getTime() - widget.start;
 
             this.setState({elapsed});
 
@@ -35,15 +35,33 @@ class ActiveTimerWidget extends Component {
         }
     }
 
+    isCurrentTask(){
+        const { widget } = this.props;
+        
+        if(!widget) return false;
+
+        const [, taskId = null] = location.pathname.match(/task\/([a-f0-9\-]{36})/) || [];
+
+        return taskId && taskId === widget.taskId;
+    }
+
+    goToTask = () => {
+        const { history, widget } = this.props;
+        
+        history.push(widget.link);
+    }
+
     render(){
         const { widget } = this.props;
         
         if(!widget) return null;
 
+        const isCurrent = this.isCurrentTask();
+
         return (
-            <div className="active-timer-widget">
-                {widget.task}
-                <span> {formatTime()}</span>
+            <div onClick={this.goToTask} className={`center active-timer-widget z-depth-3 ${isCurrent === false ? 'notice' : ''}`}>
+                <div className="task-name">{widget.task}</div>
+                <div className="task-time">{formatTime(this.state.elapsed)}</div>
             </div>
         );
     }

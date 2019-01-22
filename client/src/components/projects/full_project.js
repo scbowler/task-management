@@ -93,7 +93,7 @@ class FullProject extends Component {
 
     render(){
         const { containerWidth } = this.state
-        const { match: { path, params } } = this.props;
+        const { history, match: { path, params } } = this.props;
 
         return (
             <div className="project-view">
@@ -116,7 +116,7 @@ class FullProject extends Component {
                         props: {projectSocket: this.socket}
                     })
                 }/>
-                <ActiveTimerWidget/>
+                <ActiveTimerWidget history={history}/>
             </div>
         );
     }

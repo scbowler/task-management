@@ -34,7 +34,8 @@ module.exports = async (req, res) => {
             timer = {
                 link: `/projects/${project.pid}/task/${task.pid}`,
                 start,
-                task: task.name
+                task: task.name,
+                taskId: task.pid
             };
         }
 
