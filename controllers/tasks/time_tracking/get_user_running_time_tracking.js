@@ -33,6 +33,7 @@ module.exports = async (req, res) => {
 
             timer = {
                 link: `/projects/${project.pid}/task/${task.pid}`,
+                projectsId: project.pid,
                 start,
                 task: task.name,
                 taskId: task.pid

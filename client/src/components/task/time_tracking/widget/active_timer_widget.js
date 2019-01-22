@@ -35,14 +35,16 @@ class ActiveTimerWidget extends Component {
         }
     }
 
-    isCurrentTask(){
+    isCurrent(idOf = 'task'){
         const { widget } = this.props;
         
         if(!widget) return false;
 
-        const [, taskId = null] = location.pathname.match(/task\/([a-f0-9\-]{36})/) || [];
+        const regex = new RegExp(`${idOf}\/([a-f0-9\-]{36})`);
 
-        return taskId && taskId === widget.taskId;
+        const [ , id = null] = location.pathname.match(regex) || [];
+
+        return id && id === widget[idOf + 'Id'];
     }
 
     goToTask = () => {
@@ -56,10 +58,12 @@ class ActiveTimerWidget extends Component {
         
         if(!widget) return null;
 
-        const isCurrent = this.isCurrentTask();
+        const isCurrentProject = this.isCurrent('projects');
+        const isCurrentTask = this.isCurrent('task');
 
         return (
-            <div onClick={this.goToTask} className={`center active-timer-widget z-depth-3 ${isCurrent === false ? 'notice' : ''}`}>
+            <div onClick={this.goToTask} className={`center active-timer-widget z-depth-3 ${isCurrentProject === false ? 'not-project' : ''} ${isCurrentTask === false ? 'notice' : ''}`}>
+                <div><small>{!isCurrentProject && 'NOT THIS PROJECT'}</small></div>
                 <div className="task-name">{widget.task}</div>
                 <div className="task-time">{formatTime(this.state.elapsed)}</div>
             </div>
