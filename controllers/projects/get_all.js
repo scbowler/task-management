@@ -5,13 +5,13 @@ const { sendError } = require('../../helpers/error_handling');
 module.exports = async (req, res) => {
     const { user } = req;
     try {
-        const foundProjects = await projectUsers.findAll({
+        const foundProjectUsers = await projectUsers.findAll({
             where: {
                 userId: user.id
             },
             include: {
                 association: 'project',
-                attributes: ['description', 'name', 'pid'],
+                attributes: ['description', 'id', 'name', 'pid'],
                 include: {
                     association: 'createdBy',
                     attributes: ['firstName', 'id', 'lastName']
@@ -21,8 +21,8 @@ module.exports = async (req, res) => {
 
         let formattedData = [];
 
-        if(foundProjects){
-            const projectIds = foundProjects.map(project => ({projectId: project.id}));
+        if(foundProjectUsers){
+            const projectIds = foundProjectUsers.map(user => ({projectId: user.project.id}));
 
             const times = await timeTracking.sumEach('elapsed', 'projectId', {
                 where: {
@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
                 }
             });
 
-            formattedData = foundProjects.map( proj => {
+            formattedData = foundProjectUsers.map( proj => {
                 const project = proj.project.dataValues;
                 const createdBy = project.createdBy.dataValues;
                 const userName = `${createdBy.firstName} ${createdBy.lastName[0]}.`;
@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
                 return {
                     ...project,
                     isOwner: createdBy.id === user.id,
-                    time: times[proj.id] || 0,
+                    time: times[proj.project.id] || 0,
                     user: userName
                 }
             });

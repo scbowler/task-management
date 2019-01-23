@@ -50,9 +50,8 @@ module.exports = async (req, res) => {
 
         const formattedAvailable = available.map(available => {
             return {
-                name: abvName(available.user),
-                id: available.user.pid,
-                initials: userInitials(available.user)
+                text: `${abvName(available.user)} | ${userInitials(available.user)}`,
+                value: available.user.pid
             }
         });
 
