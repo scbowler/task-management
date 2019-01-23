@@ -217,9 +217,9 @@ export const getTask = taskId => async dispatch => {
     }
 }
 
-export const getTaskAvailableCollaborators = taskId = async dispatch => {
+export const getTaskAvailableCollaborators = taskId => async dispatch => {
     try {
-        const resp = await axios.get(`/api/tasks/${taskId}/collaborators/available`);
+        const resp = await axios.get(`/api/tasks/${taskId}/collaborators/available`, authHeaders());
 
         console.log('Resp:', resp);
     } catch(err){
