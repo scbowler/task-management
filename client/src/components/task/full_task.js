@@ -83,7 +83,7 @@ class FullTask extends Component {
     }
 
     renderTask(){
-        const { isProjectOwner, task = {}, match: { params } } = this.props;
+        const { isProjectOwner, task = {}, match: { params }, projectSocket } = this.props;
 
         if(task === null){
             return (
@@ -167,7 +167,7 @@ class FullTask extends Component {
                                     {new Date(task.updatedAt).toLocaleString()}
                                 </div>
                             </div>
-                            <TimeTracking taskId={params.task_id} socket={this.socket}/>
+                            <TimeTracking listId={task.listId} taskId={params.task_id} projectId={params.project_id} projectSocket={projectSocket} socket={this.socket}/>
                             <div className="row">
                                 <h5 className="col s12">Related Tasks</h5>
                             </div>

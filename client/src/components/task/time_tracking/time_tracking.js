@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { formatTime } from '../../../helpers';
 import { clearWidget, completeTimeTracking, getTaskTimeTracking, newTimeTracking } from '../../../actions';
@@ -64,13 +64,15 @@ class TimeTracking extends Component {
     }
 
     stopActiveTimer = async trackingId => {
-        const { clearWidget, completeTimeTracking, socket, taskId } = this.props;
+        const { clearWidget, completeTimeTracking, listId, projectId, projectSocket, socket, taskId } = this.props;
 
         clearWidget();
 
         await completeTimeTracking(taskId, trackingId);
 
         socket.emit('time-tracking-update', taskId);
+
+        projectSocket.emit('update-lists', { lists: [listId], projectId });
 
         this.getTracking();
     }

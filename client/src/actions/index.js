@@ -73,11 +73,13 @@ export const clearWidget = () => ({ type: types.CLEAR_WIDGET });
 
 export const completeTimeTracking = (taskId, trackingId) => async dispatch => {
     try {
-        const resp = await axios.patch(`/api/tasks/${taskId}/time-tracking/${trackingId}`, {}, authHeaders());
+        await axios.patch(`/api/tasks/${taskId}/time-tracking/${trackingId}`, {}, authHeaders());
 
-        console.log('Complete Time Tracking:', resp);
+        return true;
     } catch(err){
         dispatchError(dispatch, types.COMPLETE_TIME_TRACKING_ERROR, err, 'Error completing task');
+
+        return false;
     }
 }
 

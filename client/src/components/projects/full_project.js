@@ -35,6 +35,7 @@ class FullProject extends Component {
         });
 
         this.socket.on('update-project', () => {
+            console.log('Update the Project');
             this.updateProject();
         });
     }
