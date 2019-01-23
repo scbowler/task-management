@@ -6,6 +6,8 @@ const { getRunning } = require('../../controllers/tasks').timeTracking;
 router.get('/time-tracking', requireBasicAuth, getRunning);
 router.use('/:task_id/time-tracking', require('./time_tracking'));
 
+router.use('/:task_id/collaborators', require('./task_collaborators'));
+
 router.get('/:task_id', requireBasicAuth, getSingleTask);
 router.delete('/:task_id', requireBasicAuth, deleteTask);
 

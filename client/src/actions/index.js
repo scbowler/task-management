@@ -217,6 +217,16 @@ export const getTask = taskId => async dispatch => {
     }
 }
 
+export const getTaskAvailableCollaborators = taskId = async dispatch => {
+    try {
+        const resp = await axios.get(`/api/tasks/${taskId}/collaborators/available`);
+
+        console.log('Resp:', resp);
+    } catch(err){
+        dispatchError(dispatch, types.GET_TASK_AVAILABLE_COLLABORATORS_ERROR, err, 'Error getting available collaborators');
+    }
+}
+
 export const getTaskTimeTracking = taskId => async dispatch => {
     try {
         const { data: { timeTracking } } = await axios.get(`/api/tasks/${taskId}/time-tracking`, authHeaders());
