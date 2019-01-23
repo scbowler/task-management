@@ -1,0 +1,81 @@
+const { projectUsers, tasks, timeTracking, timeTrackingStatuses } = require('../../../db/models');
+const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
+const { io } = require('../../../services/websocket');
+
+module.exports = async (req, res) => {
+    const { params: { task_id }, user } = req;
+
+    try {
+        const task = await tasks.findByPid(task_id, {
+            attributes: ['id'],
+            include: {
+                association: 'project',
+                attributes: ['id']
+            }
+        });
+
+        if(!task) throw new StatusError(422, [], 'Unknown task id' + errorFlag);
+
+        const projectUser = await projectUsers.findOne({
+            attributes: ['id'],
+            where: {
+                projectId: task.project.id,
+                userId: user.id
+            }
+        });
+
+        if(!projectUser) throw new StatusError(401, [], 'Not Authorized');
+
+        const { running, stopped } = await timeTrackingStatuses.getIdsByMids('running', 'stopped');
+
+        if(!running) throw new StatusError(500, [], 'Unknown time tracking status');
+
+        let time = await timeTracking.findOne({
+            where: {
+                userId: user.id,
+                statusId: running
+            },
+            include: {
+                association: 'task',
+                attributes: ['pid']
+            }
+        });
+
+        if(time){
+            if(time.taskId !== task_id){
+                const now = new Date().getTime();
+
+                time.end = now;
+                time.elapsed = new Date().getTime() - time.start;
+                time.statusId = stopped;
+
+                await time.save();
+
+                io.of(`/task-${time.task.pid}`).emit('time-tracking-update');
+
+                await newTimeTracking(user, task, running);
+            }
+        } else {
+            await newTimeTracking(user, task, running);
+        }
+
+        res.send({
+            success: true,
+        });
+    } catch(err){
+        console.log(err);
+        sendError(res, err, 'Error starting new time tracking');
+    }
+}
+
+function newTimeTracking(user, task, statusId){
+    const newTimeTracking = timeTracking.build({
+        start: new Date().getTime(),
+        projectId: task.project.id,
+        statusId,
+        taskId: task.id,
+        userId: user.id
+    });
+
+    return newTimeTracking.save();
+}

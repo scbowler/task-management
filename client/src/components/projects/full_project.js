@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import io from '../../socket';
+import ActiveTimerWidget from '../task/time_tracking/widget';
 import CreateList from '../list/create_list';
 import Blank from '../general/blank';
 import List from '../list';
@@ -34,6 +35,7 @@ class FullProject extends Component {
         });
 
         this.socket.on('update-project', () => {
+            console.log('Update the Project');
             this.updateProject();
         });
     }
@@ -92,7 +94,7 @@ class FullProject extends Component {
 
     render(){
         const { containerWidth } = this.state
-        const { match: { path, params } } = this.props;
+        const { history, match: { path, params } } = this.props;
 
         return (
             <div className="project-view">
@@ -115,6 +117,7 @@ class FullProject extends Component {
                         props: {projectSocket: this.socket}
                     })
                 }/>
+                <ActiveTimerWidget history={history}/>
             </div>
         );
     }

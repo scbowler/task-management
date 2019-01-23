@@ -6,7 +6,9 @@ const projectRegex = new RegExp(`^\/project-${idRegexBase}$`, 'i');
 const taskRegex = new RegExp(`^\/task-${idRegexBase}$`, 'i');
 const userRegex = new RegExp(`^\/user-${idRegexBase}$`, 'i');
 
-module.exports = app => {
+exports.io = io;
+
+exports.listeners = app => {
 
     io.of('/project-settings').on('connect', socket => {
         socket.on('collaborator-update', message => {
@@ -21,6 +23,10 @@ module.exports = app => {
 
         socket.on('task-deleted', taskId => {
             io.of(`/task-${taskId}`).emit('task-deleted');
+        });
+
+        socket.on('time-tracking-update', taskId => {
+            io.of(`/task-${taskId}`).emit('time-tracking-update');
         });
     });
 

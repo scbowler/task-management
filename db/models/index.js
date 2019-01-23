@@ -14,6 +14,10 @@ const tasks = require('./tasks')(db, users, projects, lists);
 
 const taskMessages = require('./task_messages')(db, users, tasks);
 
+const timeTrackingStatuses = require('./time_tracking_statuses')(db);
+
+const timeTracking = require('./time_tracking')(db, projects, timeTrackingStatuses, tasks, users);
+
 module.exports = {
     lists,
     projects,
@@ -21,5 +25,7 @@ module.exports = {
     projectUsers,
     taskMessages,
     tasks,
+    timeTracking,
+    timeTrackingStatuses,
     users
 }

@@ -1,0 +1,70 @@
+.active-timer-widget {
+    background-color: #ff9900;
+    bottom: 12px;
+    min-width: 80px;
+    padding: 4px;
+    position: fixed;
+    right: 20px;
+    z-index: 998;
+
+    &.not-project {
+        background-color: #ff0000;
+
+        small {
+            padding: 0 4px;
+        }
+
+        &.notice {
+            animation: fade-danger infinite 2000ms ease-in-out;
+        }
+
+        &:hover {
+            background-color: #ff8080;
+        }
+    }
+
+    &.notice {
+        animation: fade infinite 2000ms ease-in-out;
+    }
+
+    &:hover {
+        background-color: #ffb340;
+        cursor: pointer;
+    }
+
+    .task-name {
+        padding: 0 4px;
+    }
+
+    .task-time {
+        font-weight: 800;
+    }
+}
+
+@keyframes fade {
+    0% {
+        background-color: #ff9900;
+    }
+
+    50% {
+        background-color: #ffcc66;
+    }
+
+    100% {
+        background-color: #ff9900;
+    }
+}
+
+@keyframes fade-danger {
+    0% {
+        background-color: #ff0000;
+    }
+
+    50% {
+        background-color: #ff8080;
+    }
+
+    100% {
+        background-color: #ff0000;
+    }
+}

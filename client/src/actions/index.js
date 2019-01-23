@@ -69,6 +69,20 @@ export const clearProjectErrors = () => ({ type: types.CLEAR_PROJECT_ERRORS });
 
 export const clearTask = () => ({ type: types.CLEAR_TASK });
 
+export const clearWidget = () => ({ type: types.CLEAR_WIDGET });
+
+export const completeTimeTracking = (taskId, trackingId) => async dispatch => {
+    try {
+        await axios.patch(`/api/tasks/${taskId}/time-tracking/${trackingId}`, {}, authHeaders());
+
+        return true;
+    } catch(err){
+        dispatchError(dispatch, types.COMPLETE_TIME_TRACKING_ERROR, err, 'Error completing task');
+
+        return false;
+    }
+}
+
 export const createNewProject = newProject => async dispatch => {
     try {
         const { data: { pid } } = await axios.post('/api/projects', newProject, authHeaders());
@@ -203,6 +217,35 @@ export const getTask = taskId => async dispatch => {
     }
 }
 
+export const getTaskTimeTracking = taskId => async dispatch => {
+    try {
+        const { data: { timeTracking } } = await axios.get(`/api/tasks/${taskId}/time-tracking`, authHeaders());
+
+        dispatch({
+            type: types.GET_TASK_TIME_TRACKING,
+            ...timeTracking
+        });
+    } catch(err){
+        dispatchError(dispatch, types.GET_TASK_TIME_TRACKING_ERROR, err, 'Error getting task time tracking');
+    }
+}
+
+export const getUserRunningTimeTracking = () => async dispatch => {
+    try {
+        const { data: { timer } } = await axios.get('/api/tasks/time-tracking', authHeaders());
+
+        dispatch({
+            type: types.GET_USER_RUNNING_TRACKING,
+            timer
+        });
+
+        return !!timer;
+    } catch(err){
+        dispatchError(dispatch, types.GET_USER_RUNNING_TRACKING_ERROR, err, 'Error getting user running time tracking');
+        return false
+    }
+}
+
 export const moveList = (projectId, listId, nextId) => async dispatch => {
     try {
         await axios.patch(`/api/projects/${projectId}/lists/${listId}/move`, { nextId }, authHeaders());
@@ -222,6 +265,18 @@ export const moveTask = (taskId, toListId, nextId) => async dispatch => {
         return startingListId;
     } catch(err){
         dispatchError(dispatch, types.MOVE_TASK_ERROR, err, 'Error moving task');
+
+        return false;
+    }
+}
+
+export const newTimeTracking = taskId => async dispatch => {
+    try {
+        await axios.put(`/api/tasks/${taskId}/time-tracking`, {}, authHeaders());
+
+        return true;
+    } catch (err) {
+        dispatchError(dispatch, types.NEW_TIME_TRACKING_ERROR, err, 'Error creating new timer');
 
         return false;
     }
