@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { formatTime } from '../../../helpers';
 import './project.scss';
 
 class ProjectCard extends Component {
@@ -15,7 +16,7 @@ class ProjectCard extends Component {
     }
 
     render(){
-        const { description, isOwner, name, user } = this.props;
+        const { description, isOwner, name, time, user } = this.props;
 
         return (
             <div className="project-card" onClick={this.goToProject}>
@@ -26,6 +27,9 @@ class ProjectCard extends Component {
                         ? <div className="card-footer" onClick={this.deleteProject}><i className="material-icons">delete</i></div>
                         : null
                 }
+                <div className="time">
+                    <small><i className="material-icons">timelapse</i> {formatTime(time)}</small>
+                </div>
                 <div className="created-by"><small><span>Created By:</span> {user}</small></div>
             </div>
         );
