@@ -219,11 +219,29 @@ export const getTask = taskId => async dispatch => {
 
 export const getTaskAvailableCollaborators = taskId => async dispatch => {
     try {
-        const resp = await axios.get(`/api/tasks/${taskId}/collaborators/available`, authHeaders());
+        const { data: { availableCollaborators } } = await axios.get(`/api/tasks/${taskId}/collaborators/available`, authHeaders());
 
-        console.log('Resp:', resp);
+        dispatch({
+            type: types.GET_TASK_AVAILABLE_COLLABORATORS,
+            availableCollaborators
+        });
     } catch(err){
         dispatchError(dispatch, types.GET_TASK_AVAILABLE_COLLABORATORS_ERROR, err, 'Error getting available collaborators');
+    }
+}
+
+export const getTaskCollaborators = taskId => async dispatch => {
+    try {
+        const { data: { collaborators } } = await axios.get(`/api/tasks/${taskId}/collaborators`, authHeaders());
+
+        console.log('Task Collaborators:', collaborators);
+
+        dispatch({
+            type: types.GET_TASK_COLLABORATORS,
+            collaborators
+        });
+    } catch (err) {
+        dispatchError(dispatch, types.GET_TASK_COLLABORATORS_ERROR, err, 'Error getting collaborators');
     }
 }
 

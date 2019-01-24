@@ -9,9 +9,10 @@ class Select extends Component {
         M.FormSelect.init(this.select);
     }
 
-    componentDidUpdate(prevProps){
+    componentDidUpdate({input: prevInput, options: prevOptions}){
+        const { input, options } = this.props;
 
-        if(prevProps.input.value.length && !this.props.input.value.length){
+        if(prevInput.value.length && !input.value.length || prevOptions.length !== options.length){
             this.initSelect();
         }
     }

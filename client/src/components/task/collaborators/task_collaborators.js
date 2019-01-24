@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { getTaskAvailableCollaborators } from '../../../actions';
+import { getTaskAvailableCollaborators, getTaskCollaborators } from '../../../actions';
 import Button from '../../general/button';
 import Select from '../../general/form/select';
 
@@ -19,32 +19,14 @@ class TaskCollaborators extends Component {
     }
 
     updateCollaborators(){
-        const { getTaskAvailableCollaborators, taskId } = this.props;
+        const { getTaskAvailableCollaborators, getTaskCollaborators, taskId } = this.props;
 
+        getTaskCollaborators(taskId);
         getTaskAvailableCollaborators(taskId);
     }
 
     render(){
-        const { handleSubmit } = this.props;
-
-        const options = [
-            {
-                text: 'Test 1',
-                value: 't1'
-            },
-            {
-                text: 'Test 2',
-                value: 't2'
-            },
-            {
-                text: 'Test 3',
-                value: 't3'
-            },
-            {
-                text: 'Test 4',
-                value: 't4'
-            }
-        ]
+        const { available, handleSubmit } = this.props;
 
         return (
             <div className="collaborators">
@@ -57,7 +39,7 @@ class TaskCollaborators extends Component {
                         defaultOption="Select Collaborators to Add"
                         name="collaborators"
                         multiple={true}
-                        options={options}
+                        options={available}
                     />
                     <div className="col s12">
                         <Button>Add Collaborators</Button>
@@ -68,10 +50,11 @@ class TaskCollaborators extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = ({taskCollaborators: { available }}) => ({ available });
 
 TaskCollaborators = connect(mapStateToProps, {
-    getTaskAvailableCollaborators
+    getTaskAvailableCollaborators,
+    getTaskCollaborators
 })(TaskCollaborators);
 
 const validate = ({collaborators}) => !collaborators.length ? {collaborators: 'Please select collaborators to add'} : {};

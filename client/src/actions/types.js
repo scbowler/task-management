@@ -31,6 +31,8 @@ export default {
     GET_SINGLE_TASK_ERROR: 'get_single_task_error',
     GET_TASK_AVAILABLE_COLLABORATORS: 'get_task_available_collaborators',
     GET_TASK_AVAILABLE_COLLABORATORS_ERROR: 'get_task_available_collaborators_error',
+    GET_TASK_COLLABORATORS: 'get_task_collaborators',
+    GET_TASK_COLLABORATORS_ERROR: 'get_task_collaborators_error',
     GET_TASK_TIME_TRACKING: 'get_task_time_tracking',
     GET_TASK_TIME_TRACKING_ERROR: 'get_task_time_tracking_error',
     GET_USER_RUNNING_TRACKING: 'get_user_running_tracking',

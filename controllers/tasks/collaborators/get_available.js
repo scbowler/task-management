@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
         const isProjectUser = await projectUsers.findOne({
             attributes: ['id'],
             where: {
+                projectId: task.projectId,
                 userId: user.id
             }
         });
@@ -50,7 +51,7 @@ module.exports = async (req, res) => {
 
         const formattedAvailable = available.map(available => {
             return {
-                text: `${abvName(available.user)} | ${userInitials(available.user)}`,
+                text: abvName(available.user),
                 value: available.user.pid
             }
         });
