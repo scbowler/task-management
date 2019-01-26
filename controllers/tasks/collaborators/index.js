@@ -1,4 +1,5 @@
 module.exports = {
+    add: require('./add'),
     getAvailable: require('./get_available'),
-    gteCurrent: require('./get_current')
+    getCurrent: require('./get_current')
 };

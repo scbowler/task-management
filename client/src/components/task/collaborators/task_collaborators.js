@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { getTaskAvailableCollaborators, getTaskCollaborators } from '../../../actions';
+import { addTaskCollaborators, getTaskAvailableCollaborators, getTaskCollaborators } from '../../../actions';
 import Button from '../../general/button';
 import Select from '../../general/form/select';
 
@@ -10,10 +10,12 @@ class TaskCollaborators extends Component {
         this.updateCollaborators();
     }
 
-    handleAddCollaborators = ({collaborators}) => {
-        const { reset } = this.props;
+    handleAddCollaborators = async ({collaborators}) => {
+        const { addTaskCollaborators, reset, taskId } = this.props;
 
         console.log('Add Collaborators:', collaborators);
+
+        await addTaskCollaborators(taskId, collaborators);
 
         reset();
     }
@@ -53,6 +55,7 @@ class TaskCollaborators extends Component {
 const mapStateToProps = ({taskCollaborators: { available }}) => ({ available });
 
 TaskCollaborators = connect(mapStateToProps, {
+    addTaskCollaborators,
     getTaskAvailableCollaborators,
     getTaskCollaborators
 })(TaskCollaborators);

@@ -4,7 +4,7 @@ const validation = require('../../helpers/validation');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 
 exports.createAccount = async (req, res) => {
-    const {email, firstName, lastName, password} = req.body;
+    const {color, email, firstName, lastName, password} = req.body;
     const errors = [];
 
     try {
@@ -34,6 +34,7 @@ exports.createAccount = async (req, res) => {
 
         try {
             const newUser = users.build({
+                color: color || '#f9a825',
                 email,
                 firstName,
                 lastName,

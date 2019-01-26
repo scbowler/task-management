@@ -8,7 +8,7 @@ const SubNav = ({name, path, project, projectOwner}) => (
             {
                 projectOwner
                     ? (
-                        <Link to={`${path}/settings`}>
+                        <Link to={path}>
                             <i className="material-icons">settings</i>
                         </Link>
                     )

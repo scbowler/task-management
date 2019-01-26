@@ -1,4 +1,6 @@
 export default {
+    ADD_TASK_COLLABORATORS: 'add_task_collaborators',
+    ADD_TASK_COLLABORATORS_ERROR: 'add_task_collaborators_error',
     AUTH_REDIRECT: 'auth_redirect',
     CLEAR_AUTH_REDIRECT: 'clear_auth_redirect',
     CLEAR_LIST_UPDATE_FLAG: 'clear_list_update_flag',

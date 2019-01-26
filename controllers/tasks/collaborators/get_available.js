@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 const { projectUsers, tasks, taskCollaborators } = require('../../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
-const { abvName, userInitials } = require('../../../helpers/general');
+const { abvName } = require('../../../helpers/general');
 
 module.exports = async (req, res) => {
     const { params: { project_id, task_id }, user } = req;

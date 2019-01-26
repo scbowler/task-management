@@ -59,6 +59,16 @@ export const accountSignUp = newUser => async dispatch => {
 
 export const accountSignOut = () => ({ type: types.SIGN_OUT });
 
+export const addTaskCollaborators = (taskId, collaborators) => async dispatch => {
+    try {
+        const data = await axios.post(`/api/tasks/${taskId}/collaborators`, { collaborators, taskId }, authHeaders());
+
+        console.log('Add Task Result:', data);
+    } catch(err){
+        dispatchError(dispatch, types.ADD_TASK_COLLABORATORS_ERROR, err, 'Error adding collaborators to task');
+    }
+}
+
 export const clearAuthRedirect = () => ({ type: types.CLEAR_AUTH_REDIRECT });
 
 export const clearListUpdateFlag = () => ({ type: types.CLEAR_LIST_UPDATE_FLAG });
@@ -156,6 +166,7 @@ export const getProject = id => async dispatch => {
 
         dispatch({
             type: types.GET_PROJECT,
+            id,
             project
         });
         return true;
@@ -233,8 +244,6 @@ export const getTaskAvailableCollaborators = taskId => async dispatch => {
 export const getTaskCollaborators = taskId => async dispatch => {
     try {
         const { data: { collaborators } } = await axios.get(`/api/tasks/${taskId}/collaborators`, authHeaders());
-
-        console.log('Task Collaborators:', collaborators);
 
         dispatch({
             type: types.GET_TASK_COLLABORATORS,
