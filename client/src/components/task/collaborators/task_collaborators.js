@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { addTaskCollaborators, getTaskAvailableCollaborators, getTaskCollaborators } from '../../../actions';
+import Badge from '../../general/badge';
 import Button from '../../general/button';
 import Select from '../../general/form/select';
+import './task_collaborators.scss';
 
 class TaskCollaborators extends Component {
     componentDidMount(){
@@ -13,9 +15,9 @@ class TaskCollaborators extends Component {
     handleAddCollaborators = async ({collaborators}) => {
         const { addTaskCollaborators, reset, taskId } = this.props;
 
-        console.log('Add Collaborators:', collaborators);
-
         await addTaskCollaborators(taskId, collaborators);
+
+        this.updateCollaborators();
 
         reset();
     }
@@ -28,12 +30,19 @@ class TaskCollaborators extends Component {
     }
 
     render(){
-        const { available, handleSubmit } = this.props;
+        const { available, current, handleSubmit } = this.props;
+
+        const badges = current.map(({color, id, initials, isLead, name}) => {
+            return <Badge key={id} color={color} initials={initials} isLead={isLead} name={name} />;
+        });
 
         return (
             <div className="collaborators">
                 <div className="row">
                     <h5 className="col s12">Collaborators</h5>
+                    <div className="col s12 collaborator-badges">
+                        {badges}
+                    </div>
                 </div>
                 <form onSubmit={handleSubmit(this.handleAddCollaborators)} className="row">
                     <Field 
@@ -52,7 +61,7 @@ class TaskCollaborators extends Component {
     }
 }
 
-const mapStateToProps = ({taskCollaborators: { available }}) => ({ available });
+const mapStateToProps = ({taskCollaborators: { available, current }}) => ({ available, current });
 
 TaskCollaborators = connect(mapStateToProps, {
     addTaskCollaborators,

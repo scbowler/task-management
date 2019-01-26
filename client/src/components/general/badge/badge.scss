@@ -1,0 +1,46 @@
+@import '../../../assets/css/color';
+
+.user-badge {
+    display: inline-block;
+    padding: 8px;
+    position: relative;
+
+    .icon {
+        border-radius: 50%;
+        box-sizing: content-box;
+        cursor: pointer;
+        font-size: 25px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        width: 50px;
+
+        &.is-lead {
+            border: 5px solid gold;
+        }
+    }
+
+    .badge-menu {
+        display: none;
+        position: absolute;
+        right: -11px;
+        text-align: center;
+        top: 30px;
+        width: 90px;
+        z-index: 10;
+
+        li {
+            background-color: $card-bg;
+            cursor: pointer;
+            padding: 4px 0;
+
+            &:hover {
+                background-color: #888888;
+            }
+        }
+
+        &.show {
+            display: block;
+        }
+    }
+}

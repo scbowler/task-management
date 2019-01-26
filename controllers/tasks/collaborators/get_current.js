@@ -27,12 +27,14 @@ module.exports = async (req, res) => {
             attributes: ['isLead', 'pid'],
             include: {
                 association: 'user',
-                attributes: ['firstName', 'lastName']
-            }
+                attributes: ['color', 'firstName', 'lastName']
+            },
+            order: [['isLead', 'DESC']]
         });
 
         const formattedData = collaborators.map(collaborator => {
             return {
+                color: collaborator.user.color,
                 id: collaborator.pid,
                 initials: userInitials(collaborator.user),
                 isLead: collaborator.isLead,

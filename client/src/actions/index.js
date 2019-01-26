@@ -61,9 +61,7 @@ export const accountSignOut = () => ({ type: types.SIGN_OUT });
 
 export const addTaskCollaborators = (taskId, collaborators) => async dispatch => {
     try {
-        const data = await axios.post(`/api/tasks/${taskId}/collaborators`, { collaborators, taskId }, authHeaders());
-
-        console.log('Add Task Result:', data);
+        await axios.post(`/api/tasks/${taskId}/collaborators`, { collaborators, taskId }, authHeaders());
     } catch(err){
         dispatchError(dispatch, types.ADD_TASK_COLLABORATORS_ERROR, err, 'Error adding collaborators to task');
     }
