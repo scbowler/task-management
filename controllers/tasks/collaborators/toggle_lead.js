@@ -1,5 +1,6 @@
 const { projectUsers, tasks, taskCollaborators, users } = require('../../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
+const { io } = require('../../../services/websocket');
 
 module.exports = async (req, res) => {
     const { params: { collaborator_id, task_id }, user } = req;
@@ -32,6 +33,8 @@ module.exports = async (req, res) => {
         collaborator.isLead = !collaborator.isLead;
 
         await collaborator.save();
+
+        io.of(`/task-${task_id}`).emit('update-collaborators');
 
         res.send({
             success: true

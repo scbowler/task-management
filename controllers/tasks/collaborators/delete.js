@@ -1,5 +1,6 @@
 const { projectUsers, tasks, taskCollaborators, users } = require('../../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
+const { io } = require('../../../services/websocket');
 
 module.exports = async (req, res) => {
     const { params: { collaborator_id, task_id }, user } = req;
@@ -30,6 +31,8 @@ module.exports = async (req, res) => {
         if(!collaborator) throw new StatusError(422, [], 'Unknown collaborator ID' + errorFlag);
 
         await collaborator.destroy();
+
+        io.of(`/task-${task_id}`).emit('update-collaborators');
 
         res.send({
             success: true

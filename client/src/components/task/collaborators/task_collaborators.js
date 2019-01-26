@@ -10,6 +10,10 @@ import './task_collaborators.scss';
 class TaskCollaborators extends Component {
     componentDidMount(){
         this.updateCollaborators();
+
+        this.props.socket.on('update-collaborators', () => {
+            this.updateCollaborators();
+        });
     }
 
     componentWillUnmount(){
