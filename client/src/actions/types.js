@@ -7,6 +7,7 @@ export default {
     CLEAR_PROJECT: 'clear_project',
     CLEAR_PROJECT_ERRORS: 'clear_project_errors',
     CLEAR_TASK: 'clear_task',
+    CLEAR_TASK_COLLABORATORS: 'clear_task_collaborators',
     CLEAR_WIDGET: 'clear_widget',
     COMPLETE_TIME_TRACKING: 'complete_time_tracking',
     COMPLETE_TIME_TRACKING_ERROR: 'complete_time_tracking_error',
@@ -54,6 +55,9 @@ export default {
     SIGN_OUT: 'sign_out',
     SIGN_UP: 'sign_up',
     SIGN_UP_ERROR: 'sign_up_error',
+    TOGGLE_BADGE_MENU: 'toggle_badge_menu',
+    TOGGLE_COLLABORATOR_LEAD: 'toggle_collaborator_lead',
+    TOGGLE_COLLABORATOR_LEAD_ERROR: 'toggle_collaborator_lead_error',
     UPDATE_TASK: 'update_task',
     UPDATE_TASK_ERROR: 'update_task_error'
 };

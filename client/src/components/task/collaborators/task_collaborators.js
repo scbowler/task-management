@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { addTaskCollaborators, getTaskAvailableCollaborators, getTaskCollaborators } from '../../../actions';
+import { addTaskCollaborators, clearTaskCollaborators, deleteCollaborator, getTaskAvailableCollaborators, getTaskCollaborators, toggleBadgeMenu, toggleCollaboratorLead } from '../../../actions';
 import Badge from '../../general/badge';
 import Button from '../../general/button';
 import Select from '../../general/form/select';
@@ -10,6 +10,10 @@ import './task_collaborators.scss';
 class TaskCollaborators extends Component {
     componentDidMount(){
         this.updateCollaborators();
+    }
+
+    componentWillUnmount(){
+        this.props.clearTaskCollaborators();
     }
 
     handleAddCollaborators = async ({collaborators}) => {
@@ -22,6 +26,28 @@ class TaskCollaborators extends Component {
         reset();
     }
 
+    async handleRemoveCollaborator(collaboratorId){
+        const { deleteCollaborator, taskId } = this.props;
+
+        await deleteCollaborator(taskId, collaboratorId);
+
+        this.updateCollaborators();
+    }
+
+    handleToggleBadgeMenu(index){
+        const { current, toggleBadgeMenu } = this.props;
+
+        toggleBadgeMenu(index, current);
+    }
+
+    async toggleLead(collaboratorId){
+        const { taskId, toggleCollaboratorLead } = this.props;
+
+        await toggleCollaboratorLead(taskId, collaboratorId);
+
+        this.updateCollaborators();
+    }
+
     updateCollaborators(){
         const { getTaskAvailableCollaborators, getTaskCollaborators, taskId } = this.props;
 
@@ -32,8 +58,15 @@ class TaskCollaborators extends Component {
     render(){
         const { available, current, handleSubmit } = this.props;
 
-        const badges = current.map(({color, id, initials, isLead, name}) => {
-            return <Badge key={id} color={color} initials={initials} isLead={isLead} name={name} />;
+        const badges = current.map(({color, id, initials, isLead, name, open}, i) => {
+            return (
+                <Badge key={id} color={color} initials={initials} isLead={isLead} name={name} onClick={() => this.handleToggleBadgeMenu(i)} open={open}>
+                    <li onClick={() => this.toggleLead(id)}>
+                        {isLead ? 'Remove Lead' : 'Make Lead'}
+                    </li>
+                    <li onClick={() => this.handleRemoveCollaborator(id)}>Remove</li>
+                </Badge>
+            );
         });
 
         return (
@@ -65,8 +98,12 @@ const mapStateToProps = ({taskCollaborators: { available, current }}) => ({ avai
 
 TaskCollaborators = connect(mapStateToProps, {
     addTaskCollaborators,
+    clearTaskCollaborators,
+    deleteCollaborator,
     getTaskAvailableCollaborators,
-    getTaskCollaborators
+    getTaskCollaborators,
+    toggleBadgeMenu,
+    toggleCollaboratorLead
 })(TaskCollaborators);
 
 const validate = ({collaborators}) => !collaborators.length ? {collaborators: 'Please select collaborators to add'} : {};

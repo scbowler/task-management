@@ -21,12 +21,13 @@
     }
 
     .badge-menu {
-        display: none;
         position: absolute;
-        right: -11px;
+        right: -24px;
         text-align: center;
         top: 30px;
-        width: 90px;
+        transform: rotateY(90deg);
+        transition-duration: 150ms;
+        width: 115px;
         z-index: 10;
 
         li {
@@ -40,7 +41,7 @@
         }
 
         &.show {
-            display: block;
+            transform: rotateY(0);
         }
     }
 }

@@ -29,7 +29,10 @@ module.exports = async (req, res) => {
                 association: 'user',
                 attributes: ['color', 'firstName', 'lastName']
             },
-            order: [['isLead', 'DESC']]
+            order: [['isLead', 'DESC']],
+            where: {
+                taskId: task.id
+            }
         });
 
         const formattedData = collaborators.map(collaborator => {
@@ -38,7 +41,8 @@ module.exports = async (req, res) => {
                 id: collaborator.pid,
                 initials: userInitials(collaborator.user),
                 isLead: collaborator.isLead,
-                name: abvName(collaborator.user)
+                name: abvName(collaborator.user),
+                open: false
             }
         });
 

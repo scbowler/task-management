@@ -7,7 +7,10 @@ const DEFAULT_STATE = {
 
 export default (state = DEFAULT_STATE, action) => {
     switch(action.type){
+        case types.CLEAR_TASK_COLLABORATORS:
+            return { ...DEFAULT_STATE };
         case types.GET_TASK_COLLABORATORS:
+        case types.TOGGLE_BADGE_MENU:
             return { ...state, current: action.collaborators };
         case types.GET_TASK_AVAILABLE_COLLABORATORS:
             return { ...state, available: action.availableCollaborators };
