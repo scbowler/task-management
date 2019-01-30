@@ -1,8 +1,9 @@
 const router = require('express').Router({ mergeParams: true });
 const { requireBasicAuth } = require('../setup');
+const projectAuth = require('../../middleware/project_auth');
 const { addListToProject, addTaskToProject, collaborators, deleteListFromProject, getListsTasks, getOneProject, getSettings, moveList } = require('../../controllers/projects');
 
-router.get('/', requireBasicAuth, getOneProject);
+router.get('/', requireBasicAuth, projectAuth, getOneProject);
 
 router.post('/lists', requireBasicAuth, addListToProject);
 
