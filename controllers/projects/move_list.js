@@ -1,25 +1,15 @@
 const { Op } = require('sequelize');
-const { lists, projects } = require('../../db/models');
+const { lists } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 const { centerRank } = require('../../helpers/general');
 
 module.exports = async (req, res) => {
-    const { body: { nextId }, params: { list_id, project_id } } = req;
+    const { body: { nextId }, list: listToMove, project } = req;
+
     try {
         if(!nextId) throw new StatusError(400, [], 'Missing next list ID' + errorFlag);
 
-        if(nextId !== list_id){
-            const project = await projects.findByPid(project_id, {
-                attributes: ['id']
-            });
-
-            if (!project) throw new StatusError(422, [], 'Unknown project ID' + errorFlag);
-
-            const listToMove = await lists.findByPid(list_id, {
-                attributes: ['id', 'rank']
-            });
-
-            if (!listToMove) throw new StatusError(422, [], 'Unknown list to move');
+        if(nextId !== listToMove.pid){
 
             let rank = new Date().getTime();
 
@@ -56,7 +46,6 @@ module.exports = async (req, res) => {
             success: true
         });
     } catch(err){
-        console.log('Error moving list:', err);
         sendError(res, err, 'Error moving list');
     }
 }

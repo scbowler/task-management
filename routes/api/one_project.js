@@ -11,7 +11,7 @@ router.delete('/lists/:list_id', projectAuth, deleteListFromProject);
 router.get('/lists/:list_id/tasks', projectAuth, getListsTasks);
 router.post('/lists/:list_id/tasks', projectAuth, addTaskToProject);
 
-router.patch('/lists/:list_id/move', moveList);
+router.patch('/lists/:list_id/move', projectAuth, moveList);
 
 router.get('/settings', projectAuth, getSettings);
 
