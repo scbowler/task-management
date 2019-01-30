@@ -38,7 +38,7 @@ module.exports = async (req, res, next) => {
 
         if(task_id && !req.project){
             const task = await tasks.findByPid(task_id, {
-                attributes: ['createdById', 'id', 'projectId'],
+                attributes: ['createdById', 'id', 'listId', 'projectId'],
                 include: {
                     association: 'project',
                     attributes: ['createdById']
