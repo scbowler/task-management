@@ -18,7 +18,7 @@ class Task extends Component {
     }
 
     render(){
-        const { collaborators: {count, isCollaborator}, history, location: {pathname}, name, pid, time} = this.props;
+        const { collaborators: {count, isCollaborator, isLead}, history, location: {pathname}, name, pid, time} = this.props;
 
         return (
             <div onDragStart={this.onDrag} id={pid} draggable="true" onClick={() => history.replace(`${pathname}/task/${pid}`)} className="task-card z-depth-2">
@@ -31,6 +31,11 @@ class Task extends Component {
                         <i className="material-icons">timelapse</i> {formatTime(time)}
                     </div>
                     <div className={`col s6 collaborators ${isCollaborator && 'belongs-to'}`}>
+                        {
+                            isLead
+                                ? <i className="material-icons">star</i>
+                                : null
+                        }
                         <i className="material-icons">group</i> {count}
                     </div>
                 </div>

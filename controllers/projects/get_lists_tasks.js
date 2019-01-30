@@ -46,23 +46,24 @@ module.exports = async (req, res) => {
             });
 
             formattedTasks = await Promise.all(foundTasks.map(async task => {
-                let isCollaborator = false;
+                
+                let isLead = null;
 
                 const {count = 0, rows = []} = await taskCollaborators.findAndCountAll({
-                    attributes: ['userId'],
+                    attributes: ['userId', 'isLead'],
                     where: {
                         taskId: task.id
                     }
                 });
 
-                if(rows.findIndex(col => col.userId === user.id) >= 0){
-                    isCollaborator = true;
-                }
+                const userIndex = rows.findIndex(col => col.userId === user.id);
 
+                let isCollaborator = userIndex >= 0;
                 return {
                     collaborators: {
                         count,
-                        isCollaborator
+                        isCollaborator,
+                        isLead: isCollaborator && rows[userIndex].isLead
                     },
                     name: task.name,
                     pid: task.pid,

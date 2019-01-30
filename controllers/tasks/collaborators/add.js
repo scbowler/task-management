@@ -9,7 +9,17 @@ module.exports = async (req, res) => {
         if(!collaborators.length) throw new StatusError(422, [], 'No collaborators received' + errorFlag);
 
         const task = await tasks.findByPid(task_id, {
-            attributes: ['id', 'projectId']
+            attributes: ['id', 'projectId'],
+            include: [
+                {
+                    association: 'project',
+                    attributes: ['pid']
+                },
+                {
+                    association: 'list',
+                    attributes: ['pid']
+                }
+            ]
         });
 
         if(!task) throw new StatusError(422, [], 'Unknown task ID' + errorFlag);
@@ -40,6 +50,11 @@ module.exports = async (req, res) => {
         })));
 
         io.of(`/task-${task_id}`).emit('update-collaborators');
+
+        io.of(`/project-${task.project.pid}`).emit('update-lists', {
+            lists: [task.list.pid],
+            projectId: task.project.pid
+        });
 
         res.send({
             success: true
