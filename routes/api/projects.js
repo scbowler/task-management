@@ -5,6 +5,6 @@ const { createProject, getAllProjects } = require('../../controllers/projects');
 router.get('/', requireBasicAuth, getAllProjects);
 router.post('/', requireBasicAuth, createProject);
 
-router.use('/:project_id', require('./one_project'));
+router.use('/:project_id', requireBasicAuth, require('./one_project'));
 
 module.exports = router;
