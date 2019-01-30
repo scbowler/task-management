@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
             throw new StatusError(422, [], 'No task ID received' + errorFlag);
         }
 
-        let task = await tasks.findByPid(task_id, {
+        let task = await tasks.findByPk(req.task.id, {
             attributes: {
                 exclude: ['createdById', 'deletedAt', 'listId', 'projectId', 'rank']
             },

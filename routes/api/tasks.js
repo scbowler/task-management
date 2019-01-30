@@ -12,6 +12,6 @@ router.get('/:task_id', projectAuth, getSingleTask);
 router.delete('/:task_id', projectAuth, deleteTask);
 
 router.patch('/:task_id/move/:list_id', projectAuth, moveTask);
-router.patch('/:task_id/:field', updateTask);
+router.patch('/:task_id/:field', projectAuth, updateTask);
 
 module.exports = router;
