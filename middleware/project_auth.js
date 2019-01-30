@@ -10,7 +10,7 @@ module.exports = async (req, res, next) => {
                 attributes: ['createdById', 'description', 'id', 'name']
             });
     
-            if(!project) throw new StatusError(422, [], 'No project found with provided id' + errorFlag);
+            if(!project) throw new StatusError(422, [], 'Invalid project ID provided' + errorFlag);
     
             const projectUser = await projectUsers.findOne({
                 where: {
@@ -36,7 +36,27 @@ module.exports = async (req, res, next) => {
             req.listOwner = list.createdById === user.id;
         }
 
-        if(req.project || req.list){
+        if(task_id && !req.project){
+            const task = await tasks.findByPid(task_id, {
+                attributes: ['createdById', 'id', 'projectId']
+            });
+
+            if(!task) throw new StatusError(422, null, 'Invalid task ID provided' + errorFlag);
+
+            const projectUser = await projectUsers.findOne({
+                where: {
+                    projectId: task.projectId,
+                    userId: user.id
+                }
+            });
+    
+            if(!projectUser) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
+
+            res.task = task;
+            res.taskOwner = task.createdById === user.id;
+        }
+
+        if(req.project || req.task || req.list){
             return next();
         }
 
