@@ -9,7 +9,7 @@ router.use('/:task_id/time-tracking', require('./time_tracking'));
 router.use('/:task_id/collaborators', require('./task_collaborators'));
 
 router.get('/:task_id', projectAuth, getSingleTask);
-router.delete('/:task_id', deleteTask);
+router.delete('/:task_id', projectAuth, deleteTask);
 
 router.patch('/:task_id/move/:list_id', moveTask);
 router.patch('/:task_id/:field', updateTask);

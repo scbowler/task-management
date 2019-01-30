@@ -38,7 +38,11 @@ module.exports = async (req, res, next) => {
 
         if(task_id && !req.project){
             const task = await tasks.findByPid(task_id, {
-                attributes: ['createdById', 'id', 'projectId']
+                attributes: ['createdById', 'id', 'projectId'],
+                include: {
+                    association: 'project',
+                    attributes: ['createdById']
+                }
             });
 
             if(!task) throw new StatusError(422, null, 'Invalid task ID provided' + errorFlag);
@@ -52,6 +56,7 @@ module.exports = async (req, res, next) => {
     
             if(!projectUser) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
 
+            req.projectOwner = task.project.createdById === user.id;
             req.task = task;
             req.taskOwner = task.createdById === user.id;
         }
