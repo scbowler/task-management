@@ -38,11 +38,17 @@ module.exports = async (req, res, next) => {
 
         if(task_id && !req.project){
             const task = await tasks.findByPid(task_id, {
-                attributes: ['createdById', 'id', 'listId', 'projectId'],
-                include: {
-                    association: 'project',
-                    attributes: ['createdById']
-                }
+                attributes: ['createdById', 'id', 'listId', 'pid', 'projectId'],
+                include: [
+                    {
+                        association: 'list',
+                        attributes: ['id', 'pid']
+                    },
+                    {
+                        association: 'project',
+                        attributes: ['createdById', 'id', 'pid']
+                    }
+                ]
             });
 
             if(!task) throw new StatusError(422, null, 'Invalid task ID provided' + errorFlag);
