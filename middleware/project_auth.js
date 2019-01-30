@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
 
         if(list_id){
             const list = await lists.findByPid(list_id, {
-                attributes: ['createdById', 'id']
+                attributes: ['createdById', 'id', 'pid']
             });
     
             if (!list) throw new StatusError(422, null, 'Invalid list ID provided' + errorFlag);

@@ -1,27 +1,11 @@
 const { Op } = require('sequelize');
-const { lists, projects, taskCollaborators, tasks, timeTracking } = require('../../db/models');
-const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { abvName, userInitials } = require('../../helpers/general');
+const { taskCollaborators, tasks, timeTracking } = require('../../db/models');
+const { sendError } = require('../../helpers/error_handling');
 
 module.exports = async (req, res) => {
-    const { params: { list_id, project_id }, user } = req;
+    const { list, project, user } = req;
 
     try {
-        if (!list_id) throw new StatusError(422, [], 'No list ID provided' + errorFlag);
-        if (!project_id) throw new StatusError(422, [], 'No project ID provided' + errorFlag);
-
-        const project = await projects.findByPid(project_id, {
-            attributes: ['id']
-        });
-
-        if (!project) throw new StatusError(422, [], 'Invalid project ID provided' + errorFlag);
-
-        const list = await lists.findByPid(list_id, {
-            attributes: ['id']
-        });
-
-        if (!list) throw new StatusError(422, [], 'Invalid list ID provided' + errorFlag);
-
         const foundTasks = await tasks.findAll({
             attributes: ['id', 'name', 'pid'],
             where: {
@@ -46,9 +30,6 @@ module.exports = async (req, res) => {
             });
 
             formattedTasks = await Promise.all(foundTasks.map(async task => {
-                
-                let isLead = null;
-
                 const {count = 0, rows = []} = await taskCollaborators.findAndCountAll({
                     attributes: ['userId', 'isLead'],
                     where: {
@@ -73,12 +54,11 @@ module.exports = async (req, res) => {
         }
 
         res.send({
-            listId: list_id,
+            listId: list.pid,
             success: true,
             tasks: formattedTasks
         });
     } catch(err){
-        console.log('Get Task Error:', err);
         sendError(res, err, 'Error getting list\'s tasks');
     }
 }

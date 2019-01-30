@@ -9,7 +9,7 @@ router.post('/lists', requireBasicAuth, projectAuth, addListToProject);
 
 router.delete('/lists/:list_id', requireBasicAuth, projectAuth, deleteListFromProject);
 
-router.get('/lists/:list_id/tasks', requireBasicAuth, getListsTasks);
+router.get('/lists/:list_id/tasks', requireBasicAuth, projectAuth, getListsTasks);
 router.post('/lists/:list_id/tasks', requireBasicAuth, projectAuth, addTaskToProject);
 
 router.patch('/lists/:list_id/move', requireBasicAuth, moveList);
