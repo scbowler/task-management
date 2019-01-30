@@ -13,7 +13,7 @@ router.post('/lists/:list_id/tasks', projectAuth, addTaskToProject);
 
 router.patch('/lists/:list_id/move', moveList);
 
-router.get('/settings', getSettings);
+router.get('/settings', projectAuth, getSettings);
 
 router.post('/collaborators/:user_id', projectAuth, collaborators.add);
 router.delete('/collaborators/:user_id', projectAuth, collaborators.remove);

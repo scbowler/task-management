@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
     try {
         if(project_id){
             const project = await projects.findByPid(project_id, {
-                attributes: ['createdById', 'id', 'name']
+                attributes: ['createdById', 'description', 'id', 'name']
             });
     
             if(!project) throw new StatusError(422, [], 'No project found with provided id' + errorFlag);
