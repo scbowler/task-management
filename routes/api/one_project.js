@@ -7,7 +7,7 @@ router.get('/', requireBasicAuth, projectAuth, getOneProject);
 
 router.post('/lists', requireBasicAuth, projectAuth, addListToProject);
 
-router.delete('/lists/:list_id', requireBasicAuth, deleteListFromProject);
+router.delete('/lists/:list_id', requireBasicAuth, projectAuth, deleteListFromProject);
 
 router.get('/lists/:list_id/tasks', requireBasicAuth, getListsTasks);
 router.post('/lists/:list_id/tasks', requireBasicAuth, projectAuth, addTaskToProject);

@@ -27,12 +27,13 @@ module.exports = async (req, res, next) => {
 
         if(list_id){
             const list = await lists.findByPid(list_id, {
-                attributes: ['id']
+                attributes: ['createdById', 'id']
             });
     
             if (!list) throw new StatusError(422, null, 'Invalid list ID provided' + errorFlag);
     
             req.list = list;
+            req.listOwner = list.createdById === user.id;
         }
 
         if(req.project || req.list){
