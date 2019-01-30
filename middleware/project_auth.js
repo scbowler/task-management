@@ -1,8 +1,8 @@
-const { projectUsers, projects, tasks } = require('../db/models');
+const { lists, projectUsers, projects, tasks } = require('../db/models');
 const { errorFlag, sendError, StatusError } = require('../helpers/error_handling');
 
 module.exports = async (req, res, next) => {
-    const { params: {project_id, task_id}, user } = req;
+    const { params: {list_id, project_id, task_id}, user } = req;
 
     try {
         if(project_id){
@@ -23,12 +23,25 @@ module.exports = async (req, res, next) => {
 
             req.project = project;
             req.projectOwner = project.id === user.id;
+        }
 
+        if(list_id){
+            const list = await lists.findByPid(list_id, {
+                attributes: ['id']
+            });
+    
+            if (!list) throw new StatusError(422, null, 'Invalid list ID provided' + errorFlag);
+    
+            req.list = list;
+        }
+
+        if(req.project || req.list){
             return next();
         }
 
         throw new StatusError(422, [], 'No project ID or task ID received' + errorFlag);
     } catch(err){
+        console.log('Project Auth Error:', err);
         sendError(res, err, 'Project Auth Error', 401);
     }
 }

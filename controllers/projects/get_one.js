@@ -1,5 +1,5 @@
-const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { lists, projects, projectUsers } = require('../../db/models');
+const { sendError } = require('../../helpers/error_handling');
+const { lists } = require('../../db/models');
 
 module.exports = async (req, res) => {
     const { project, projectOwner, user } = req;

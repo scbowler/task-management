@@ -5,18 +5,18 @@ const { addListToProject, addTaskToProject, collaborators, deleteListFromProject
 
 router.get('/', requireBasicAuth, projectAuth, getOneProject);
 
-router.post('/lists', requireBasicAuth, addListToProject);
+router.post('/lists', requireBasicAuth, projectAuth, addListToProject);
 
 router.delete('/lists/:list_id', requireBasicAuth, deleteListFromProject);
 
 router.get('/lists/:list_id/tasks', requireBasicAuth, getListsTasks);
-router.post('/lists/:list_id/tasks', requireBasicAuth, addTaskToProject);
+router.post('/lists/:list_id/tasks', requireBasicAuth, projectAuth, addTaskToProject);
 
 router.patch('/lists/:list_id/move', requireBasicAuth, moveList);
 
 router.get('/settings', requireBasicAuth, getSettings);
 
-router.post('/collaborators/:user_id', requireBasicAuth, collaborators.add);
-router.delete('/collaborators/:user_id', requireBasicAuth, collaborators.remove);
+router.post('/collaborators/:user_id', requireBasicAuth, projectAuth, collaborators.add);
+router.delete('/collaborators/:user_id', requireBasicAuth, projectAuth, collaborators.remove);
 
 module.exports = router;
