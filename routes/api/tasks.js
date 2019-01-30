@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const projectAuth = require('../../middleware/project_auth');
 const { deleteTask, getSingleTask, moveTask, updateTask } = require('../../controllers/tasks');
 const { getRunning } = require('../../controllers/tasks').timeTracking;
 
@@ -7,7 +8,7 @@ router.use('/:task_id/time-tracking', require('./time_tracking'));
 
 router.use('/:task_id/collaborators', require('./task_collaborators'));
 
-router.get('/:task_id', getSingleTask);
+router.get('/:task_id', projectAuth, getSingleTask);
 router.delete('/:task_id', deleteTask);
 
 router.patch('/:task_id/move/:list_id', moveTask);

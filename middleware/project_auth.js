@@ -52,8 +52,8 @@ module.exports = async (req, res, next) => {
     
             if(!projectUser) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
 
-            res.task = task;
-            res.taskOwner = task.createdById === user.id;
+            req.task = task;
+            req.taskOwner = task.createdById === user.id;
         }
 
         if(req.project || req.task || req.list){
