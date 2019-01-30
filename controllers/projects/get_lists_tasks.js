@@ -1,9 +1,10 @@
 const { Op } = require('sequelize');
-const { lists, projects, tasks, timeTracking } = require('../../db/models');
+const { lists, projects, taskCollaborators, tasks, timeTracking } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
+const { abvName, userInitials } = require('../../helpers/general');
 
 module.exports = async (req, res) => {
-    const { list_id, project_id } = req.params;
+    const { params: { list_id, project_id }, user } = req;
 
     try {
         if (!list_id) throw new StatusError(422, [], 'No list ID provided' + errorFlag);
@@ -44,13 +45,30 @@ module.exports = async (req, res) => {
                 }
             });
 
-            formattedTasks = foundTasks.map(task => {
+            formattedTasks = await Promise.all(foundTasks.map(async task => {
+                let isCollaborator = false;
+
+                const {count = 0, rows = []} = await taskCollaborators.findAndCountAll({
+                    attributes: ['userId'],
+                    where: {
+                        taskId: task.id
+                    }
+                });
+
+                if(rows.findIndex(col => col.userId === user.id) >= 0){
+                    isCollaborator = true;
+                }
+
                 return {
+                    collaborators: {
+                        count,
+                        isCollaborator
+                    },
                     name: task.name,
                     pid: task.pid,
                     time: timers[task.id] || 0
                 }
-            });
+            }));
         }
 
         res.send({
