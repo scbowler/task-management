@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { accountSignUp } from '../../actions';
 import Button from '../general/button';
+import Color from '../general/form/color';
 import Header from '../general/header';
 import Input from '../general/form/input';
 import { validation } from '../../helpers';
@@ -17,7 +18,7 @@ class SignUp extends Component {
     }
 
     render() {
-        const { handleSubmit, signUpErrors } = this.props;
+        const { handleSubmit, initials, signUpErrors } = this.props;
 
         return (
             <div className="container">
@@ -26,6 +27,7 @@ class SignUp extends Component {
                     <div className="row">
                         <Field name="firstName" label="First Name" component={Input} col="s12 m6"/>
                         <Field name="lastName" label="Last Name" component={Input} col="s12 m6" />
+                        <Field name="color" label="Pick Your Icon Color" component={Color} col="s12 center" initials={initials}/>
                         <Field name="email" label="Email" component={Input} col="s12 m6 offset-m3" />
                         <Field name="password" label="Password" component={Input} type="password" col="s12 m6"/>
                         <Field name="confirmPassword" label="Confirm Password" component={Input} type="password" col="s12 m6"/>
@@ -67,11 +69,28 @@ function validate({ confirmPassword, email, firstName, lastName, password }){
     return errors;
 }
 
-const mapStateToProps = ({user: {signUpErrors}}) => ({signUpErrors});
+const mapStateToProps = ({form, user: {signUpErrors}}) => {
+    const { signUpForm } = form;
+    let initials = 'TM';
+
+    if(signUpForm && signUpForm.values){
+        const { firstName, lastName } = signUpForm.values;
+
+        if(firstName && lastName){
+            initials = firstName[0].toUpperCase() + lastName[0].toUpperCase();
+        }
+    }
+
+    return {
+        initials,
+        signUpErrors
+    }
+};
 
 export default connect(mapStateToProps, {
     accountSignUp
 })(reduxForm({
-    form: 'sign-up',
+    form: 'signUpForm',
+    initialValues: { color: '#f9a825' },
     validate
 })(SignUp));

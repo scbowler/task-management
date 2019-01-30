@@ -59,6 +59,14 @@ export const accountSignUp = newUser => async dispatch => {
 
 export const accountSignOut = () => ({ type: types.SIGN_OUT });
 
+export const addTaskCollaborators = (taskId, collaborators) => async dispatch => {
+    try {
+        await axios.post(`/api/tasks/${taskId}/collaborators`, { collaborators, taskId }, authHeaders());
+    } catch(err){
+        dispatchError(dispatch, types.ADD_TASK_COLLABORATORS_ERROR, err, 'Error adding collaborators to task');
+    }
+}
+
 export const clearAuthRedirect = () => ({ type: types.CLEAR_AUTH_REDIRECT });
 
 export const clearListUpdateFlag = () => ({ type: types.CLEAR_LIST_UPDATE_FLAG });
@@ -68,6 +76,8 @@ export const clearProject = () => ({ type: types.CLEAR_PROJECT });
 export const clearProjectErrors = () => ({ type: types.CLEAR_PROJECT_ERRORS });
 
 export const clearTask = () => ({ type: types.CLEAR_TASK });
+
+export const clearTaskCollaborators = () => ({ type: types.CLEAR_TASK_COLLABORATORS });
 
 export const clearWidget = () => ({ type: types.CLEAR_WIDGET });
 
@@ -114,6 +124,14 @@ export const createNewProjectTask = (projectId, listId, taskName) => async dispa
     }
 }
 
+export const deleteCollaborator = (taskId, collaboratorId) => async dispatch => {
+    try {
+        await axios.delete(`/api/tasks/${taskId}/collaborators/${collaboratorId}`, authHeaders());
+    } catch(err) {
+        dispatchError(dispatch, types.TOGGLE_COLLABORATOR_LEAD_ERROR, err, 'Error setting collaborator\'s lead status');
+    }
+}
+
 export const deleteList = (projectId, listId) => async dispatch => {
     try {
         await axios.delete(`/api/projects/${projectId}/lists/${listId}`, authHeaders());
@@ -156,6 +174,7 @@ export const getProject = id => async dispatch => {
 
         dispatch({
             type: types.GET_PROJECT,
+            id,
             project
         });
         return true;
@@ -214,6 +233,32 @@ export const getTask = taskId => async dispatch => {
         });
     } catch(err){
         dispatchError(dispatch, types.GET_SINGLE_TASK, err, 'Error getting task');
+    }
+}
+
+export const getTaskAvailableCollaborators = taskId => async dispatch => {
+    try {
+        const { data: { availableCollaborators } } = await axios.get(`/api/tasks/${taskId}/collaborators/available`, authHeaders());
+
+        dispatch({
+            type: types.GET_TASK_AVAILABLE_COLLABORATORS,
+            availableCollaborators
+        });
+    } catch(err){
+        dispatchError(dispatch, types.GET_TASK_AVAILABLE_COLLABORATORS_ERROR, err, 'Error getting available collaborators');
+    }
+}
+
+export const getTaskCollaborators = taskId => async dispatch => {
+    try {
+        const { data: { collaborators } } = await axios.get(`/api/tasks/${taskId}/collaborators`, authHeaders());
+
+        dispatch({
+            type: types.GET_TASK_COLLABORATORS,
+            collaborators
+        });
+    } catch (err) {
+        dispatchError(dispatch, types.GET_TASK_COLLABORATORS_ERROR, err, 'Error getting collaborators');
     }
 }
 
@@ -303,6 +348,26 @@ export const projectRemoveCollaborator = (projectId, userId) => async dispatch =
         dispatchError(dispatch, types.PROJECT_REMOVE_COLLABORATOR_ERROR, err, 'Error removing collaborator');
 
         return false;
+    }
+}
+
+export const toggleBadgeMenu = (index, collaborators) => {
+    return {
+        type: types.TOGGLE_BADGE_MENU,
+        collaborators: collaborators.map((collaborator, i) => {
+            return {
+                ...collaborator,
+                open: index === i ? !collaborator.open : false
+            }
+        })
+    }
+}
+
+export const toggleCollaboratorLead = (taskId, collaboratorId) => async dispatch => {
+    try {
+        await axios.patch(`/api/tasks/${taskId}/collaborators/${collaboratorId}`, {}, authHeaders());
+    } catch(err) {
+        dispatchError(dispatch, types.TOGGLE_COLLABORATOR_LEAD_ERROR, err, 'Error setting collaborator\'s lead status');
     }
 }
 

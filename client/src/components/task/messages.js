@@ -47,7 +47,7 @@ class Messages extends Component {
         const { messages } = this.state;
 
         if(!messages || !messages.length){
-            return <h5 className="center">No Messages For This task</h5>;
+            return <h5 className="center empty-card white-text z-depth-2">No Messages For This task</h5>;
         }
 
         return messages.map(({author, createdAt, message, pid}) => {

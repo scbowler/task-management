@@ -8,16 +8,16 @@ module.exports = async (req, res) => {
         const { user } = req;
         const errors = [];
 
-        if (!name) errors.push('No name provided for new project');
-        if (!description) errors.push('No description provided for new project');
+        if (!name) errors.push('No name provided for new project' + errorFlag);
+        if (!description) errors.push('No description provided for new project' + errorFlag);
         
         if(errors.length) throw new StatusError(422, errors);
 
-        const status = await projectStatuses.findByMid('new', {
+        const status = await projectStatuses.findByMid('active', {
             attributes: ['id']
         });
 
-        if(!status) throw new StatusError(500, null, 'Error finding project status info' + errorFlag);
+        if(!status) throw new StatusError(500, null, 'Error finding project status info');
 
         const projectBuild = projects.build({
             createdById: user.id,

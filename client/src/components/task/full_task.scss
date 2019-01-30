@@ -12,6 +12,12 @@
     width: 100%;
     z-index: 997;
 
+    .empty-card {
+        background-color: $card-bg;
+        margin: 15px;
+        padding: 10px 5px;
+    }
+
     .task-contents {
         background-color: $card-bg-light;
         margin: auto;
@@ -57,6 +63,18 @@
             .scroll-container {
                 overflow-x: hidden;
                 overflow-y: auto;
+            }
+
+            .task-info {
+                .row:not(.title) {
+                    background-color: $card-bg;
+                    margin-bottom: 10px;
+                    padding: 5px;
+
+                    b {
+                        color: #8e8e8e;
+                    }
+                }
             }
         }
     }

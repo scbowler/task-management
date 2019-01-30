@@ -6,6 +6,8 @@ import EditHeader from '../general/form/editable/header';
 import EditText from '../general/form/editable/textarea';
 import Header from '../general/header';
 import Messages from './messages';
+import TaskCollaborators from './collaborators';
+import TaskInfo from './task_info';
 import TimeTracking from './time_tracking';
 import './full_task.scss';
 
@@ -94,6 +96,14 @@ class FullTask extends Component {
             );
         }
 
+        const commonProps = {
+            listId: task.listId,
+            taskId: params.task_id,
+            projectId: params.project_id,
+            projectSocket,
+            socket: this.socket
+        }
+
         return (
             <Fragment>
                 {
@@ -116,58 +126,8 @@ class FullTask extends Component {
                     </div>
                     <div className="col m5 s12 info">
                         <div className="scroll-container no-mb-rows">
-                            <div className="row">
-                                <h5 className="col s12">Info</h5>
-                            </div>
-                            <div className="row">
-                                <div className="col s4">
-                                    <b>Project: </b>
-                                </div>
-                                <div className="col s8">
-                                    {task.project}
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col s4">
-                                    <b>List: </b>
-                                </div>
-                                <div className="col s8">
-                                    {task.list}
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col s4">
-                                    <b>Task: </b>
-                                </div>
-                                <div className="col s8">
-                                    {task.name}
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col s4">
-                                    <b>Created By: </b>
-                                </div>
-                                <div className="col s8">
-                                    {task.createdBy}
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col s4">
-                                    <b>Created: </b>
-                                </div>
-                                <div className="col s8">
-                                    {new Date(task.createdAt).toLocaleString()}
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col s4">
-                                    <b>Updated: </b>
-                                </div>
-                                <div className="col s8">
-                                    {new Date(task.updatedAt).toLocaleString()}
-                                </div>
-                            </div>
-                            <TimeTracking listId={task.listId} taskId={params.task_id} projectId={params.project_id} projectSocket={projectSocket} socket={this.socket}/>
+                            <TaskCollaborators {...commonProps}/>
+                            <TimeTracking {...commonProps}/>
                             <div className="row">
                                 <h5 className="col s12">Related Tasks</h5>
                             </div>
@@ -176,6 +136,7 @@ class FullTask extends Component {
                                     Related task stuff here
                                         </div>
                             </div>
+                            <TaskInfo {...task}/>
                         </div>
                     </div>
                 </div>

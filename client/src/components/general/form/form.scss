@@ -39,3 +39,15 @@ textarea.materialize-textarea:focus:not([readonly])+label,
 .input-field .lfz-select li:not(.disabled):not(.optgroup)>span {
     color: $primary-text !important;
 }
+
+.color-picker {
+    .icon {
+        border-radius: 50%;
+        color: white;
+        font-size: 25px;
+        height: 50px;
+        line-height: 50px;
+        margin: auto;
+        width: 50px;
+    }
+}

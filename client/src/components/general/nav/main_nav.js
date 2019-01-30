@@ -74,7 +74,7 @@ class Nav extends Component {
     }
 
     render() {
-        const { auth, location, projectName, projectOwner, userName } = this.props;
+        const { auth, location, projectId, projectName, projectOwner, userName } = this.props;
 
         return (
             <Fragment>
@@ -89,7 +89,7 @@ class Nav extends Component {
                         </div>
                     </nav>
                 </div>
-                {auth && <SubNav name={userName} path={location.pathname} project={projectName} projectOwner={projectOwner} />}
+                {auth && <SubNav name={userName} path={`/projects/${projectId}/settings`} project={projectName} projectOwner={projectOwner} />}
 
                 <SideNav setRef={this.setSideNavRef} renderLinks={this.renderLinks} />
             </Fragment>
@@ -101,6 +101,7 @@ class Nav extends Component {
 const mapStateToProps = ({projects, user: { auth, info: { name } } }) => {
     return { 
         auth,
+        projectId: projects.id,
         projectName: projects.currentName,
         projectOwner: projects.isOwner,
         userName: name

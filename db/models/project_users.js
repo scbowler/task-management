@@ -10,7 +10,7 @@ module.exports = (db, projects, users) => {
         },
     },
         {
-            paranoid: true
+            paranoid: false
         });
 
     ProjectUsers.belongsTo(projects, { as: 'project' });

@@ -85,7 +85,7 @@ class TimeTracking extends Component {
         }
 
         if(!running.length){
-            return <p>No Active Timers</p>
+            return <p className="empty-card z-depth-2">No Active Timers</p>
         }
 
         return running.map( timer => {
@@ -104,7 +104,7 @@ class TimeTracking extends Component {
                 </div>
                 <div className="row time-tracking-display">
                     <div className="col s12 total-tracked">
-                        <h6>Total Tracked Time</h6>
+                        <h6 className="center">Total Tracked Time</h6>
                         <div className="total-time z-depth-2">{formatTime(total + currentAccruing)}</div>
                     </div>
                     <div className="col s12 time-action">
@@ -112,7 +112,7 @@ class TimeTracking extends Component {
                     </div>
                 </div>
                 <div className="row time-tracking-active">
-                    <div className="col s12">
+                    <div className="col s12 center">
                         <h6>Active Timers</h6>
                         {this.renderActiveTimers()}
                     </div>
