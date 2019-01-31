@@ -77,12 +77,12 @@ class FullProject extends Component {
                 {
                     lists.map(list => (
                         <Fragment key={list.pid}>
-                            <ListDropTarget nextListId={list.pid} />
-                            <List {...list} shouldUpdate={listToUpdate === list.pid} socket={this.socket} />
+                            <ListDropTarget updateProject={this.updateProject} nextListId={list.pid} />
+                            <List {...list} shouldUpdate={listToUpdate === list.pid} />
                         </Fragment>
                     ))
                 }
-                <ListDropTarget nextListId="end"/>
+                <ListDropTarget updateProject={this.updateProject} nextListId="end"/>
             </Fragment>
         )
     }

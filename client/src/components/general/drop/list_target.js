@@ -31,13 +31,15 @@ class ListDropTarget extends Component {
     handleDrop = async e => {
         e.preventDefault();
 
-        const { match: { params: { project_id } }, moveList, nextListId } = this.props;
+        const { match: { params: { project_id } }, moveList, nextListId, updateProject } = this.props;
 
         const listId = e.dataTransfer.getData('listId');
 
         if(!listId) return;
 
         await moveList(project_id, listId, nextListId);
+
+        await updateProject(project_id);
 
         this.clearClass();
     }

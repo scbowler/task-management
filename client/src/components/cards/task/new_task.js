@@ -12,16 +12,9 @@ class NewTask extends Component {
     toggleShow = () => this.setState({ showForm: !this.state.showForm });
 
     handleCreateTask = async ({ taskName }) => {
-        const { createNewProjectTask, listId, projectId, socket, updateTasks } = this.props;
+        const { createNewProjectTask, listId, projectId } = this.props;
 
         await createNewProjectTask(projectId, listId, taskName);
-
-        socket.emit('update-lists', {
-            projectId,
-            lists: [listId]
-        })
-
-        updateTasks(projectId, listId);
 
         this.cancel();
     }
