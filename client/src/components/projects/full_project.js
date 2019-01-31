@@ -25,19 +25,11 @@ class FullProject extends Component {
 
         this.socket = io(`/project-${params.project_id}`);
 
-        // this.socket.on('connect', () => {
-        //     // set live flag here
-        //     console.log('Connected for project updates');
-        // });
-
         this.socket.on('update-lists', ({lists, projectId}) => {
             lists.map(listId => getProjectListTasks(projectId, listId));
         });
 
-        this.socket.on('update-project', () => {
-            console.log('Update Project');
-            this.updateProject();
-        });
+        this.socket.on('update-project', this.updateProject);
     }
 
     componentWillUnmount(){

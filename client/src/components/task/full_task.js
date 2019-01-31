@@ -19,11 +19,6 @@ class FullTask extends Component {
 
         this.socket = io(`/task-${params.task_id}`);
 
-        // this.socket.on('connect', () => {
-        //     // set live flag here
-        //     console.log('Connected for task updates');
-        // });
-
         this.socket.on('task-deleted', () => {
             clearTask();
         });
