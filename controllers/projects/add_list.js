@@ -1,4 +1,4 @@
-const { lists, projects } = require('../../db/models');
+const { lists } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 
 module.exports = async (req, res) => {

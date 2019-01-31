@@ -51,7 +51,6 @@ module.exports = async (req, res) => {
             startingListId: ogList.pid
         });
     } catch(err){
-        console.log('Error:', err);
         sendError(res, err, 'Error moving task');
     }
 }

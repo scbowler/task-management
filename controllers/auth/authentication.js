@@ -34,7 +34,7 @@ exports.jwtSignIn = function (req, res) {
     const { user } = req;
 
     res.send({
-        user: userDataToSend(req.user)
+        user: userDataToSend(user)
     });
 };
 

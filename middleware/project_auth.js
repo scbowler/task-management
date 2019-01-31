@@ -22,7 +22,7 @@ module.exports = async (req, res, next) => {
             if(!projectUser) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
 
             req.project = project;
-            req.projectOwner = project.id === user.id;
+            req.projectOwner = project.createdById === user.id;
         }
 
         if(list_id){

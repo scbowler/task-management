@@ -45,7 +45,6 @@ module.exports = async (req, res) => {
             availableCollaborators: formattedAvailable
         });
     } catch(err){
-        console.log('Error:', err);
         sendError(res, err, 'Error getting available collaborators for task');
     }
 }

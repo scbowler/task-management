@@ -61,7 +61,6 @@ module.exports = async (req, res) => {
             task
         });
     } catch(err){
-        console.log('Error:', err);
         sendError(res, err, 'Error updating description');
     }
     

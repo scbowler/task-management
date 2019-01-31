@@ -1,5 +1,5 @@
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { projects, projectUsers, users } = require('../../db/models');
+const { projectUsers, users } = require('../../db/models');
 
 exports.add = async (req, res) => {
     const { params: { user_id }, project, projectOwner} = req;
