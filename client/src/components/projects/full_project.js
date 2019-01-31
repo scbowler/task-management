@@ -35,6 +35,7 @@ class FullProject extends Component {
         });
 
         this.socket.on('update-project', () => {
+            console.log('Update Project');
             this.updateProject();
         });
     }
@@ -67,26 +68,21 @@ class FullProject extends Component {
     }
 
     renderLists(){
-        const { getProject, lists, listToUpdate } = this.props;
+        const { lists, listToUpdate } = this.props;
 
         if(!lists || !lists.length) return null;
-
-        const dropProps = {
-            getProject,
-            socket: this.socket
-        };
 
         return (
             <Fragment>
                 {
                     lists.map(list => (
                         <Fragment key={list.pid}>
-                            <ListDropTarget {...dropProps} nextListId={list.pid} />
+                            <ListDropTarget nextListId={list.pid} />
                             <List {...list} shouldUpdate={listToUpdate === list.pid} socket={this.socket} />
                         </Fragment>
                     ))
                 }
-                <ListDropTarget {...dropProps} nextListId="end"/>
+                <ListDropTarget nextListId="end"/>
             </Fragment>
         )
     }
@@ -99,7 +95,7 @@ class FullProject extends Component {
             <div className="project-view">
                 <div style={{width: containerWidth}} className="project-content">
                     {this.renderLists()}
-                    <CreateList getProject={this.updateProject} projectId={params.project_id} socket={this.socket}/>
+                    <CreateList getProject={this.updateProject} projectId={params.project_id} />
                 </div>
                 <Route path={`${path}/settings`} component={
                     lazyLoad({
