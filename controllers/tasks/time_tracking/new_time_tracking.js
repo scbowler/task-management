@@ -39,6 +39,8 @@ module.exports = async (req, res) => {
             await newTimeTracking(user, task, running);
         }
 
+        io.of(`/task-${task.pid}`).emit('time-tracking-update');
+
         res.send({
             success: true,
         });

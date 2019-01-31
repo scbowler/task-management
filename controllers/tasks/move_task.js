@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const { lists, tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 const { centerRank } = require('../../helpers/general');
+const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
     const { body: { nextId }, task, list } = req;
@@ -23,14 +24,14 @@ module.exports = async (req, res) => {
             });
 
             const surroundingTasks = await tasks.findAll({
-                attributes:['rank'],
+                attributes:['rank', 'name'],
                 where: {
                     listId: nextTask.listId,
                     rank: {
                         [Op.lte]: nextTask.rank
                     }
                 },
-                order: ['rank'],
+                order: [['rank', 'DESC']],
                 limit: 2
             });
 
@@ -45,6 +46,17 @@ module.exports = async (req, res) => {
         task.rank = rank;
 
         await task.save();
+
+        const listsToUpdate = [ogList.pid];
+
+        if(ogList.pid !== list.pid){
+            listsToUpdate.push(list.pid);
+        }
+
+        io.of(`/project-${task.project.pid}`).emit('update-lists', {
+            projectId: task.project.pid,
+            lists: listsToUpdate
+        });
 
         res.send({
             success: true,

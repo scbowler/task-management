@@ -15,11 +15,8 @@ class ListOptions extends Component {
 
     callAction(cb, ...args){
         if(typeof cb === 'function'){
-            const { projectId, socket } = this.props;
-
+            
             cb.apply(this, args);
-
-            socket.emit('update-project', projectId);
 
             this.toggleVisible();
         }

@@ -28,11 +28,10 @@ class List extends Component {
     }
 
     renderTasks(){
-        const { pid, socket, tasks } = this.props;
+        const { pid, tasks } = this.props;
 
         const dropProps = {
-            destinationListId: pid,
-            socket
+            destinationListId: pid
         }
 
         if (!tasks || !tasks.length) return <DropTarget {...dropProps} nextTaskId="new" />;
@@ -53,17 +52,17 @@ class List extends Component {
     }
 
     render(){
-        const { getProjectListTasks, isOwner, match: { params }, name, pid, socket } = this.props;
+        const { isOwner, match: { params }, name, pid } = this.props;
 
         return (
             <div className={`task-list z-depth-1 ${this.state.addClass}`} draggable id={pid} onDragStart={this.onDrag}>
                 <div className="list-header">
                     <div className="list-name">{name}</div>
-                    <ListOptions isOwner={isOwner} projectId={params.project_id} listId={pid} socket={socket}/>
+                    <ListOptions isOwner={isOwner} projectId={params.project_id} listId={pid}/>
                 </div>
                 <div className="list-contents">
                     {this.renderTasks()}
-                    <NewTask updateTasks={getProjectListTasks} listId={pid} projectId={params.project_id} socket={socket}/>
+                    <NewTask listId={pid} projectId={params.project_id} />
                 </div>
             </div>
         );

@@ -24,14 +24,14 @@ class DropTarget extends Component {
 
     clearClass = () => this.setState({ addClass: '' });
 
-    dragLeave = e => {
+    dragLeave = () => {
         this.delayLeave = setTimeout(this.clearClass, 50);
     }
 
     handleDrop = async e => {
         e.preventDefault();
 
-        const { getProjectListTasks, match: { params: { project_id } }, moveTask, nextTaskId, socket, destinationListId } = this.props;
+        const { getProjectListTasks, match: { params: { project_id } }, moveTask, nextTaskId, destinationListId } = this.props;
 
         const taskId = e.dataTransfer.getData('taskId');
         const isNew = nextTaskId === 'new';
@@ -51,11 +51,6 @@ class DropTarget extends Component {
                 listUpdates.push(originalListId);
                 getProjectListTasks(project_id, originalListId);
             }
-
-            socket.emit('update-lists', {
-                lists: listUpdates,
-                projectId: project_id
-            });
         }
     }
 

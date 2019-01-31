@@ -1,5 +1,6 @@
 const { tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
+const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
     const { body: { name }, list, project, user } = req;
@@ -16,6 +17,11 @@ module.exports = async (req, res) => {
         });
 
         const task = await newTask.save();
+
+        io.of(`/project-${project.pid}`).emit('update-lists', {
+            projectId: project.pid,
+            lists: [ list.pid ]
+        });
 
         res.send({
             success: true,

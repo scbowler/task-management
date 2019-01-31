@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const { lists } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 const { centerRank } = require('../../helpers/general');
+const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
     const { body: { nextId }, list: listToMove, project } = req;
@@ -41,6 +42,8 @@ module.exports = async (req, res) => {
             listToMove.rank = rank;
             await listToMove.save();
         }
+
+        io.of(`/project-${project.pid}`).emit('update-project');
 
         res.send({
             success: true
