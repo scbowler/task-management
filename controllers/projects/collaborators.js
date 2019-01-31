@@ -1,5 +1,6 @@
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 const { projectUsers, users } = require('../../db/models');
+const { io } = require('../../services/websocket');
 
 exports.add = async (req, res) => {
     const { params: { user_id }, project, projectOwner} = req;
@@ -19,6 +20,8 @@ exports.add = async (req, res) => {
         });
 
         await projectUser.save();
+
+        io.of(`/user-${user_id}`).emit('update-projects');
 
         res.send({
             message: 'Collaborator added to project',
@@ -50,6 +53,8 @@ exports.remove = async (req, res) => {
 
         if(projectUser){
             await projectUser.destroy();
+
+            io.of(`/user-${user_id}`).emit('update-projects');
         }
 
         res.send({
