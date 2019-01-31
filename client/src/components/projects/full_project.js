@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import io from '../../socket';
 import ActiveTimerWidget from '../task/time_tracking/widget';
@@ -108,8 +108,7 @@ class FullProject extends Component {
                     lazyLoad({
                         load: () => import('../task'),
                         loading: <Blank/>,
-                        name: 'project_full_task',
-                        props: {projectSocket: this.socket}
+                        name: 'project_full_task'
                     })
                 }/>
                 <ActiveTimerWidget history={history}/>
@@ -118,7 +117,7 @@ class FullProject extends Component {
     }
 }
 
-const mapStateToProps = ({projects, tasks, user}) => ({
+const mapStateToProps = ({tasks, user}) => ({
     lists: tasks.lists,
     listToUpdate: tasks.listToUpdate,
     redirect: user.redirect

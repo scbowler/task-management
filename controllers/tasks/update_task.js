@@ -1,5 +1,6 @@
 const { tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
+const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
     const { field, task_id } = req.params;
@@ -55,6 +56,13 @@ module.exports = async (req, res) => {
         task.project = task.project.name
 
         delete task.id;
+
+        io.of(`/task-${req.task.pid}`).emit('update-task');
+
+        io.of(`/project-${req.task.project.pid}`).emit('update-lists', {
+            lists: [ req.task.list.pid ],
+            projectId: req.task.project.pid
+        });
 
         res.send({
             success: true,

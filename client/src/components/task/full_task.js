@@ -52,40 +52,27 @@ class FullTask extends Component {
     }
 
     deleteTask = async () => {
-        const { deleteSingleTask, flagListForUpdate, history, match: { params }, task: { listId }, projectSocket } = this.props;
+        const { deleteSingleTask, flagListForUpdate, history, match: { params }, task: { listId } } = this.props;
 
         await deleteSingleTask(params.task_id);
 
         flagListForUpdate(listId);
 
-        this.socket.emit('task-deleted', params.task_id);
-
-        projectSocket.emit('update-lists', {
-            lists: [listId],
-            projectId: params.project_id
-        });
-
         history.push(`/projects/${params.project_id}`);
     }
 
     updateTask = async (field, content) => {
-        const { flagListForUpdate, match: { params }, projectSocket, task: { listId }, updateTask } = this.props;
+        const { flagListForUpdate, match: { params }, task: { listId }, updateTask } = this.props;
 
         if(field === 'name'){
             flagListForUpdate(listId);
         }
 
         await updateTask(field, params.task_id, content);
-
-        this.socket.emit('update-task', params.task_id);
-        projectSocket.emit('update-lists', {
-            lists: [listId],
-            projectId: params.project_id
-        });
     }
 
     renderTask(){
-        const { isProjectOwner, task = {}, match: { params }, projectSocket } = this.props;
+        const { isProjectOwner, task = {}, match: { params } } = this.props;
 
         if(task === null){
             return (
@@ -100,7 +87,6 @@ class FullTask extends Component {
             listId: task.listId,
             taskId: params.task_id,
             projectId: params.project_id,
-            projectSocket,
             socket: this.socket
         }
 

@@ -19,7 +19,7 @@ class ProjectSettings extends Component {
         this.updateProjectSettings();
     }
 
-    close = e => {
+    close = () => {
         const { history, match: { params } } = this.props;
 
         history.push(`/projects/${params.project_id}`);

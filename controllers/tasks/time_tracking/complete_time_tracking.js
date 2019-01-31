@@ -33,9 +33,6 @@ module.exports = async (req, res) => {
             lists: [ task.list.pid ],
             projectId: task.project.pid
         });
-        // socket.emit('time-tracking-update', taskId);
-
-        // projectSocket.emit('update-lists', { lists: [listId], projectId });
 
         res.send({
             success: true
