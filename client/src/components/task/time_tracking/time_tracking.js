@@ -52,27 +52,21 @@ class TimeTracking extends Component {
     }
 
     createNewTimeTracking = async () => {
-        const { clearWidget, newTimeTracking, socket, taskId } = this.props;
+        const { clearWidget, newTimeTracking, taskId } = this.props;
 
         clearWidget();
 
         await newTimeTracking(taskId);
 
-        socket.emit('time-tracking-update', taskId);
-
         this.getTracking();
     }
 
     stopActiveTimer = async trackingId => {
-        const { clearWidget, completeTimeTracking, listId, projectId, projectSocket, socket, taskId } = this.props;
+        const { clearWidget, completeTimeTracking, taskId } = this.props;
 
         clearWidget();
 
         await completeTimeTracking(taskId, trackingId);
-
-        socket.emit('time-tracking-update', taskId);
-
-        projectSocket.emit('update-lists', { lists: [listId], projectId });
 
         this.getTracking();
     }
