@@ -19,8 +19,9 @@ require('./services/websocket').listeners();
 
 if(ENV === 'production'){
     https.createServer({
+	ca: fs.readFileSync('ssl/server-ca.cert'),
         cert: fs.readFileSync('ssl/server.cert'),
-        key: fs.readFileSync('ssl/server.key')
+        key: fs.readFileSync('ssl/server-private.key')
     }, app).listen(443, () => {
         console.log('Secure Server Running on PORT:443');
     });
