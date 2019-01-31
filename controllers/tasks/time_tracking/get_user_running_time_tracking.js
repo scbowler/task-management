@@ -1,11 +1,10 @@
-const { projectUsers, tasks, timeTracking, timeTrackingStatuses } = require('../../../db/models');
-const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
+const { timeTracking, timeTrackingStatuses } = require('../../../db/models');
+const { sendError } = require('../../../helpers/error_handling');
 
 module.exports = async (req, res) => {
     const { user } = req;
 
     try {
-
         const { running } = await timeTrackingStatuses.getIdsByMids('running');
 
         const runningTimers = await timeTracking.findOne({

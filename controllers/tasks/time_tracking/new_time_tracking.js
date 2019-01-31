@@ -1,31 +1,11 @@
-const { projectUsers, tasks, timeTracking, timeTrackingStatuses } = require('../../../db/models');
-const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
+const { timeTracking, timeTrackingStatuses } = require('../../../db/models');
+const { sendError, StatusError } = require('../../../helpers/error_handling');
 const { io } = require('../../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { params: { task_id }, user } = req;
+    const { task, user } = req;
 
     try {
-        const task = await tasks.findByPid(task_id, {
-            attributes: ['id'],
-            include: {
-                association: 'project',
-                attributes: ['id']
-            }
-        });
-
-        if(!task) throw new StatusError(422, [], 'Unknown task id' + errorFlag);
-
-        const projectUser = await projectUsers.findOne({
-            attributes: ['id'],
-            where: {
-                projectId: task.project.id,
-                userId: user.id
-            }
-        });
-
-        if(!projectUser) throw new StatusError(401, [], 'Not Authorized');
-
         const { running, stopped } = await timeTrackingStatuses.getIdsByMids('running', 'stopped');
 
         if(!running) throw new StatusError(500, [], 'Unknown time tracking status');
@@ -42,7 +22,7 @@ module.exports = async (req, res) => {
         });
 
         if(time){
-            if(time.taskId !== task_id){
+            if(time.taskId !== task.id){
                 const now = new Date().getTime();
 
                 time.end = now;
@@ -63,7 +43,6 @@ module.exports = async (req, res) => {
             success: true,
         });
     } catch(err){
-        console.log(err);
         sendError(res, err, 'Error starting new time tracking');
     }
 }
