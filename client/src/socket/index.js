@@ -1,6 +1,5 @@
 const io = require('socket.io-client');
-
-const server = 'http://localhost:9050';
+const { server } = require('../config/socket');
 
 const ioConfig = {
     path: '/ws',

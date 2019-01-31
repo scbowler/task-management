@@ -27,7 +27,7 @@ function formatError(err, defaultErrorMessage, flagStr = errorFlag) {
     let formattedError = [defaultErrorMessage];
 
     if (err instanceof Error) {
-        err = (err.array && err.array.length) || err.message;
+        err = (err.array && err.array.length && err.array) || err.message;
     }
 
     if (typeof err === 'string') {

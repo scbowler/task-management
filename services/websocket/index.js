@@ -2,10 +2,28 @@ const io = require('socket.io')({ path: '/ws' });
 const { idRegexBase } = require('../../helpers/validation').rawRegex;
 const { addMessage, getTaskId, getTaskMessages, userFromToken } = require('./helpers');
 const msgsRegex = new RegExp(`^\/msgs-${idRegexBase}$`, 'i');
+const projectRegex = new RegExp(`^\/project-${idRegexBase}$`, 'i');
+const taskRegex = new RegExp(`^\/task-${idRegexBase}$`, 'i');
+const userRegex = new RegExp(`^\/user-${idRegexBase}$`, 'i');
 
 exports.io = io;
 
 exports.listeners = () => {
+    io.of('/project-settings').on('connect', socket => {
+        socket.emit('connected');
+    });
+
+    io.of(taskRegex).on('connect', socket => {
+        socket.emit('connected');
+    });
+
+    io.of(projectRegex).on('connect', socket => {
+        socket.emit('connected');
+    });
+
+    io.of(userRegex).on('connect', socket => {
+        socket.emit('connected');
+    });
     
     io.of(msgsRegex).on('connect', async socket => {
         const nsp = socket.nsp;
