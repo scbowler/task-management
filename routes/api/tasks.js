@@ -4,7 +4,7 @@ const { deleteTask, getSingleTask, moveTask, updateTask } = require('../../contr
 const { getRunning } = require('../../controllers/tasks').timeTracking;
 
 router.get('/time-tracking', getRunning);
-router.use('/:task_id/time-tracking', require('./time_tracking'));
+router.use('/:task_id/time-tracking', projectAuth, require('./time_tracking'));
 
 router.use('/:task_id/collaborators', projectAuth, require('./task_collaborators'));
 
