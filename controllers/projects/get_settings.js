@@ -1,20 +1,12 @@
 const { Op } = require('sequelize');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { projects, projectUsers, users } = require('../../db/models');
+const { projectUsers, users } = require('../../db/models');
 
 module.exports = async (req, res) => {
-    const { params: { project_id }, user } = req;
+    const { project, projectOwner, user } = req;
 
     try {
-        const project = await projects.findOne({
-            attributes: ['description', 'id', 'name'],
-            where: {
-                createdById: user.id,
-                pid: project_id
-            }
-        });
-
-        if(!project) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
+        if(!projectOwner) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
 
         const userAttributes = ['email', 'firstName', 'id', 'lastName', 'pid'];
 

@@ -1,27 +1,11 @@
 const { Op } = require('sequelize');
-const { projectUsers, tasks, taskCollaborators } = require('../../../db/models');
-const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
+const { projectUsers, taskCollaborators } = require('../../../db/models');
+const { sendError } = require('../../../helpers/error_handling');
 const { abvName } = require('../../../helpers/general');
 
 module.exports = async (req, res) => {
-    const { params: { project_id, task_id }, user } = req;
+    const { task } = req;
     try {
-        const task = await tasks.findByPid(task_id, {
-            attributes: ['id', 'projectId']
-        });
-
-        if(!task) throw new StatusError(422, [], 'Invalid task id' + errorFlag);
-
-        const isProjectUser = await projectUsers.findOne({
-            attributes: ['id'],
-            where: {
-                projectId: task.projectId,
-                userId: user.id
-            }
-        });
-
-        if(!isProjectUser) throw new StatusError('401', [], 'Not Authorized' + errorFlag);
-
         const currentCollaborators = await taskCollaborators.findAll({
             attributes: ['userId'],
             where: {
@@ -61,7 +45,6 @@ module.exports = async (req, res) => {
             availableCollaborators: formattedAvailable
         });
     } catch(err){
-        console.log('Error:', err);
         sendError(res, err, 'Error getting available collaborators for task');
     }
 }

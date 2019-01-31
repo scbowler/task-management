@@ -1,17 +1,11 @@
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { projects, projectUsers, users } = require('../../db/models');
+const { projectUsers, users } = require('../../db/models');
 
 exports.add = async (req, res) => {
-    const { params: { project_id, user_id }, user } = req;
+    const { params: { user_id }, project, projectOwner} = req;
 
     try {
-        const project = await projects.findByPid(project_id, {
-            attributes: ['createdById', 'id']
-        });
-
-        if(!project) throw new StatusError(422, [], 'Invalid project ID' + errorFlag);
-
-        if (user.id !== project.createdById) throw new StatusError(401, [], 'Not Authorized');
+        if (!projectOwner) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
 
         const foundUser = await users.findByPid(user_id, {
             attributes: ['id']
@@ -36,16 +30,10 @@ exports.add = async (req, res) => {
 }
 
 exports.remove = async (req, res) => {
-    const { params: { project_id, user_id }, user } = req;
+    const { params: { user_id }, project, projectOwner } = req;
 
     try {
-        const project = await projects.findByPid(project_id, {
-            attributes: ['createdById', 'id']
-        });
-
-        if(!project) throw new StatusError(422, [], 'Invalid project ID' + errorFlag);
-
-        if (user.id !== project.createdById) throw new StatusError(401, [], 'Not Authorized');
+        if (!projectOwner) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
 
         const foundUser = await users.findByPid(user_id, {
             attributes: ['id']

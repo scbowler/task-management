@@ -4,22 +4,9 @@ const { errorFlag, sendError, StatusError } = require('../../helpers/error_handl
 const { centerRank } = require('../../helpers/general');
 
 module.exports = async (req, res) => {
-    const { body: { nextId }, params: { list_id, task_id } } = req;
+    const { body: { nextId }, task, list } = req;
 
     try {
-        if(!list_id) throw new StatusError(400, [], 'No destination list ID provided' + errorFlag);
-        if(!task_id) throw new StatusError(400, [], 'No task ID provided' + errorFlag);
-
-        const list = await lists.findByPid(list_id, {
-            attributes: ['id']
-        });
-
-        if (!list) throw new StatusError(422, [], 'Unknown list ID provided' + errorFlag);
-
-        const task = await tasks.findByPid(task_id);
-
-        if (!task) throw new StatusError(422, [], 'Unknown task ID provided' + errorFlag);
-
         const ogListId = task.listId;
 
         const ogList = await lists.findByPk(ogListId, {

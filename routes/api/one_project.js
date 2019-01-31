@@ -1,21 +1,21 @@
 const router = require('express').Router({ mergeParams: true });
-const { requireBasicAuth } = require('../setup');
+const projectAuth = require('../../middleware/project_auth');
 const { addListToProject, addTaskToProject, collaborators, deleteListFromProject, getListsTasks, getOneProject, getSettings, moveList } = require('../../controllers/projects');
 
-router.get('/', requireBasicAuth, getOneProject);
+router.get('/', projectAuth, getOneProject);
 
-router.post('/lists', requireBasicAuth, addListToProject);
+router.post('/lists', projectAuth, addListToProject);
 
-router.delete('/lists/:list_id', requireBasicAuth, deleteListFromProject);
+router.delete('/lists/:list_id', projectAuth, deleteListFromProject);
 
-router.get('/lists/:list_id/tasks', requireBasicAuth, getListsTasks);
-router.post('/lists/:list_id/tasks', requireBasicAuth, addTaskToProject);
+router.get('/lists/:list_id/tasks', projectAuth, getListsTasks);
+router.post('/lists/:list_id/tasks', projectAuth, addTaskToProject);
 
-router.patch('/lists/:list_id/move', requireBasicAuth, moveList);
+router.patch('/lists/:list_id/move', projectAuth, moveList);
 
-router.get('/settings', requireBasicAuth, getSettings);
+router.get('/settings', projectAuth, getSettings);
 
-router.post('/collaborators/:user_id', requireBasicAuth, collaborators.add);
-router.delete('/collaborators/:user_id', requireBasicAuth, collaborators.remove);
+router.post('/collaborators/:user_id', projectAuth, collaborators.add);
+router.delete('/collaborators/:user_id', projectAuth, collaborators.remove);
 
 module.exports = router;

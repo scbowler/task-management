@@ -1,11 +1,11 @@
 const { tasks } = require('../../db/models');
-const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
+const { sendError } = require('../../helpers/error_handling');
 
 module.exports = async (req, res) => {
-    const { params: { task_id }, user } = req;
+    const { user } = req;
 
     try {
-        let task = await tasks.findByPid(task_id, {
+        let task = await tasks.findByPk(req.task.id, {
             attributes: {
                 exclude: ['id', 'createdById', 'deletedAt', 'listId', 'projectId', 'rank']
             },

@@ -1,27 +1,20 @@
-const { projectUsers, tasks, timeTracking, timeTrackingStatuses } = require('../../../db/models');
-const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
-const { abvName } = require('../../../helpers/general');
+const { timeTracking, timeTrackingStatuses } = require('../../../db/models');
+const { sendError, StatusError } = require('../../../helpers/error_handling');
 
 module.exports = async (req, res) => {
-    const { params: { task_id, tracking_id }, user } = req;
+    const { params: { tracking_id }, task, user } = req;
     try {
-
         const { running, stopped } = await timeTrackingStatuses.getIdsByMids('running', 'stopped');
 
         if(!running) throw new StatusError(500, [], 'Unknown time tracking status');
 
-        const task = await tasks.findByPid(task_id, {
-            attributes: ['id']
-        });
-
-        if(!task) throw new StatusError(422, [], 'Unknown task id' + errorFlag);
-
         const timer = await timeTracking.findOne({
             attributes: ['id', 'start'],
             where: {
-                taskId: task.id,
+                pid: tracking_id,
                 statusId: running,
-                pid: tracking_id
+                taskId: task.id,
+                userId: user.id                
             }
         });
 
@@ -36,8 +29,7 @@ module.exports = async (req, res) => {
         res.send({
             success: true
         });
-    } catch(err){
-        console.log('COMPLETE ERROR', err); 
+    } catch(err){ 
         sendError(res, err, 'Error stopping timer');
     }
 }
