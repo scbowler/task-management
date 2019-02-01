@@ -9,6 +9,7 @@
     .card-title {
         color: $primary-text;
         font-size: 1.2em;
+        overflow-wrap: break-word;
         padding: 10px 8px;
     }
     .card-collaborators {
