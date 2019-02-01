@@ -1,15 +1,9 @@
-// const io = require('socket.io')({ path: '/ws' });
-const { io } = require('../../index');
-
-console.log('IO:', io);
 const { idRegexBase } = require('../../helpers/validation').rawRegex;
 const { addMessage, getTaskId, getTaskMessages, userFromToken } = require('./helpers');
 const msgsRegex = new RegExp(`^\/msgs-${idRegexBase}$`, 'i');
 const projectRegex = new RegExp(`^\/project-${idRegexBase}$`, 'i');
 const taskRegex = new RegExp(`^\/task-${idRegexBase}$`, 'i');
 const userRegex = new RegExp(`^\/user-${idRegexBase}$`, 'i');
-
-exports.io = io;
 
 exports.listeners = (io) => {
     io.of('/project-settings').on('connect', socket => {
@@ -47,9 +41,6 @@ exports.listeners = (io) => {
             const messages = await getTaskMessages(taskId);
             
             nsp.emit('update-messages', { messages });
-        })
+        });
     });
-
-    io.listen(9050);
-    console.log('Socket Server on PORT:', 9050);
 }

@@ -9,7 +9,7 @@ const ioConfig = {
 
 export const rootIo = io(server, ioConfig);
 
-export default (path = server, options = {}) => {``
+export default (path = server, options = {}) => {
     return io(path === server ? server : server + path, {
         ...ioConfig,
         ...options
