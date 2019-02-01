@@ -1,8 +1,7 @@
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { projectOwner, task, taskOwner } = req;
+    const { io, projectOwner, task, taskOwner } = req;
     
     try {
         if(!taskOwner && !projectOwner){

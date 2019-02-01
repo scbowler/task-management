@@ -1,9 +1,8 @@
 const { timeTracking, timeTrackingStatuses } = require('../../../db/models');
 const { sendError, StatusError } = require('../../../helpers/error_handling');
-const { io } = require('../../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { params: { tracking_id }, task, user } = req;
+    const { io, params: { tracking_id }, task, user } = req;
     try {
         const { running, stopped } = await timeTrackingStatuses.getIdsByMids('running', 'stopped');
 

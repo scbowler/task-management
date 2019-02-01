@@ -1,10 +1,12 @@
 const express = require('express');
 const { resolve } = require('path');
 const cors = require('cors');
+const http = require('http');
 const https = require('https');
+const socket = require('socket.io');
 const fs = require('fs');
-const PORT = process.env.PORT || 9000;
 const ENV = process.env.NODE_ENV || 'development';
+const PORT = process.env.PORT || ENV === 'production' ? 443 : 9000;
 
 const app = express();
 
@@ -14,21 +16,35 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(resolve(__dirname, 'client', 'dist')));
 
-require('./routes')(app);
-require('./services/websocket').listeners();
+let server = null;
+let message = null;
 
 if(ENV === 'production'){
-    https.createServer({
-	ca: fs.readFileSync('ssl/server-ca.cert'),
+    server = https.createServer({
+        ca: fs.readFileSync('ssl/server-ca.cert'),
         cert: fs.readFileSync('ssl/server.cert'),
         key: fs.readFileSync('ssl/server-private.key')
-    }, app).listen(443, () => {
-        console.log('Secure Server Running on PORT:443');
-    });
+    }, app);
+
+    message = 'Secure Server Running on PORT:' + PORT
 } else {
-    app.listen(PORT, () => {
-        console.log('Server Running on PORT:', PORT);
-    }).on('error', () => {
-        console.log(`Server listen error, do you have another server running on PORT: ${PORT}?`);
-    });
+    server = http.createServer(app);
+
+    message = 'Server Running on PORT: ' + PORT;
 }
+
+const io = socket(server);
+
+app.use((req, res, next) => {
+    req.io = io;
+
+    return next();
+});
+
+require('./services/websocket').listeners(io);
+
+require('./routes')(app);
+
+server.listen(PORT, () => console.log(message)).on('error', () => {
+    console.log(`Server listen error, do you have another server running on PORT: ${PORT}?`);
+});;

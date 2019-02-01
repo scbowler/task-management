@@ -2,10 +2,9 @@ const { Op } = require('sequelize');
 const { lists } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 const { centerRank } = require('../../helpers/general');
-const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { body: { nextId }, list: listToMove, project } = req;
+    const { body: { nextId }, io, list: listToMove, project } = req;
 
     try {
         if(!nextId) throw new StatusError(400, [], 'Missing next list ID' + errorFlag);

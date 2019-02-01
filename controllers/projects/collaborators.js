@@ -1,9 +1,8 @@
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 const { projectUsers, users } = require('../../db/models');
-const { io } = require('../../services/websocket');
 
 exports.add = async (req, res) => {
-    const { params: { user_id }, project, projectOwner} = req;
+    const { params: { user_id }, io, project, projectOwner} = req;
 
     try {
         if (!projectOwner) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
