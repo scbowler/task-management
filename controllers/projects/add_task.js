@@ -1,9 +1,8 @@
 const { tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { body: { name }, list, project, user } = req;
+    const { body: { name }, io, list, project, user } = req;
 
     try {
         if (!name) throw new StatusError(422, null, 'No task name provided' + errorFlag);

@@ -1,9 +1,8 @@
 const { taskCollaborators, users } = require('../../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
-const { io } = require('../../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { body: { collaborators }, task } = req;
+    const { body: { collaborators }, io, task } = req;
 
     try {
         if(!collaborators.length) throw new StatusError(422, [], 'No collaborators received' + errorFlag);

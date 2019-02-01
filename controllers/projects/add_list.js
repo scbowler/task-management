@@ -1,9 +1,8 @@
 const { lists } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { body: { listName },  project } = req;
+    const { body: { listName }, io,  project } = req;
     const { user } = req;
 
     try {

@@ -2,7 +2,6 @@ const io = require('socket.io-client');
 const { server } = require('../config/socket');
 
 const ioConfig = {
-    path: '/ws',
     query: {
         token: localStorage.getItem('taskToken')
     }

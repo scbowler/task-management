@@ -1,9 +1,8 @@
 const { tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
-const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { field, task_id } = req.params;
+    const { io, params: { field, task_id } } = req;
     const { [field]: content } = req.body;
     const editableFields = ['description', 'name'];
 

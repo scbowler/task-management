@@ -2,10 +2,9 @@ const { Op } = require('sequelize');
 const { lists, tasks } = require('../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../helpers/error_handling');
 const { centerRank } = require('../../helpers/general');
-const { io } = require('../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { body: { nextId }, task, list } = req;
+    const { body: { nextId }, io, task, list } = req;
 
     try {
         const ogListId = task.listId;

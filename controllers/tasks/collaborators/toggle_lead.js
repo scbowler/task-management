@@ -1,9 +1,8 @@
 const { taskCollaborators } = require('../../../db/models');
 const { errorFlag, sendError, StatusError } = require('../../../helpers/error_handling');
-const { io } = require('../../../services/websocket');
 
 module.exports = async (req, res) => {
-    const { params: { collaborator_id }, task } = req;
+    const { io, params: { collaborator_id }, task } = req;
 
     try {
         const collaborator = await taskCollaborators.findByPid(collaborator_id);
