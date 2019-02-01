@@ -32,7 +32,7 @@ exports.add = async (req, res) => {
 }
 
 exports.remove = async (req, res) => {
-    const { params: { user_id }, project, projectOwner } = req;
+    const { params: { user_id }, io, project, projectOwner } = req;
 
     try {
         if (!projectOwner) throw new StatusError(401, [], 'Not Authorized' + errorFlag);
