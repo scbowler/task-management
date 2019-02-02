@@ -10,6 +10,9 @@ export function formatTime(ms){
     return `${hours ? `${hours}` : '0'}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 }
 
+const addLinks = text => text.replace(/(https?:\/\/[a-z./\-_]*)/gi, url => `<a href="${url}" target="_blank">${url}</a>`);
+const removeScripts = text => text.replace(/(<script>[\s\S]*<\/script>)/gi, () => '');
+
 export function enhanceText(text, options = {}){
     const modifiers = {
         addLinks,
@@ -28,16 +31,4 @@ export function enhanceText(text, options = {}){
     }
 
     return enhancedText;
-}
-
-function addLinks(text){
-    const regEx = /(https?:\/\/[a-z./\-_]*)/gi;
-
-    return text.replace(regEx, url => `<a href="${url}" target="_blank">${url}</a>`);
-}
-
-function removeScripts(text){
-    const regEx = /(<script>[\s\S]*<\/script>)/gi;
-
-    return text.replace(regEx, () => '');
 }
