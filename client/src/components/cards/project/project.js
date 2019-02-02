@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { formatTime } from '../../../helpers';
+import { enhanceText, formatTime } from '../../../helpers';
 import './project.scss';
 
 class ProjectCard extends Component {
@@ -21,7 +21,7 @@ class ProjectCard extends Component {
         return (
             <div className="project-card" onClick={this.goToProject}>
                 <div className="card-title">{name}</div>
-                <div className="card-contents">{description}</div>
+                <div className="card-contents" dangerouslySetInnerHTML={{__html: enhanceText(description)}}/>
                 {
                     isOwner
                         ? <div className="card-footer" onClick={this.deleteProject}><i className="material-icons">delete</i></div>

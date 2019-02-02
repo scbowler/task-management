@@ -9,3 +9,24 @@ export function formatTime(ms){
 
     return `${hours ? `${hours}` : '0'}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 }
+
+const addLinks = text => text && text.replace(/(https?:\/\/[a-z./\-_]*)/gi, url => `<a onclick="event.stopPropagation()" href="${url}" target="_blank">${url}</a>`);
+const removeScripts = text => text && text.replace(/(<script>[\s\S]*<\/script>)/gi, () => '');
+
+export function enhanceText(text, options = {}){
+    const modifiers = {
+        addLinks,
+        removeScripts,
+        ...options
+    }
+
+    let enhancedText = text;
+
+    for(let [, action] of Object.entries(modifiers)){
+        if(typeof action === 'function'){
+            enhancedText = action(enhancedText);
+        }
+    }
+
+    return enhancedText;
+}
