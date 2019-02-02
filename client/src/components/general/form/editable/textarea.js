@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { enhanceText } from '../../../../helpers';
 import './editable.scss';
 
 class EditText extends Component {
@@ -80,7 +81,11 @@ class EditText extends Component {
             )
         }
 
-        return <p onClick={this.toggleEditable} className={`edit-content edit-text-content ${className || ''}`}>{content || defaultContent || 'Click to edit'} <i className="material-icons edit-icon">edit</i></p>;
+        return (
+            <p onClick={this.toggleEditable} className={`edit-content edit-text-content ${className || ''}`}>
+                <span dangerouslySetInnerHTML={{__html: enhanceText(content) || defaultContent || 'Click to edit'}} /> <i className="material-icons edit-icon">edit</i>
+            </p>
+        );
     }
 }
 
