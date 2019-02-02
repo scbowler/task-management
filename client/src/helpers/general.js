@@ -9,3 +9,35 @@ export function formatTime(ms){
 
     return `${hours ? `${hours}` : '0'}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
 }
+
+export function enhanceText(text, options = {}){
+    const modifiers = {
+        addLinks,
+        removeScripts,
+        ...options
+    }
+
+    let enhancedText = text;
+
+    for(let key in modifiers){
+        const action = modifiers[key];
+
+        if(typeof action === 'function'){
+            enhancedText = action(enhancedText);
+        }
+    }
+
+    return enhancedText;
+}
+
+function addLinks(text){
+    const regEx = /(https?:\/\/[a-z./\-_]*)/gi;
+
+    return text.replace(regEx, url => `<a href="${url}" target="_blank">${url}</a>`);
+}
+
+function removeScripts(text){
+    const regEx = /(<script>[\s\S]*<\/script>)/gi;
+
+    return text.replace(regEx, () => '');
+}
