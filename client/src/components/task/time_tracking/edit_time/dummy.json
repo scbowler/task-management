@@ -1,0 +1,29 @@
+{
+    "times": [
+        {
+            "startTime": 1551139546558,
+            "endTime": 1551139746558,
+            "total": 200000,
+            "owner": {
+                "initials": "CM",
+                "name": "Cody Miller",
+                "color": "chartreuse"
+            },
+            "pid": "h087y024359i6hj42359xsfht6i",
+            "isOwner": true
+        },
+        {
+            "startTime": 1551139446558,
+            "endTime": 1551139646558,
+            "total": 200000,
+            "owner": {
+                "initials": "BA",
+                "name": "Brett Albright",
+                "color": "rebeccapurple"
+            },
+            "pid": "h087ysert4564dfgr5423596i",
+            "isOwner": false
+        }
+    ],
+    "total": 400000
+}

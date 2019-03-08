@@ -4,12 +4,18 @@ import { formatTime } from '../../../helpers';
 import { clearWidget, completeTimeTracking, getTaskTimeTracking, newTimeTracking } from '../../../actions';
 import ActiveTimer from './active_timer';
 import Button from '../../general/button';
+import TimeList from './edit_time/time_list';
 import './time_tracking.scss';
 
 class TimeTracking extends Component {
     state = {
         currentAccruing: 0,
-        hasActive: true
+        hasActive: true,
+        editTimers: false
+    }
+
+    toggleEditTime = () => {
+        this.setState({ editTimers: !this.state.editTimers })
     }
 
     updateAccruing = () => {
@@ -89,7 +95,7 @@ class TimeTracking extends Component {
 
     render(){
         const { total } = this.props;
-        const { currentAccruing, hasActive } = this.state;
+        const { currentAccruing, hasActive, editTimers } = this.state;
 
         return (
             <div className="time-tracking">
@@ -99,7 +105,7 @@ class TimeTracking extends Component {
                 <div className="row time-tracking-display">
                     <div className="col s12 total-tracked">
                         <h6 className="center">Total Tracked Time</h6>
-                        <div className="total-time z-depth-2">{formatTime(total + currentAccruing)}</div>
+                        <div className="total-time z-depth-2" onClick={this.toggleEditTime}>{formatTime(total + currentAccruing)}</div>
                     </div>
                     <div className="col s12 time-action">
                         { !hasActive && <Button onClick={this.createNewTimeTracking} color="btn-small green darken-2">Start New Timer</Button> }
@@ -111,6 +117,7 @@ class TimeTracking extends Component {
                         {this.renderActiveTimers()}
                     </div>
                 </div>
+                { editTimers ? <TimeList taskId={this.props.taskId} total={total + currentAccruing} close={this.toggleEditTime} /> : null }
             </div>
         );
     }

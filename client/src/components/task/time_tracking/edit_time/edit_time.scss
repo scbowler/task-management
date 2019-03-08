@@ -1,0 +1,120 @@
+@import '../../../../assets/css/color';
+
+.time-list::-webkit-scrollbar, .edit-time::-webkit-scrollbar {
+    display: none;  // Safari and Chrome remove scrollbar
+}
+
+.time-list-container, .edit-time-container {
+    background-color: $modal-bg;
+    display: flex;
+    left: 0;
+    height: 100vh;
+    overflow: auto;
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 998;
+}
+
+.edit-time-container {
+    z-index: 999;
+}
+
+.time-list, .edit-time {
+    background-color: $card-bg-light;
+    width: 60%;
+    height: 80%;
+    top: 10%;
+    left: 20%;
+    overflow: scroll;
+    position: fixed;
+    -ms-overflow-style: none;  // IE 10+ remove scrollbar
+    overflow: -moz-scrollbars-none;  // Firefox remove scrollbar
+
+    .total-time {
+        background-color: #515151;
+        font-size: 3em;
+        margin: 10px 15px;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th, td {
+        text-align: center;
+    }
+
+    > tbody > tr:nth-child(odd){
+        background-color: $card-bg;
+    }
+}
+
+.edit-time {
+    width: 80%;
+    height: 70%;
+    left: 10%;
+    top: 15%;
+
+    .time-sections {
+        margin-top: 60px;
+    }
+
+    .start-container, .end-container {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-evenly;
+
+        .datepicker, .timepicker {
+            width: 40%;
+        }
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-evenly;
+        padding: 10px 0;
+    }
+}
+
+.full-width {
+    width: 100%;
+}
+
+//Materialize Datepicker and Timepicker color formatting
+.datepicker-date-display,
+.timepicker-digital-display {
+    background-color: $card-bg;
+}
+
+.datepicker-calendar-container,
+.timepicker-analog-display {
+    background-color: $card-bg-light;
+}
+
+.datepicker-table td.is-selected {
+    background-color: $primary-text;
+}
+
+.datepicker-table td.is-today,
+.datepicker-cancel,
+.datepicker-clear,
+.datepicker-today,
+.datepicker-done,
+.timepicker-close {
+    color: $primary-text;
+}
+
+.datepicker-day-button:focus,
+.timepicker-tick.active,
+.timepicker-tick:hover {
+    background-color: rgba(249,168,37,0.25)
+}
+
+.timepicker-canvas-bearing,
+.timepicker-canvas-bg {
+    fill: $primary-text;
+}
+
+.timepicker-canvas line {
+    stroke: $primary-text;
+}
