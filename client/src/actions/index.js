@@ -275,6 +275,18 @@ export const getTaskTimeTracking = taskId => async dispatch => {
     }
 }
 
+export const getTaskTimesList = taskId => async dispatch => {
+    try {
+        const { data: { times } } = await axios.get(`/api/tasks/${taskId}/time-tracking/list`, authHeaders());
+        dispatch({
+            type: types.GET_TASK_TIMES_LIST,
+            times
+        });
+    } catch(err){
+        dispatchError(dispatch, types.GET_TASK_TIMES_LIST, err, 'Error getting task time list');
+    }
+}
+
 export const getUserRunningTimeTracking = () => async dispatch => {
     try {
         const { data: { timer } } = await axios.get('/api/tasks/time-tracking', authHeaders());

@@ -38,6 +38,7 @@ export default {
     GET_TASK_COLLABORATORS_ERROR: 'get_task_collaborators_error',
     GET_TASK_TIME_TRACKING: 'get_task_time_tracking',
     GET_TASK_TIME_TRACKING_ERROR: 'get_task_time_tracking_error',
+    GET_TASK_TIMES_LIST: 'get_task_times_list',
     GET_USER_RUNNING_TRACKING: 'get_user_running_tracking',
     GET_USER_RUNNING_TRACKING_ERROR: 'get_user_running_tracking_error',
     MOVE_LIST: 'move_list',

@@ -4,7 +4,8 @@ const DEFAULT_STATE = {
     completed: null,
     running: null,
     total: 0,
-    widget: null
+    widget: null,
+    times: []
 }
 
 export default (state = DEFAULT_STATE, action) => {
@@ -15,6 +16,8 @@ export default (state = DEFAULT_STATE, action) => {
             return { ...state, running: action.running, total: action.total };
         case types.GET_USER_RUNNING_TRACKING:
             return { ...state, widget: action.timer };
+        case types.GET_TASK_TIMES_LIST:
+            return { ...state, times: action.times };
         default:
             return state;
     }
