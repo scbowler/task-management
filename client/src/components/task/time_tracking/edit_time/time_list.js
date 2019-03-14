@@ -1,32 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-// import { getAllTaskTimeTracking } from '../../../../actions';
+import { getTaskTimesList } from '../../../../actions';
 import { formatTime } from '../../../../helpers/general';
 import Loading from '../../../general/loading';
 import SingleTime from './single_time';
 import EditTime from './edit_time';
 import './edit_time.scss'
-
-import dummyData from './dummy.json';
-
 class TimeList extends Component {
     state = {
-        times: [],
         editTimeData: {},
         isEditing: false
     }
 
     componentDidMount = async () => {
-        // await this.props.getAllTaskTimeTracking();
-        // let results = await axios.get();
-        this.setState({
-            times: dummyData.times,
-        });
+        this.props.getTaskTimesList(this.props.taskId);
     }
 
     processTimes = () => {
-        return this.state.times.map(item => {
+        return this.props.times.map(item => {
             return <SingleTime {...item} startTime={new Date(item.startTime)} endTime={new Date(item.endTime)}  key={`${item.ownerId}${item.startTime}`} triggerEdit={this.triggerEdit} />
         });
     }
@@ -43,8 +34,8 @@ class TimeList extends Component {
     }
 
     render() {
-        const { isEditing, editTimeData, times } = this.state;
-        const { close, total } = this.props;
+        const { isEditing, editTimeData } = this.state;
+        const { close, total, times } = this.props;
         if (!times.length) return <Loading />;
 
         return (
@@ -71,4 +62,10 @@ class TimeList extends Component {
     }
 }
 
-export default connect(null, {})(TimeList)
+function mapStateToProps(state){
+    return {
+        times: state.timeTracking.times,
+    }
+}
+
+export default connect(mapStateToProps, { getTaskTimesList })(TimeList)
