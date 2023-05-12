@@ -1,0 +1,23 @@
+Needed Starting Data
+
+Project Statuses
+
+active
+
+SQL
+INSERT INTO `projectStatuses`
+  (`description`, `mid`, `name`, `createdAt`, `updatedAt`)
+  VALUES
+    ('Project is active', 'active', 'active', now(), now());
+
+
+Time Tracking Statuses
+
+running
+stopped
+
+INSERT INTO `task_management`.`timeTrackingStatuses`
+  (`description`, `mid`, `createdAt`, `updatedAt`)
+  VALUES
+    ('Timer is running', 'running', now(), now()),
+    ('Timer is stopped', 'stopped', now(), now());
