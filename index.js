@@ -3,7 +3,9 @@ const { resolve } = require('path');
 const cors = require('cors');
 const http = require('http');
 const https = require('https');
-const socket = require('socket.io');
+const socket = require('socket.io')({
+    allowEIO3: true
+});
 const fs = require('fs');
 const ENV = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || ENV === 'production' ? 443 : 9000;
