@@ -3,9 +3,7 @@ const { resolve } = require('path');
 const cors = require('cors');
 const http = require('http');
 const https = require('https');
-const socket = require('socket.io')({
-    allowEIO3: true
-});
+const socket = require('socket.io');
 const fs = require('fs');
 const ENV = process.env.NODE_ENV || 'development';
 const PORT = process.env.PORT || ENV === 'production' ? 443 : 9000;
@@ -35,7 +33,9 @@ if(ENV === 'production'){
     message = 'Server Running on PORT: ' + PORT;
 }
 
-const io = socket(server);
+const io = socket(server, {
+    allowEIO3: true
+});
 
 app.use((req, res, next) => {
     req.io = io;
