@@ -27,7 +27,7 @@ exports.getTaskId = async taskPid => {
 }
 
 exports.getTaskMessages = async taskId => {
-    const messages = taskMessages.findAll({
+    const messages = await taskMessages.findAll({
         attributes: ['createdAt', 'message', 'pid'],
         include: [
             {
